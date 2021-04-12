@@ -6,7 +6,7 @@
 /*   By: mitchiwaki <marvin@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/04/11 07:54:56 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/04/11 18:05:15 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,17 @@
 void	run_commandline(int ret, char **command)
 {
 	t_command	*command_info;
-	int		result;
+	int			result;
 
 	command_info = command_init();
 	if (ret == 1)
 	{
-		result = perse_command(command,command_info);
-		printf("reslut = %d\n", result);
+		result = perse_command(command, command_info);
+			
 		free(*command);
 		*command = NULL;
 	}
 }
-
 
 int	main(int argc, char *argv[])
 {
@@ -38,7 +37,6 @@ int	main(int argc, char *argv[])
 	(void)argc;
 	prompt = 1;
 	command = NULL;
-	
 	while (1)
 	{
 		if (prompt)
