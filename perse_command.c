@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/04/12 20:26:30 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/04/14 21:19:43 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,5 @@ int	perse_command(char **command, t_command *command_info)
 		command_info->argv[index] = split_command(*command);
 		index++;
 	}
-	while (index--)
-		printf("argv[%d] = %s\n", index, command_info->argv[index]);
 	return (0);
 }
