@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/04/14 21:44:54 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/04/15 08:12:37 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,3 @@ int	execute_command(t_command *command_info);
 
 
 
-int (*builtin_func[])(char **);
-int lsh_num_builtins();
-int lsh_cd(char **args);
-int lsh_help(char **args);
