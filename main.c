@@ -6,7 +6,7 @@
 /*   By: mitchiwaki <marvin@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/04/11 18:05:15 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/04/18 14:41:49 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@ void	run_commandline(int ret, char **command)
 {
 	t_command	*command_info;
 	int			result;
+	int			status;
 
 	command_info = command_init();
 	if (ret == 1)
 	{
 		result = perse_command(command, command_info);
-			
+		status = execute_command(command_info);
+		
 		free(*command);
 		*command = NULL;
 	}
