@@ -6,7 +6,7 @@
 /*   By: mitchiwaki <marvin@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/04/18 14:41:49 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/04/21 08:28:02 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ void	run_commandline(int ret, char **command)
 	if (ret == 1)
 	{
 		result = perse_command(command, command_info);
+		int i = 0;
+		printf("commnad_info->argc = %d\n", command_info->argc);
+		while (i < command_info->argc)
+		{
+			printf("commnad_info->argv[%d] = %s\n", i, command_info->argv[i]);
+			i++;
+		}
 		status = execute_command(command_info);
 		
 		free(*command);
