@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/04/18 14:42:17 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/04/19 08:27:34 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	mini_exit(char **argv)
 {
 	(void)argv;
 	printf("exit:ただexitしてるだけなので処理として正しいかどうかは未検討\n");
-	exit(0);
+	//exit(0);
 	return 0;
 }
 
