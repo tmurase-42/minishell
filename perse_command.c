@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/04/23 08:31:31 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/04/27 17:13:14 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,45 @@ t_command	*command_init(void)
 	return (command_info);
 }
 
+static int check_meta(char c)
+{
+	int	result;
+		
+	result = 0;
+	if (c == ';')
+		result = 1;
+	if (c == '|')
+		result = 1;
+	if (c == '>')
+		result = 1;
+	
+	return (result);
+}
 
 static int	check_word_number(char *command)
 {
 	int	num;
 	int	i;
-	int	exist_meta;
+	int	(* func)(char);
 
 	num = 1;
 	i = 0;
-	exist_meta = 1;
+	func = check_meta;
 	while (*command == SPACE)
 		command++;
 	while (*(command + i))
 	{
 		while (*(command + i) == SPACE && *(command + i + 1) == SPACE)
 			i++;
-		if (*(command + i) == ';')
+		if (func(*(command + i)) == TURE)
 		{	
 			if (*(command + i + 1) == '\0')
 				num++;
 			else
 				num+= 2;
 		}
-		if (*(command + i) == SPACE && *(command + i + 1) != '\0' && *(command + i - 1) != ';' && *(command + i + 1) != ';')
+		if (*(command + i) == SPACE && *(command + i + 1) != '\0' &&
+			func(*(command + i - 1)) == FALSE && func(*(command + i + 1)) == FALSE)
 			num++;
 		i++;
 	}
@@ -62,35 +77,22 @@ static	char *split_command(char *command)
 	size_t	len;
 	size_t	exist_meta;
 	char	*tmp;
+	int		(* func)(char);
 	
+	func = check_meta;
 	len = 0;
-	exist_meta = 0;
-	if (command[0] == ';')
-	{
-		exist_meta = 1;
+	exist_meta = func(command[0]);
+	if (exist_meta == TURE)
 		len++;
-	}
-	while (command[len] != 32 && command[len] != '\0' && !exist_meta)
+	while (command[len] != 32 && command[len] != '\0' && exist_meta == FALSE)
 	{	
-		if (command[len] == ';')
+		if (func(command[len]) == TURE)
 			break;
 		len++;
 	}
 	tmp = ft_substr(command , 0, len);
 	return (tmp);
 }
-
-static int check_meta(char c)
-{
-	int	result;
-		
-	result = 0;
-	if (c == ';')
-		result = 1;
-	
-	return (result);
-}
-
 
 char	*shave_space(char *command, int index)
 {
@@ -102,9 +104,7 @@ char	*shave_space(char *command, int index)
 	func = check_meta;
 	exist_meta = func(command[0]);
 	i = 0;
-	//if (command[0] == ';')
-	printf("exist_meta = %zu\n", exist_meta);
-	if (exist_meta == 1)
+	if (exist_meta == TURE)
 	{
 		i++;
 		while (command[i] == SPACE)
@@ -113,9 +113,13 @@ char	*shave_space(char *command, int index)
 		free(command);
 		return (tmp);
 	}
+	exist_meta = func(command[i]);
 	if (index != 0)
-		while ((command[i] != SPACE && command[i] != ';') && command[i])
+		while ((command[i] != SPACE && exist_meta == FALSE) && command[i])
+		{
 			i++;
+			exist_meta = func(command[i]);
+		}
 	while ((command[i] == SPACE) && command[i])
 		i++;
 	tmp = ft_strdup(command + i);
@@ -138,7 +142,7 @@ int	perse_command(char **command, t_command *command_info)
 	while (command_info->argc > index)
 	{	
 		*command = shave_space(*command, index);
-		printf("command = %s\n", *command);
+		//printf("command = %s\n", *command);
 		command_info->argv[index] = split_command(*command);
 		index++;
 		i++;
