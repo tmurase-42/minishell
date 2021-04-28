@@ -1,6 +1,6 @@
 UNAME    := $(shell uname)
 NAME            = minishell
-FILES           = main.c get_next_line.c get_next_line_utils.c perse_command.c execute_command.c
+FILES           = main.c get_next_line.c get_next_line_utils.c perse_command.c execute_command.c init.c
 SRCS        = $(addprefix $(SDIR), $(FILES))
 OBJS        = $(SRCS:.c=.o)
 CC              = gcc

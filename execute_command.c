@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/04/19 08:27:34 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/04/28 11:56:42 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	execute_command(t_command *command_info)
 	int	i;
 	int	accept_command;
 
-	if (ft_strncmp(command_info->argv[0], "", 1) == 0)
+	if (command_info->argc == 0 || ft_strncmp(command_info->argv[0], "", 1) == 0)
 		return (1);
 	i = 0;
 	accept_command = 0;

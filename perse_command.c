@@ -6,40 +6,35 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/04/27 17:13:14 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/04/28 14:48:18 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_command	*command_init(void)
+static int	check_quotation(char *command, int i)
 {
-	t_command	*command_info;
-
-	command_info = malloc(sizeof(t_command));
-	if (!command_info)
-		return (NULL);
-	command_info->next = NULL;
-	command_info->argc = 0;
-	command_info->argv = NULL;
-	command_info->op = 0;
-	command_info->pid = -1;
-	return (command_info);
-}
-
-static int check_meta(char c)
-{
-	int	result;
-		
-	result = 0;
-	if (c == ';')
-		result = 1;
-	if (c == '|')
-		result = 1;
-	if (c == '>')
-		result = 1;
-	
-	return (result);
+	if (*(command + i) == '"')
+	{
+		i++;
+		while (*(command + i) != '"')
+		{
+			i++;
+		if (*(command + i) == '"')
+			return (i);
+		}
+	}
+	if (*(command + i) == 39)
+	{
+		i++;
+		while (*(command + i) != 39)
+		{
+			i++;
+		if (*(command + i) == 39)
+			return (i);
+		}
+	}
+	return (i);
 }
 
 static int	check_word_number(char *command)
@@ -48,7 +43,7 @@ static int	check_word_number(char *command)
 	int	i;
 	int	(* func)(char);
 
-	num = 1;
+	num = 0;
 	i = 0;
 	func = check_meta;
 	while (*command == SPACE)
@@ -57,6 +52,7 @@ static int	check_word_number(char *command)
 	{
 		while (*(command + i) == SPACE && *(command + i + 1) == SPACE)
 			i++;
+		i = check_quotation(command, i);
 		if (func(*(command + i)) == TURE)
 		{	
 			if (*(command + i + 1) == '\0')
@@ -68,25 +64,40 @@ static int	check_word_number(char *command)
 			func(*(command + i - 1)) == FALSE && func(*(command + i + 1)) == FALSE)
 			num++;
 		i++;
+		if (*(command + i) == '\0')
+			num++;
 	}
 	return (num);
 }
 
+static int	check_length_quotation(char *command, char quotation, int len)
+{
+	len++;
+	while (command[len])
+	{
+		if (command[len] == quotation)
+			return (len + 1);
+		len++;
+	}
+	return (len);
+}
+
 static	char *split_command(char *command)
 {
-	size_t	len;
-	size_t	exist_meta;
+	int		len;
 	char	*tmp;
-	int		(* func)(char);
 	
-	func = check_meta;
 	len = 0;
-	exist_meta = func(command[0]);
-	if (exist_meta == TURE)
+	if (check_meta(command[0]) == TURE)
 		len++;
-	while (command[len] != 32 && command[len] != '\0' && exist_meta == FALSE)
+	while (command[len] != SPACE && command[len] != '\0' && check_meta(command[0]) == FALSE)
 	{	
-		if (func(command[len]) == TURE)
+		if (command[len] == DOUBLE_QUO || command[len] == SINGLE_QUO)
+		{
+			len = check_length_quotation(command, command[len], len);
+			break;
+		}
+		if (check_meta(command[len]) == TURE)
 			break;
 		len++;
 	}
@@ -97,14 +108,10 @@ static	char *split_command(char *command)
 char	*shave_space(char *command, int index)
 {
 	int		i;
-	size_t	exist_meta;
 	char	*tmp;
-	int		(* func)(char);
 
-	func = check_meta;
-	exist_meta = func(command[0]);
 	i = 0;
-	if (exist_meta == TURE)
+	if (check_meta(command[0]) == TURE && index > 0)
 	{
 		i++;
 		while (command[i] == SPACE)
@@ -113,12 +120,15 @@ char	*shave_space(char *command, int index)
 		free(command);
 		return (tmp);
 	}
-	exist_meta = func(command[i]);
 	if (index != 0)
-		while ((command[i] != SPACE && exist_meta == FALSE) && command[i])
-		{
+		while ((command[i] != SPACE && check_meta(command[i]) == FALSE) && command[i])
+		{	
+			if (command[i] == DOUBLE_QUO || command[i] == SINGLE_QUO)
+			{
+				i = check_length_quotation(command, command[i], i);
+				break;
+			}
 			i++;
-			exist_meta = func(command[i]);
 		}
 	while ((command[i] == SPACE) && command[i])
 		i++;
@@ -126,7 +136,6 @@ char	*shave_space(char *command, int index)
 	free(command);
 	return (tmp);
 }
-
 
 int	perse_command(char **command, t_command *command_info)
 {
@@ -142,7 +151,7 @@ int	perse_command(char **command, t_command *command_info)
 	while (command_info->argc > index)
 	{	
 		*command = shave_space(*command, index);
-		//printf("command = %s\n", *command);
+		printf("command = %s\n", *command);
 		command_info->argv[index] = split_command(*command);
 		index++;
 		i++;
