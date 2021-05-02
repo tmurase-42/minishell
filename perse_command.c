@@ -6,155 +6,163 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/04/28 14:48:18 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/05/02 14:46:15 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_quotation(char *command, int i)
+
+static int	cmp_command(char *str, int len, int *word_num)
 {
-	if (*(command + i) == '"')
-	{
-		i++;
-		while (*(command + i) != '"')
-		{
-			i++;
-		if (*(command + i) == '"')
-			return (i);
-		}
-	}
-	if (*(command + i) == 39)
-	{
-		i++;
-		while (*(command + i) != 39)
-		{
-			i++;
-		if (*(command + i) == 39)
-			return (i);
-		}
-	}
-	return (i);
+	int tmp;
+	
+	tmp = len;
+	if (ft_strncmp(str, "exit", 4) == 0)
+		len += 4;
+	if (ft_strncmp(str, "cd", 2) == 0)
+		len += 2;
+	if (ft_strncmp(str, "pwd", 3) == 0)
+		len += 3;
+	if (ft_strncmp(str, "export", 6) == 0)
+		len += 6;
+	if (ft_strncmp(str, "unset", 5) == 0)
+		len += 5;
+	if (ft_strncmp(str, "env", 3) == 0)
+		len += 3;
+	if (ft_strncmp(str, "echo", 4) == 0)
+		len += 4;
+	if (tmp != len)
+		*word_num += 1;
+	return (len);
 }
 
 static int	check_word_number(char *command)
 {
-	int	num;
-	int	i;
-	int	(* func)(char);
+	int	word_num;
+	int	shell_state;
+	int	len;
 
-	num = 0;
-	i = 0;
-	func = check_meta;
-	while (*command == SPACE)
-		command++;
-	while (*(command + i))
-	{
-		while (*(command + i) == SPACE && *(command + i + 1) == SPACE)
-			i++;
-		i = check_quotation(command, i);
-		if (func(*(command + i)) == TURE)
-		{	
-			if (*(command + i + 1) == '\0')
-				num++;
-			else
-				num+= 2;
-		}
-		if (*(command + i) == SPACE && *(command + i + 1) != '\0' &&
-			func(*(command + i - 1)) == FALSE && func(*(command + i + 1)) == FALSE)
-			num++;
-		i++;
-		if (*(command + i) == '\0')
-			num++;
-	}
-	return (num);
-}
-
-static int	check_length_quotation(char *command, char quotation, int len)
-{
-	len++;
+	word_num = 0;
+	shell_state = NEUTRAL_MODE;
+	len = 0;
 	while (command[len])
 	{
-		if (command[len] == quotation)
-			return (len + 1);
+		while (command[len] == SPACE && shell_state == NEUTRAL_MODE)
+			len++;
+		len = cmp_command(command + len , len, &word_num);
+		if (command[len] == DOUBLE_QUOT)
+		{
+			shell_state = DOUBLE_MODE;
+			while (command[len] != DOUBLE_QUOT)
+				len++;
+		}
+		else if(command[len] == SINGLE_QUOT)
+		{
+			shell_state = SINGLE_MODE;
+			while (command[len] != SINGLE_QUOT)
+				len++;
+		}
+		else if (check_meta(command[len]) == TURE)
+		{
+			if (command[len + 1] == '\0')
+				word_num++;
+			else
+				word_num+= 2;
+		}
 		len++;
 	}
+	if (command[len] == '\0')
+		word_num++;
+	return (word_num);
+}
+
+static int	cmp_command_tmp(char *str, int len)
+{
+	if (ft_strncmp(str, "exit", 4) == 0)
+		len += 4;
+	if (ft_strncmp(str, "cd", 2) == 0)
+		len += 2;
+	if (ft_strncmp(str, "pwd", 3) == 0)
+		len += 3;
+	if (ft_strncmp(str, "export", 6) == 0)
+		len += 6;
+	if (ft_strncmp(str, "unset", 5) == 0)
+		len += 5;
+	if (ft_strncmp(str, "env", 3) == 0)
+		len += 3;
+	if (ft_strncmp(str, "echo", 4) == 0)
+		len += 4;
 	return (len);
 }
 
-static	char *split_command(char *command)
+void	split_word(char *command, t_command *command_info)
 {
-	int		len;
-	char	*tmp;
-	
+	int	index;
+	int	len;
+	int tmp;
+	t_mode	mode;
+
+	mode.NEUTRAL = TURE;
+	mode.SINGLE = FALSE;
+	mode.DOUBLE = FALSE;
+	index = 0;
 	len = 0;
-	if (check_meta(command[0]) == TURE)
-		len++;
-	while (command[len] != SPACE && command[len] != '\0' && check_meta(command[0]) == FALSE)
-	{	
-		if (command[len] == DOUBLE_QUO || command[len] == SINGLE_QUO)
-		{
-			len = check_length_quotation(command, command[len], len);
-			break;
-		}
-		if (check_meta(command[len]) == TURE)
-			break;
-		len++;
-	}
-	tmp = ft_substr(command , 0, len);
-	return (tmp);
-}
-
-char	*shave_space(char *command, int index)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	if (check_meta(command[0]) == TURE && index > 0)
+	while (command_info->argc > index)
 	{
-		i++;
-		while (command[i] == SPACE)
-			i++;
-		tmp = ft_strdup(command + i);
-		free(command);
-		return (tmp);
-	}
-	if (index != 0)
-		while ((command[i] != SPACE && check_meta(command[i]) == FALSE) && command[i])
-		{	
-			if (command[i] == DOUBLE_QUO || command[i] == SINGLE_QUO)
-			{
-				i = check_length_quotation(command, command[i], i);
-				break;
-			}
-			i++;
+		tmp = 0;
+		while (command[len] == SPACE)
+			len++;
+		tmp = cmp_command_tmp(command+len, len);
+		if (tmp > len && (command[tmp] == SPACE || command[tmp] == '\0'))
+		{
+			command_info->argv[index] = ft_substr(command + len, 0, tmp - len);
+			len = tmp;
 		}
-	while ((command[i] == SPACE) && command[i])
-		i++;
-	tmp = ft_strdup(command + i);
-	free(command);
-	return (tmp);
+		else
+		{
+			tmp = 0;
+			while (command[len + tmp] != '\0')
+			{
+				if (check_meta(command[len]) == TURE)
+				{
+					tmp++;
+					break;
+				}
+				if (command[len + tmp] == SINGLE_QUOT)
+				{
+					mode.NEUTRAL = FALSE;
+					tmp++;
+					while (command[len + tmp] != SINGLE_QUOT)
+						tmp++;
+				}
+				mode.NEUTRAL = TURE;
+				if (command[len + tmp] == DOUBLE_QUOT)
+				{
+					mode.NEUTRAL = FALSE;
+					tmp++;
+					while(command[len + tmp] != DOUBLE_QUOT)
+						tmp++;
+				}
+				mode.NEUTRAL = TURE;
+				if (check_meta(command[len + tmp]) == TURE  && mode.NEUTRAL == TURE)
+					break;
+				tmp++;
+			}
+			command_info->argv[index] = ft_substr(command, len, tmp);
+			len += tmp;
+		}
+		index++;
+	}
 }
 
 int	perse_command(char **command, t_command *command_info)
 {
-	int	index;
-	int	i;
 	
 	command_info->argc = check_word_number(*command);
 	command_info->argv = ft_calloc(command_info->argc + 1, sizeof(char *));
 	if (!command_info->argv)
 		return (1);
-	index = 0;
-	i = 0;
-	while (command_info->argc > index)
-	{	
-		*command = shave_space(*command, index);
-		printf("command = %s\n", *command);
-		command_info->argv[index] = split_command(*command);
-		index++;
-		i++;
-	}
+	split_word(*command, command_info);
 	return (0);
 }
