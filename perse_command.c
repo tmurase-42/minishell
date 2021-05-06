@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/05/02 14:46:15 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/05/06 15:22:34 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,19 @@ static int	check_word_number(char *command)
 		len = cmp_command(command + len , len, &word_num);
 		if (command[len] == DOUBLE_QUOT)
 		{
+			len++;
 			shell_state = DOUBLE_MODE;
 			while (command[len] != DOUBLE_QUOT)
 				len++;
 		}
-		else if(command[len] == SINGLE_QUOT)
+		if(command[len] == SINGLE_QUOT)
 		{
+			len++;
 			shell_state = SINGLE_MODE;
 			while (command[len] != SINGLE_QUOT)
 				len++;
 		}
-		else if (check_meta(command[len]) == TURE)
+		if (check_meta(command[len]) == TURE && shell_state == NEUTRAL_MODE)
 		{
 			if (command[len + 1] == '\0')
 				word_num++;
@@ -71,6 +73,7 @@ static int	check_word_number(char *command)
 				word_num+= 2;
 		}
 		len++;
+		shell_state = NEUTRAL_MODE;
 	}
 	if (command[len] == '\0')
 		word_num++;
