@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   perse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/05/06 15:22:34 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/05/06 19:42:54 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static int	cmp_command(char *str, int len, int *word_num)
 {
 	int tmp;
-	
+
 	tmp = len;
 	if (ft_strncmp(str, "exit", 4) == 0)
 		len += 4;
@@ -65,7 +65,7 @@ static int	check_word_number(char *command)
 			while (command[len] != SINGLE_QUOT)
 				len++;
 		}
-		if (check_meta(command[len]) == TURE && shell_state == NEUTRAL_MODE)
+		if (check_meta(command[len]) == TRUE && shell_state == NEUTRAL_MODE)
 		{
 			if (command[len + 1] == '\0')
 				word_num++;
@@ -106,7 +106,7 @@ void	split_word(char *command, t_command *command_info)
 	int tmp;
 	t_mode	mode;
 
-	mode.NEUTRAL = TURE;
+	mode.NEUTRAL = TRUE;
 	mode.SINGLE = FALSE;
 	mode.DOUBLE = FALSE;
 	index = 0;
@@ -127,7 +127,7 @@ void	split_word(char *command, t_command *command_info)
 			tmp = 0;
 			while (command[len + tmp] != '\0')
 			{
-				if (check_meta(command[len]) == TURE)
+				if (check_meta(command[len]) == TRUE)
 				{
 					tmp++;
 					break;
@@ -139,7 +139,7 @@ void	split_word(char *command, t_command *command_info)
 					while (command[len + tmp] != SINGLE_QUOT)
 						tmp++;
 				}
-				mode.NEUTRAL = TURE;
+				mode.NEUTRAL = TRUE;
 				if (command[len + tmp] == DOUBLE_QUOT)
 				{
 					mode.NEUTRAL = FALSE;
@@ -147,8 +147,8 @@ void	split_word(char *command, t_command *command_info)
 					while(command[len + tmp] != DOUBLE_QUOT)
 						tmp++;
 				}
-				mode.NEUTRAL = TURE;
-				if (check_meta(command[len + tmp]) == TURE  && mode.NEUTRAL == TURE)
+				mode.NEUTRAL = TRUE;
+				if (check_meta(command[len + tmp]) == TRUE  && mode.NEUTRAL == TRUE)
 					break;
 				tmp++;
 			}
@@ -161,7 +161,7 @@ void	split_word(char *command, t_command *command_info)
 
 int	perse_command(char **command, t_command *command_info)
 {
-	
+
 	command_info->argc = check_word_number(*command);
 	command_info->argv = ft_calloc(command_info->argc + 1, sizeof(char *));
 	if (!command_info->argv)
