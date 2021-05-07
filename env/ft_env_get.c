@@ -6,24 +6,21 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 18:08:38 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/05/06 19:58:18 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/05/07 18:53:13 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_env		*ft_env_get(const char *name, t_env *envs)
+t_env		*ft_env_get(const char *key, t_env *envs)
 {
-	t_env			*now;
-
-	if (!envs || !name)
+	if (!envs || !key)
 		return (NULL);
-	now = envs;
-	while (now)
+	while (envs)
 	{
-		if (ft_strncmp(now->name, (char *)name, ft_strlen(now->name)) == 0)
-			return (now);
-		now = now->next;
+		if (ft_strncmp(envs->key, (char *)key, ft_strlen(envs->key)) == 0)
+			return (envs);
+		envs = envs->next;
 	}
 	return (NULL);
 }
