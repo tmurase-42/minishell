@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/05/06 19:59:04 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/05/07 17:56:18 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,3 +72,6 @@ t_env	*ft_env_init(char **environ);
 void	ft_env_add(t_env **envs, t_env *new_env);
 void	ft_env_delete(t_env **envs, char *name);
 t_env	*ft_env_get(const char *name, t_env *envs);
+
+/* exit function */
+t_bool	ft_exit(t_command *command_info);
