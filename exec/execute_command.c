@@ -6,11 +6,11 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/04/28 11:56:42 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/05/07 18:05:08 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	launch(t_command *command_info)
 {
@@ -37,34 +37,24 @@ int	launch(t_command *command_info)
 	return (1);
 }
 
-
-char *builtin_str[] = 
+static	t_bool	ft_check_command(t_command *command_info)
 {
-	//"cd",
-	"exit"
-};
-
-int	mini_exit(char **argv)
-{
-	(void)argv;
-	printf("exit:ただexitしてるだけなので処理として正しいかどうかは未検討\n");
-	//exit(0);
-	return 0;
+	if (ft_strncmp(command_info->argv[0], "echo",ft_strlen("echo")) == 0)
+		return (FALSE);
+	if (ft_strncmp(command_info->argv[0], "exit", ft_strlen("exit")) == 0)
+		return (ft_exit(command_info));
+	if (ft_strncmp(command_info->argv[0], "env", ft_strlen("env")) == 0)
+		return (FALSE);
+	if (ft_strncmp(command_info->argv[0], "export", ft_strlen("export")) == 0)
+		return (FALSE);
+	if (ft_strncmp(command_info->argv[0], "unset", ft_strlen("unset")) == 0)
+		return (FALSE);
+	if (ft_strncmp(command_info->argv[0], "pwd", ft_strlen("pwd")) == 0)
+		return (FALSE);
+	if (ft_strncmp(command_info->argv[0], "cd", ft_strlen("cd")) == 0)
+		return (FALSE);
+	return (FALSE);
 }
-
-int	(*builtin_func[])(char **) =
-{	
-	//&cd,
-	&mini_exit
-};
-
-
-int	num_builtins()
-{
-	//printf("sizeof(builtin_str) / sizeof(char *) = %lu\n", sizeof(builtin_str) / sizeof(char *));
-	return sizeof(builtin_str) / sizeof(char *);
-}
-
 
 int	execute_command(t_command *command_info)
 {
@@ -75,14 +65,8 @@ int	execute_command(t_command *command_info)
 		return (1);
 	i = 0;
 	accept_command = 0;
-	while (i < num_builtins())
-	{
-		accept_command = ft_strncmp(command_info->argv[0],builtin_str[i],ft_strlen(builtin_str[i]));
-		if (!accept_command)
-		{
-			return (*builtin_func[i])(command_info->argv);
-		}
-		i++;
-	}
+	accept_command = ft_check_command(command_info);
+	if (accept_command == FALSE)
+		ft_error("command error!コマンドを実装した場合はft_check_commandに処理を追加してください\n");
 	return (launch(command_info));
 }
