@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 17:26:17 by tmurase           #+#    #+#             */
-/*   Updated: 2021/04/27 17:58:30 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/05/02 14:37:46 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_command	*command_init(void)
 int check_meta(char c)
 {
 	int	result;
-		
+
 	result = 0;
 	if (c == ';')
 		result = 1;
@@ -41,6 +41,6 @@ int check_meta(char c)
 		result = 1;
 	if (c == '<')
 		result = 1;
-	
+
 	return (result);
 }
