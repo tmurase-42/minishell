@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   common.c                                           :+:      :+:    :+:   */
+/*   ft_env_delete.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 19:17:42 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/05/07 16:48:48 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/05/06 18:08:33 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/05/07 17:44:43 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		ft_error(char *str)
+void	ft_env_delete(char *key, t_env *envs)
 {
-	ft_putstr_fd("エラーを吐く\n", 1);
-	return 0 * (int)str;
-}
+	t_env	*current;
+	t_env	*prev;
 
-void	ft_free_char(char **target)
-{
-	free(*target);
-	*target = NULL;
+	prev = NULL;
+	current = envs;
+	while (current)
+	{
+		if (ft_strncmp(current->key, key, ft_strlen(key) + 1) == 0)
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				envs = current->next;
+			ft_free_char(&current->key);
+			ft_free_char(&current->value);
+			free(current);
+			current = NULL;
+			break ;
+		}
+		prev = current;
+		current = current->next;
+	}
 }

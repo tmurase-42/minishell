@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/05/06 19:57:57 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/05/07 19:55:33 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	main(int argc, char *argv[], char **environ)
 	prompt = 1;
 	command = NULL;
 	envs = ft_env_init(environ);
-	printf("home: %s\n", (ft_env_get("HOME", envs)->value));
 	while (1)
 	{
 		if (prompt)

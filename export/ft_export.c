@@ -1,39 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_delete.c                                    :+:      :+:    :+:   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 18:08:33 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/05/06 19:44:05 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/05/07 19:55:09 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_env_delete(t_env **envs, char *name)
+int	exec_export(char **args, t_env *envs)
 {
-	t_env	*now;
-	t_env	*prev;
-
-	prev = NULL;
-	now = *envs;
-	while (now)
-	{
-		if (ft_strncmp(now->name, name, ft_strlen(name) + 1) == 0)
-		{
-			if (prev)
-				prev->next = now->next;
-			else
-				*envs = now->next;
-			// ft_safe_free_char(&now->name);
-			// ft_safe_free_char(&now->value);
-			free(now);
-			now = NULL;
-			break ;
-		}
-		prev = now;
-		now = now->next;
-	}
+	int	i;
+	i = (int)args * (int)envs;
+	// if (args[1])
+	// {
+	// 	return (set_envs(args));
+	// }
+	// else
+	// {
+	// 	return (print_envs());
+	// }
+	return (EXIT_SUCCESS);
 }

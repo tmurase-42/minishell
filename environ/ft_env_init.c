@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   common.c                                           :+:      :+:    :+:   */
+/*   ft_env_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 19:17:42 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/05/07 16:48:48 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/05/06 18:08:41 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/05/07 18:48:40 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		ft_error(char *str)
+t_env		*ft_env_init(char **environ)
 {
-	ft_putstr_fd("エラーを吐く\n", 1);
-	return 0 * (int)str;
-}
+	size_t	i;
+	t_env	*envs;
+	t_env	*current;
 
-void	ft_free_char(char **target)
-{
-	free(*target);
-	*target = NULL;
+	envs = NULL;
+	i = 0;
+	while (environ[i])
+	{
+		current = ft_env_create(environ[i]);
+		if (current)
+			ft_env_add(current, &envs);
+		i++;
+	}
+	return (envs);
 }
