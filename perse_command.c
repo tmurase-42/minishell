@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/05/06 19:42:54 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/05/10 07:40:25 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ static int	check_word_number(char *command)
 	while (command[len])
 	{
 		while (command[len] == SPACE && shell_state == NEUTRAL_MODE)
+		{
 			len++;
+			if ((command[len - 1] == SPACE && command[len] != SPACE) && command[len] != '\0')
+				word_num++;
+		}
 		len = cmp_command(command + len , len, &word_num);
 		if (command[len] == DOUBLE_QUOT)
 		{
@@ -67,10 +71,10 @@ static int	check_word_number(char *command)
 		}
 		if (check_meta(command[len]) == TRUE && shell_state == NEUTRAL_MODE)
 		{
-			if (command[len + 1] == '\0')
-				word_num++;
-			else
-				word_num+= 2;
+			//if (command[len + 1] == '\0')
+			//	word_num++;
+			//else
+			//	word_num+= 2;
 		}
 		len++;
 		shell_state = NEUTRAL_MODE;
@@ -149,6 +153,8 @@ void	split_word(char *command, t_command *command_info)
 				}
 				mode.NEUTRAL = TRUE;
 				if (check_meta(command[len + tmp]) == TRUE  && mode.NEUTRAL == TRUE)
+					break;
+				if (command[len + tmp - 1] != SPACE && command[len + tmp] == SPACE)
 					break;
 				tmp++;
 			}
