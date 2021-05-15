@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/05/07 18:48:41 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/05/15 17:28:53 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ static	t_bool	ft_check_command(t_command *command_info)
 	if (ft_strncmp(command_info->argv[0], "exit", ft_strlen("exit")) == 0)
 		return (ft_exit(command_info));
 	if (ft_strncmp(command_info->argv[0], "env", ft_strlen("env")) == 0)
-		return (FALSE);
+		return (ft_env(command_info));
 	if (ft_strncmp(command_info->argv[0], "export", ft_strlen("export")) == 0)
-		return (FALSE);
+		return (ft_export(command_info));
 	if (ft_strncmp(command_info->argv[0], "unset", ft_strlen("unset")) == 0)
-		return (FALSE);
+		return (ft_unset(command_info));
 	if (ft_strncmp(command_info->argv[0], "pwd", ft_strlen("pwd")) == 0)
 		return (FALSE);
 	if (ft_strncmp(command_info->argv[0], "cd", ft_strlen("cd")) == 0)
@@ -67,6 +67,6 @@ int	execute_command(t_command *command_info)
 	accept_command = 0;
 	accept_command = ft_check_command(command_info);
 	if (accept_command == FALSE)
-		ft_error("command error!コマンドを実装した場合はft_check_commandに処理を追加してください\n");
+		ft_error("command error!コマンドを実装した場合はft_check_commandに処理を追加してください\n", command_info->argv[0]);
 	return (launch(command_info));
 }

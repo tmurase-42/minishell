@@ -6,19 +6,19 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/05/07 19:55:33 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/05/15 17:14:17 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	run_commandline(int ret, char **command)
+void	run_commandline(int ret, char **command, t_env *envs)
 {
 	t_command	*command_info;
 	int			result;
 	int			status;
 
-	command_info = command_init();
+	command_info = command_init(envs);
 	if (ret == 1)
 	{
 		result = perse_command(command, command_info);
@@ -47,6 +47,7 @@ int	main(int argc, char *argv[], char **environ)
 	prompt = 1;
 	command = NULL;
 	envs = ft_env_init(environ);
+
 	while (1)
 	{
 		if (prompt)
@@ -56,7 +57,7 @@ int	main(int argc, char *argv[], char **environ)
 		}
 		if ((ret = get_next_line(0, &command)) < 0)
 			return (0);
-		run_commandline(ret, &command);
+		run_commandline(ret, &command, envs);
 		prompt = ret == 1 ? 1 : 0;
 	}
 	return (0);
