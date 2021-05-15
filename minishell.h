@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/05/07 19:53:24 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/05/15 17:30:07 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ typedef enum		e_bool
 	TRUE
 }								t_bool;
 
+typedef struct	s_env
+{
+	char					*key;
+	char					*value;
+	t_bool				is_env;
+	struct s_env	*next;
+}								t_env;
+
 typedef struct	s_command
 {
 	struct s_command	*next;
@@ -40,6 +48,7 @@ typedef struct	s_command
 	char				**argv;
 	int					op;
 	pid_t				pid;
+	t_env				*envs;
 }								t_command;
 
 typedef struct	s_mode
@@ -49,24 +58,17 @@ typedef struct	s_mode
 	int	DOUBLE;
 }								t_mode;
 
-typedef struct	s_env
-{
-	char					*key;
-	char					*value;
-	t_bool				is_env;
-	struct s_env	*next;
-}								t_env;
-
-void	run_commandline(int ret, char **command);
+void	run_commandline(int ret, char **command, t_env *envs);
 int		perse_command(char **command, t_command *command_info);
-t_command	*command_init(void);
+t_command	*command_init(t_env *envs);
 int	execute_command(t_command *command_info);
 int check_meta(char c);
 
 
 /* Common functions */
-int	ft_error(char *str);
+void	ft_error(char *message, char *command);
 void	ft_free_char(char **target);
+void	ft_error_identifier(char *command, char *name);
 
 /* Environ functions */
 t_env	*ft_env_init(char **environ);
@@ -74,15 +76,18 @@ t_env	*ft_env_create(char *str);
 void	ft_env_add(t_env *new_env, t_env **envs);
 void	ft_env_delete(char *key, t_env *envs);
 t_env	*ft_env_get(const char *key, t_env *envs);
+void	ft_env_update(const char *key, const char *value, t_env *envs);
+
 
 /* Env functions */
-int		ft_env(t_env *env);
+int		ft_env(t_command *command_info);
+
 
 /* Unset functions */
-int		ft_unset(char **args, t_env *envs);
+int		ft_unset(t_command *command_info);
 
 /* Export functions */
-int		exec_export(char **args, t_env *envs);
+int		ft_export(t_command *command_info);
 
 /* exit function */
 t_bool	ft_exit(t_command *command_info);

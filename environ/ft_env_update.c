@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 18:08:59 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/05/07 18:48:32 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/05/09 23:26:26 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	set_env_value(t_env *env, const char *new_value)
 	if (new_value)
 	{
 		if (!(env->value = ft_strdup(new_value)))
-			ft_error(NULL);
+			ft_error(NULL, NULL);
 	}
 	else
 		env->value = NULL;

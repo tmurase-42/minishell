@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:38:04 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/05/07 19:51:36 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/05/15 17:29:47 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ static	t_bool	is_identifier(char *name)
 	return (TRUE);
 }
 
-int				ft_unset(char **args, t_env *envs)
+int				ft_unset(t_command *command_info)
 {
 	size_t	i;
 	int		ret;
 
 	i = 1;
 	ret = EXIT_SUCCESS;
-	while (args[i])
+	while (command_info->argv[i])
 	{
-		if (is_identifier(args[i]) == TRUE)
+		if (is_identifier(command_info->argv[i]) == TRUE)
 		{
-			ft_env_delete(args[i], envs);
+			ft_env_delete(command_info->argv[i], command_info->envs);
 		}
 		else
 		{
