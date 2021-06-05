@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/05/15 17:28:53 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/06/05 17:05:29 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static	t_bool	ft_check_command(t_command *command_info)
 	if (ft_strncmp(command_info->argv[0], "pwd", ft_strlen("pwd")) == 0)
 		return (FALSE);
 	if (ft_strncmp(command_info->argv[0], "cd", ft_strlen("cd")) == 0)
-		return (FALSE);
+		return (ft_cd(command_info));
 	return (FALSE);
 }
 
