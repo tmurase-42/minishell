@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/05/15 17:30:07 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/05/16 19:33:08 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,19 @@
 #define NEUTRAL_MODE 100
 #define SINGLE_MODE 101
 #define DOUBLE_MODE 102
+#define BUFF_SIZE 4096
 
 typedef enum		e_bool
 {
 	FALSE,
 	TRUE
 }								t_bool;
+
+typedef enum		e_token_state{
+	STATE_IN_DQUOTE,
+	STATE_IN_QUOTE,
+	STATE_IN_GENERAL,
+}								t_token_state;
 
 typedef struct	s_env
 {
@@ -49,6 +56,7 @@ typedef struct	s_command
 	int					op;
 	pid_t				pid;
 	t_env				*envs;
+	int					exit_status;
 }								t_command;
 
 typedef struct	s_mode
