@@ -6,14 +6,14 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/05 14:50:48 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/06/05 18:48:01 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-static int	cmp_command(char *str, int len, int *word_num)
+static int	cmp_command(char *str, int len)
 {
 	int tmp;
 
@@ -31,10 +31,7 @@ static int	cmp_command(char *str, int len, int *word_num)
 	if (ft_strncmp(str, "env", 3) == 0)
 		len += 3;
 	if (ft_strncmp(str, "echo", 4) == 0)
-	{
 		len += 4;
-		*word_num += 1;
-	}
 	return (len);
 }
 
@@ -49,13 +46,9 @@ static int	check_word_number(char *command)
 	len = 0;
 	while (command[len])
 	{
-		while (command[len] == SPACE && shell_state == NEUTRAL_MODE)
-		{
-			len++;
-			if ((command[len - 1] == SPACE && command[len] != SPACE) && command[len] != '\0')
-				word_num++;
-		}
-		len = cmp_command(command + len , len, &word_num);
+		if ((command[len - 1] == SPACE && command[len] != SPACE) && command[len] != '\0')
+			word_num++;
+		len = cmp_command(command + len , len);
 		if (command[len] == DOUBLE_QUOT)
 		{
 			len++;
@@ -69,13 +62,6 @@ static int	check_word_number(char *command)
 			shell_state = SINGLE_MODE;
 			while (command[len] != SINGLE_QUOT)
 				len++;
-		}
-		if (check_meta(command[len]) == TRUE && shell_state == NEUTRAL_MODE)
-		{
-			//if (command[len + 1] == '\0')
-			//	word_num++;
-			//else
-			//	word_num+= 2;
 		}
 		len++;
 		shell_state = NEUTRAL_MODE;
