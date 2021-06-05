@@ -6,11 +6,13 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/05/15 17:19:29 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/06/05 14:39:15 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#define EQUAL 1
+#define PLUS_EQUAL 2
 
 static	char	*get_value(char *str)
 {
@@ -32,7 +34,7 @@ static	char	*get_key(char *str)
 	return NULL;
 }
 
-static	t_bool	is_sep_equal(char *str)
+static	int	is_sep_equal(char *str)
 {
 	char 	*str1;
 	char	*str2;
@@ -41,9 +43,9 @@ static	t_bool	is_sep_equal(char *str)
 	str2 = ft_strnstr(str, "+=", ft_strlen(str));
 
 	if ((str1 && str2 == NULL) || (str1 && str1 < str2))
-		return TRUE;
+		return EQUAL;
 	else if (str2 != NULL && str2 < str1)
-		return FALSE;
+		return PLUS_EQUAL;
 	return FALSE;
 }
 
@@ -72,24 +74,32 @@ static int		set_envs(char **args, t_env *envs)
 	int		ret;
 
 	ret = EXIT_SUCCESS;
-	i = 1;
 	value = NULL;
+	key = NULL;
+	i = 1;
 	while (args[i])
 	{
-		if ((key = get_key(args[i])) && (value = get_value(args[i])))
+		if ((key = get_key(args[i])))
 		{
+			value = get_value(args[i]);
 			if (is_valid_key(key))
-				if (is_sep_equal(args[i]))
+			{
+				if (is_sep_equal(args[i]) == EQUAL)
+					ft_env_update(key, value, envs);
+				else if (is_sep_equal(args[i]) == PLUS_EQUAL)
 				{
-					value = ft_strjoin(ft_env_get(key, envs)->value, value);
-					ft_env_update(key, value, envs);
-					free(value);
+					if (ft_env_get(key, envs))
+						ft_env_update(key, ft_strjoin(ft_env_get(key, envs)->value, value), envs);
+					else
+					{
+						ft_error("export", args[i]);
+						ret = EXIT_FAILURE;
+					}
 				}
-				else
-					ft_env_update(key, value, envs);
+			}
 			else
 			{
-				ft_error("export", args[i]);
+				ft_error_identifier("export", args[i]);
 				ret = EXIT_FAILURE;
 			}
 		}
@@ -98,20 +108,73 @@ static int		set_envs(char **args, t_env *envs)
 			ft_error("export", args[i]);
 			ret = EXIT_FAILURE;
 		}
+		free(key);
 		i++;
 	}
 	return (ret);
 }
 
+
+
+
+
+
+static void	print_env(t_env *env)
+{
+	// char	*escaped_value;
+
+	if (env->is_env == FALSE)
+		return ;
+	ft_putstr_fd("declare -x ", STDOUT_FILENO);
+	ft_putstr_fd(env->key, STDOUT_FILENO);
+	// if (env->value)
+	// {
+	//	escaped_value = create_expanded_str(env->value, STATE_IN_DQUOTE, TRUE);
+	// 	ft_putstr_fd("=\"", STDOUT_FILENO);
+	// 	ft_putstr_fd(escaped_value, STDOUT_FILENO);
+	// 	ft_putchar_fd('"', STDOUT_FILENO);
+	// 	free(escaped_value);
+	// }
+	ft_putchar_fd('\n', STDOUT_FILENO);
+}
+
+// static int	compare_env(t_env *left, t_env *right)
+// {
+// 	return (ft_strncmp(left->key, right->key, ft_strlen(left->key)));
+// }
+
+int			print_envs(t_env *envs)
+{
+	t_env			*tmp;
+
+	// env_mergesort(&envs, compare_env);
+	while (envs)
+	{
+		print_env(envs);
+		tmp = envs->next;
+		free(envs);
+		envs = tmp;
+	}
+	return (EXIT_SUCCESS);
+}
+
+
+
+
+
+
+
+
 int ft_export(t_command *command_info)
 {
-	if (command_info->argv[1])
+	printf("argc: %d\n", command_info->argc);
+	if (command_info->argc == 2)
 	{
-		return (set_envs(command_info->argv, command_info->envs));
+		return (print_envs(command_info->envs));
 	}
 	else
 	{
-		// return (print_envs());
+		return (set_envs(command_info->argv, command_info->envs));
 	}
 	return (EXIT_SUCCESS);
 }
