@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/06/05 14:39:15 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/06/05 18:46:32 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,23 +118,80 @@ static int		set_envs(char **args, t_env *envs)
 
 
 
+static	size_t	get_len_to_alloc(const char *str, const char *esc)
+{
+	size_t index;
+	size_t res;
+
+	index = 0;
+	res = 0;
+	while (str[index] != 0)
+	{
+		if (ft_strchr(esc, str[index]) != NULL)
+			res++;
+		res++;
+		index++;
+	}
+	return (res);
+}
+
+static	void	copy_escaped_value(const char *src, const char *esc, char *dest)
+{
+	size_t res_index;
+	size_t index;
+
+	index = 0;
+	res_index = 0;
+	while (src[index] != 0)
+	{
+		if (ft_strchr(esc, src[index]) != NULL)
+		{
+			dest[res_index] = '\\';
+			res_index++;
+		}
+		dest[res_index] = src[index];
+		res_index++;
+		index++;
+	}
+	dest[res_index] = '\0';
+}
+
+static	char	*get_escaped_value(const char *str, t_token_state state)
+{
+	char	*esc_chars;
+	int		new_len;
+	char	*new_str;
+
+	esc_chars = "\"\\$";
+	if (state == STATE_IN_GENERAL)
+		esc_chars = "\'\"\\$|;><";
+	// if (is_env == TRUE)
+		// esc_chars = "\"\\$`";
+	new_len = get_len_to_alloc(str, esc_chars);
+	if (!(new_str = malloc(sizeof(char) * new_len + 1)))
+	{
+		// error
+	}
+	copy_escaped_value(str, esc_chars, new_str);
+	return (new_str);
+}
 
 static void	print_env(t_env *env)
 {
-	// char	*escaped_value;
+	char	*escaped_value;
 
 	if (env->is_env == FALSE)
 		return ;
 	ft_putstr_fd("declare -x ", STDOUT_FILENO);
 	ft_putstr_fd(env->key, STDOUT_FILENO);
-	// if (env->value)
-	// {
-	//	escaped_value = create_expanded_str(env->value, STATE_IN_DQUOTE, TRUE);
-	// 	ft_putstr_fd("=\"", STDOUT_FILENO);
-	// 	ft_putstr_fd(escaped_value, STDOUT_FILENO);
-	// 	ft_putchar_fd('"', STDOUT_FILENO);
-	// 	free(escaped_value);
-	// }
+	if (env->value)
+	{
+		escaped_value = get_escaped_value(env->value, STATE_IN_DQUOTE);
+		ft_putstr_fd("=\"", STDOUT_FILENO);
+		ft_putstr_fd(escaped_value, STDOUT_FILENO);
+		ft_putchar_fd('"', STDOUT_FILENO);
+		free(escaped_value);
+	}
 	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
@@ -143,17 +200,18 @@ static void	print_env(t_env *env)
 // 	return (ft_strncmp(left->key, right->key, ft_strlen(left->key)));
 // }
 
-int			print_envs(t_env *envs)
+int			print_envs(t_command *command_info)
 {
-	t_env			*tmp;
+	t_env			*current_env;
 
+	current_env = command_info->envs;
 	// env_mergesort(&envs, compare_env);
-	while (envs)
+	while (current_env)
 	{
-		print_env(envs);
-		tmp = envs->next;
-		free(envs);
-		envs = tmp;
+		print_env(current_env);
+		current_env = current_env->next;
+		// free(command_info->envs);
+		// command_info->envs = tmp;
 	}
 	return (EXIT_SUCCESS);
 }
@@ -168,9 +226,9 @@ int			print_envs(t_env *envs)
 int ft_export(t_command *command_info)
 {
 	printf("argc: %d\n", command_info->argc);
-	if (command_info->argc == 2)
+	if (command_info->argc == 1)
 	{
-		return (print_envs(command_info->envs));
+		return (print_envs(command_info));
 	}
 	else
 	{
