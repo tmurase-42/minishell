@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:33:29 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/05/15 17:21:47 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/06/05 15:02:21 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,13 @@ static void	print_env(t_env *env)
 
 int			ft_env(t_command *command_info)
 {
-	while (command_info->envs)
+	t_env			*current_env;
+
+	current_env = command_info->envs;
+	while (current_env)
 	{
-		print_env(command_info->envs);
-		command_info->envs = command_info->envs->next;
+		print_env(current_env);
+		current_env = current_env->next;
 	}
 	return (EXIT_SUCCESS);
 }
