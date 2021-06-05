@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/05 14:29:37 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/06/05 14:50:48 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ static int	cmp_command(char *str, int len, int *word_num)
 	if (ft_strncmp(str, "env", 3) == 0)
 		len += 3;
 	if (ft_strncmp(str, "echo", 4) == 0)
+	{
 		len += 4;
-	if (tmp != len)
 		*word_num += 1;
+	}
 	return (len);
 }
 
