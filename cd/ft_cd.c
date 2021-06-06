@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 17:01:21 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/05 18:26:16 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/06/05 19:35:59 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ t_bool ft_cd(t_command *command_info)
 	result = chdir(dir->value);
 	printf("dir->value = %s\n", dir->value);
 	ft_env_update("PWD", dir->value, command_info->envs);
-	ft_env_update("OLDPWD", dir->value, command_info->envs);
+	ft_env_update("OLDPWD", "/user/bin", command_info->envs);
 	return TRUE;
 }
