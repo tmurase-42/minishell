@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/06 12:14:28 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/06/06 13:28:55 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,11 @@ static	t_bool	ft_is_command(char **args)
 
 int	execute_command(t_command *command_info)
 {
-	int	i;
-	int	accept_command;
-
 	if (command_info->argc == 0 || ft_strncmp(command_info->argv[0], "", 1) == 0)
 		return (1);
-	i = 0;
-	accept_command = 0;
-	accept_command = ft_is_command(command_info->argv);
-	printf("safsfa\n");
-	if (accept_command == FALSE)
+	if (ft_is_command(command_info->argv) == FALSE)
 		ft_error("command error!コマンドを実装した場合はft_check_commandに処理を追加してください\n", command_info->argv[0]);
-	if (ft_check_command(command_info) == TRUE)
-		return (0);
-	else
+	else if (ft_check_command(command_info) == TRUE)
 		return (launch(command_info));
+	return (0);
 }
