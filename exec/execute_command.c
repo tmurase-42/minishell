@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/06 11:35:41 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/06/06 12:14:28 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,23 @@ static	t_bool	ft_check_command(t_command *command_info)
 	return (FALSE);
 }
 
+static	t_bool	ft_is_command(char **args)
+{
+	const char *commands[] = {"exit", "cd", "env", "unset", "export", "echo", "pwd", NULL};
+	int		i;
+
+	i = 0;
+	if (args[0] == NULL)
+		return (FALSE);
+	while (commands[i])
+	{
+		if (ft_strncmp(args[0], commands[i], ft_strlen(commands[i])) == 0)
+			return (TRUE);
+		i++;
+	}
+	return (FALSE);
+}
+
 int	execute_command(t_command *command_info)
 {
 	int	i;
@@ -65,7 +82,8 @@ int	execute_command(t_command *command_info)
 		return (1);
 	i = 0;
 	accept_command = 0;
-	accept_command = ft_check_command(command_info);
+	accept_command = ft_is_command(command_info->argv);
+	printf("safsfa\n");
 	if (accept_command == FALSE)
 		ft_error("command error!コマンドを実装した場合はft_check_commandに処理を追加してください\n", command_info->argv[0]);
 	if (ft_check_command(command_info) == TRUE)
