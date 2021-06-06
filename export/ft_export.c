@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/06/06 11:38:46 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/06/06 11:52:21 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ static	void	copy_escaped_value(const char *src, const char *esc, char *dest)
 	dest[res_index] = '\0';
 }
 
-static	char	*get_escaped_value(const char *str, t_token_state state)
+static	char	*get_escaped_value(const char *str)
 {
 	char	*esc_chars;
 	int		new_len;
@@ -182,7 +182,7 @@ static void	print_env(t_env *env)
 	ft_putstr_fd(env->key, STDOUT_FILENO);
 	if (env->value)
 	{
-		escaped_value = get_escaped_value(env->value, STATE_IN_DQUOTE);
+		escaped_value = get_escaped_value(env->value);
 		ft_putstr_fd("=\"", STDOUT_FILENO);
 		ft_putstr_fd(escaped_value, STDOUT_FILENO);
 		ft_putchar_fd('"', STDOUT_FILENO);
