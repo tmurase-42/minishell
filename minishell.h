@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/05 18:58:18 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/06/06 16:36:19 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,3 +104,6 @@ t_bool	ft_exit(t_command *command_info);
 
 /* cd function */
 t_bool ft_cd(t_command *command_info);
+
+/* pwd function */
+t_bool ft_pwd(t_command *command_info);
