@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/06 13:28:55 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/06/06 13:46:08 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	launch(t_command *command_info)
 	return (1);
 }
 
-static	t_bool	ft_check_command(t_command *command_info)
+static	t_bool	ft_exec_builtin(t_command *command_info)
 {
 	if (ft_strncmp(command_info->argv[0], "echo",ft_strlen("echo")) == 0)
 		return (FALSE);
@@ -77,9 +77,12 @@ int	execute_command(t_command *command_info)
 {
 	if (command_info->argc == 0 || ft_strncmp(command_info->argv[0], "", 1) == 0)
 		return (1);
-	if (ft_is_command(command_info->argv) == FALSE)
-		ft_error("command error!コマンドを実装した場合はft_check_commandに処理を追加してください\n", command_info->argv[0]);
-	else if (ft_check_command(command_info) == TRUE)
+	if (ft_is_command(command_info->argv) == TRUE)
+	{
+		if (ft_exec_builtin(command_info) != TRUE)
+			ft_error("error!\n", command_info->argv[0]);
+	}
+	else	
 		return (launch(command_info));
 	return (0);
 }
