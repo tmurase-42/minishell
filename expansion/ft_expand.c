@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_expand.c                                    :+:      :+:    :+:   */
+/*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/16 15:26:01 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/06/05 18:35:22 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/06/06 16:56:17 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct	s_expansions
 // 	return (i);
 // }
 
-static	int	get_len_to_alloc2(const char *str, t_command *command_info)
+static	int	get_len_with_vars(const char *str, t_command *command_info)
 {
 	int		i;
 	int		size;
@@ -99,48 +99,69 @@ static	int	get_len_to_alloc2(const char *str, t_command *command_info)
 	return (size);
 }
 
-static	int create_expanded_str2(char *str, t_command *command_info)
+static	int create_env_expanded_str(char *str, char *new_str, t_command *command_info)
 {
 	int		i;
+	int		j;
 	t_env	*env;
 	char	*exit_status;
 
 	i = 0;
+	j = 0;
 	env = NULL;
 	exit_status = NULL;
 
 	while(str[i])
 	{
+		// printf("str[%d]: %c\n", i, str[i]);
 		if (str[i] == '$' && str[i+1] != '?')
 		{
-			if ((env = ft_env_get(str + i, command_info->envs)))
+			printf("str[%d]: %c\n", i, str[i]);
+			// printf("%d\n", ((env = ft_env_get(str + i, command_info->envs)) != NULL));
+			if ((env = ft_env_get(str + i + 1, command_info->envs)) != NULL)
 			{
-				i += ft_strlcpy(str+i, env->value, ft_strlen(env->value));
+				printf("env is hit!\n");
+				j += ft_strlcpy(new_str+j, env->value, ft_strlen(env->value) + 1);
+				i += (ft_strlen(env->key) + 1);
+				printf("str[%d]: %c\n", i, str[i]);
+				printf("new_str[%d]: %c\n", j-1, new_str[j-1]);
+			}
+			else
+			{
+				ft_strlcpy(new_str+j, str+i, 2);
+				// printf("new_str[%d]: %c\n", j, new_str[j]);
+				i++;
+				j++;
 			}
 		}
 		else if (str[i] == '$' && str[i+1] == '?')
 		{
+			i++;
 			if ((exit_status = ft_itoa(command_info->exit_status)))
 			{
-				i += ft_strlcpy(str+i, exit_status, ft_strlen(exit_status));
+				j += ft_strlcpy(new_str+j, exit_status, ft_strlen(exit_status) + 1);
+				i += 2;
 				free(exit_status);
 			}
 			else
 			{
-				// error
+				ft_error("error;", command_info->argv[0]);
 			}
-		}
-		{
-			i += ft_strlcpy(str+i, env->value, 1);
+		} else {
+			ft_strlcpy(new_str+j, str+i, 2);
+			// printf("new_str[%d]: %c\n", j, new_str[j]);
+			i++;
+			j++;
 		}
 	}
 	return (i);
 }
 
-char			*ft_env_expand(char *str, t_command *command_info)
+char			*ft_expand(char *str, t_command *command_info)
 {
 	int		new_len;
 	char	*new_str;
+
 
 	// esc_chars = "\"\\$";
 	// if (state == STATE_IN_GENERAL)
@@ -148,11 +169,11 @@ char			*ft_env_expand(char *str, t_command *command_info)
 	// if (is_env == TRUE)
 		// esc_chars = "\"\\$`";
 
-	new_len = get_len_to_alloc2(str, command_info);
+	printf("str: %s\n", str);
+	new_len = get_len_with_vars(str, command_info);
 	if (!(new_str = malloc(sizeof(char) * new_len + 1)))
-	{
-		// error
-	}
-	create_expanded_str2(new_str, command_info);
+		ft_error("malloc error;", command_info->argv[0]);
+	create_env_expanded_str(str, new_str, command_info);
+	printf("new_str: %s\n", new_str);
 	return (new_str);
 }
