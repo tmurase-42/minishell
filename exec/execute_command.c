@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/05 17:05:29 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/06/06 11:35:41 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,8 @@ int	execute_command(t_command *command_info)
 	accept_command = ft_check_command(command_info);
 	if (accept_command == FALSE)
 		ft_error("command error!コマンドを実装した場合はft_check_commandに処理を追加してください\n", command_info->argv[0]);
-	return (launch(command_info));
+	if (ft_check_command(command_info) == TRUE)
+		return (0);
+	else
+		return (launch(command_info));
 }
