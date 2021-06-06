@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/06 13:46:08 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/06/06 16:35:36 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static	t_bool	ft_exec_builtin(t_command *command_info)
 	if (ft_strncmp(command_info->argv[0], "unset", ft_strlen("unset")) == 0)
 		return (ft_unset(command_info));
 	if (ft_strncmp(command_info->argv[0], "pwd", ft_strlen("pwd")) == 0)
-		return (FALSE);
+		return (ft_pwd(command_info));
 	if (ft_strncmp(command_info->argv[0], "cd", ft_strlen("cd")) == 0)
 		return (ft_cd(command_info));
 	return (FALSE);

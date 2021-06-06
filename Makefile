@@ -8,7 +8,8 @@ FILES           = main.c get_next_line.c get_next_line_utils.c perse_command.c e
 									env/ft_env.c \
 									export/ft_export.c \
 									unset/ft_unset.c \
-									cd/ft_cd.c
+									cd/ft_cd.c \
+									pwd/ft_pwd.c
 
 SRCS        = $(addprefix $(SDIR), $(FILES))
 OBJS        = $(SRCS:.c=.o)
