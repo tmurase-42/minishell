@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/06/05 18:46:32 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/06/06 11:38:46 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,6 @@ static int		set_envs(char **args, t_env *envs)
 	return (ret);
 }
 
-
-
-
-
 static	size_t	get_len_to_alloc(const char *str, const char *esc)
 {
 	size_t index;
@@ -163,8 +159,8 @@ static	char	*get_escaped_value(const char *str, t_token_state state)
 	char	*new_str;
 
 	esc_chars = "\"\\$";
-	if (state == STATE_IN_GENERAL)
-		esc_chars = "\'\"\\$|;><";
+	// if (state == STATE_IN_GENERAL)
+		// esc_chars = "\'\"\\$|;><";
 	// if (is_env == TRUE)
 		// esc_chars = "\"\\$`";
 	new_len = get_len_to_alloc(str, esc_chars);
@@ -195,11 +191,6 @@ static void	print_env(t_env *env)
 	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-// static int	compare_env(t_env *left, t_env *right)
-// {
-// 	return (ft_strncmp(left->key, right->key, ft_strlen(left->key)));
-// }
-
 int			print_envs(t_command *command_info)
 {
 	t_env			*current_env;
@@ -210,18 +201,9 @@ int			print_envs(t_command *command_info)
 	{
 		print_env(current_env);
 		current_env = current_env->next;
-		// free(command_info->envs);
-		// command_info->envs = tmp;
 	}
 	return (EXIT_SUCCESS);
 }
-
-
-
-
-
-
-
 
 int ft_export(t_command *command_info)
 {
