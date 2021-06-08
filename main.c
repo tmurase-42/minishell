@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/05/15 17:14:17 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/06/08 22:43:59 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ int	main(int argc, char *argv[], char **environ)
 			return (0);
 		run_commandline(ret, &command, envs);
 		prompt = ret == 1 ? 1 : 0;
+		if (ret == 1)
+			prompt = ret;
+		else
+			prompt = 0;
 	}
 	return (0);
 }
