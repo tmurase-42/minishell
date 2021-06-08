@@ -6,12 +6,11 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/05 18:48:01 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/06/08 22:55:03 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static int	cmp_command(char *str, int len)
 {
@@ -38,11 +37,9 @@ static int	cmp_command(char *str, int len)
 static int	check_word_number(char *command)
 {
 	int	word_num;
-	int	shell_state;
 	int	len;
 
 	word_num = 0;
-	shell_state = NEUTRAL_MODE;
 	len = 0;
 	while (command[len])
 	{
@@ -52,19 +49,16 @@ static int	check_word_number(char *command)
 		if (command[len] == DOUBLE_QUOT)
 		{
 			len++;
-			shell_state = DOUBLE_MODE;
 			while (command[len] != DOUBLE_QUOT)
 				len++;
 		}
 		if(command[len] == SINGLE_QUOT)
 		{
 			len++;
-			shell_state = SINGLE_MODE;
 			while (command[len] != SINGLE_QUOT)
 				len++;
 		}
 		len++;
-		shell_state = NEUTRAL_MODE;
 	}
 	if (command[len] == '\0')
 		word_num++;
@@ -139,7 +133,7 @@ void	split_word(char *command, t_command *command_info)
 						tmp++;
 				}
 				mode.NEUTRAL = TRUE;
-				if (check_meta(command[len + tmp]) == TRUE  && mode.NEUTRAL == TRUE)
+				if (check_meta(command[len + tmp]) == TRUE && mode.NEUTRAL == TRUE)
 					break;
 				if (command[len + tmp - 1] != SPACE && command[len + tmp] == SPACE)
 					break;
@@ -154,7 +148,6 @@ void	split_word(char *command, t_command *command_info)
 
 int	perse_command(char **command, t_command *command_info)
 {
-
 	command_info->argc = check_word_number(*command);
 	command_info->argv = ft_calloc(command_info->argc + 1, sizeof(char *));
 	if (!command_info->argv)
