@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/08 22:55:03 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/06/09 23:40:57 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ void	split_word(char *command, t_command *command_info)
 			{
 				if (check_meta(command[len]) == TRUE)
 				{
+					if (command[len  + 1] == '>')
+						tmp++;
 					tmp++;
 					break;
 				}
@@ -134,7 +136,9 @@ void	split_word(char *command, t_command *command_info)
 				}
 				mode.NEUTRAL = TRUE;
 				if (check_meta(command[len + tmp]) == TRUE && mode.NEUTRAL == TRUE)
+				{	
 					break;
+				}
 				if (command[len + tmp - 1] != SPACE && command[len + tmp] == SPACE)
 					break;
 				tmp++;
