@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/06 16:59:32 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/06/12 14:41:16 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct	s_mode
 }								t_mode;
 
 void	run_commandline(int ret, char **command, t_env *envs);
-int		perse_command(char **command, t_command *command_info);
+int		ft_lexer(char **command, t_command *command_info);
 t_command	*command_init(t_env *envs);
 int	execute_command(t_command *command_info);
 int check_meta(char c);

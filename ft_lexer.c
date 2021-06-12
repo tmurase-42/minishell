@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   perse_command.c                                    :+:      :+:    :+:   */
+/*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/09 23:40:57 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/06/12 14:42:39 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	cmp_command_tmp(char *str, int len)
 	return (len);
 }
 
-void	split_word(char *command, t_command *command_info)
+static	void	split_word(char *command, t_command *command_info)
 {
 	int	index;
 	int	len;
@@ -136,7 +136,7 @@ void	split_word(char *command, t_command *command_info)
 				}
 				mode.NEUTRAL = TRUE;
 				if (check_meta(command[len + tmp]) == TRUE && mode.NEUTRAL == TRUE)
-				{	
+				{
 					break;
 				}
 				if (command[len + tmp - 1] != SPACE && command[len + tmp] == SPACE)
@@ -150,7 +150,7 @@ void	split_word(char *command, t_command *command_info)
 	}
 }
 
-int	perse_command(char **command, t_command *command_info)
+int	ft_lexer(char **command, t_command *command_info)
 {
 	command_info->argc = check_word_number(*command);
 	command_info->argv = ft_calloc(command_info->argc + 1, sizeof(char *));
