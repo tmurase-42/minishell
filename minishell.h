@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/12 14:48:10 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/06/12 15:00:53 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ typedef enum		e_bool
 
 typedef enum		e_Node_kind
 {
-	ND_PIPE;
-	ND_COMMAND;
+	ND_PIPE,
+	ND_COMMAND
 }					t_Node_kind;
 
 typedef struct		e_Node
 {
 	t_Node_kind kind;
-	t_Node  *lefthand_side;
-	t_Node	*righthand_side;
+	struct t_Node	*lefthand_side;
+	struct t_Node	*righthand_side;
 	char	**value;
 }					t_Node;
 
