@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/06/12 14:24:06 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/06/12 14:48:00 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	run_commandline(int ret, char **command, t_env *envs)
 	command_info = command_init(envs);
 	if (ret == 1)
 	{
-		result = perse_command(command, command_info);
+		result = ft_lexer(command, command_info);
 		int i = 0;
 		printf("commnad_info->argc = %d\n", command_info->argc);
 		while (i < command_info->argc)
