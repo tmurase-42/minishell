@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/12 14:41:16 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/06/12 14:48:10 by mitchiwak        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <readline/history.h>
 
 
 #define SPACE 32
@@ -33,6 +34,20 @@ typedef enum		e_bool
 	FALSE,
 	TRUE
 }								t_bool;
+
+typedef enum		e_Node_kind
+{
+	ND_PIPE;
+	ND_COMMAND;
+}					t_Node_kind;
+
+typedef struct		e_Node
+{
+	t_Node_kind kind;
+	t_Node  *lefthand_side;
+	t_Node	*righthand_side;
+	char	**value;
+}					t_Node;
 
 typedef enum		e_token_state{
 	STATE_IN_DQUOTE,
