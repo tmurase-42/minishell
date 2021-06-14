@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/12 15:00:53 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/06/15 08:08:32 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,28 @@ typedef enum		e_bool
 	TRUE
 }								t_bool;
 
-typedef enum		e_Node_kind
+typedef enum		e_node_kind
 {
 	ND_PIPE,
 	ND_COMMAND
-}					t_Node_kind;
+}					t_node_kind;
 
-typedef struct		e_Node
+typedef struct		e_node
 {
-	t_Node_kind kind;
+	t_node_kind kind;
 	struct t_Node	*lefthand_side;
 	struct t_Node	*righthand_side;
 	char	**value;
-}					t_Node;
+}					t_node;
+
+typedef struct s_token t_token;
+struct			s_token
+{
+	t_token			*next;
+	t_token			*prev;
+	//t_token_type	type;
+	char			*data;
+};
 
 typedef enum		e_token_state{
 	STATE_IN_DQUOTE,
