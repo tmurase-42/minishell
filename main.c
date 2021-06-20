@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/06/15 08:12:23 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/06/20 18:18:10 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,39 @@ t_token *lstnew(char *str)
 	return (tmp);
 }
 
+void	ft_addtoken(t_token *token, char *str)
+{
+	t_token *next;
+	t_token *tmp;
+
+	tmp = ft_calloc(1, sizeof(t_token));
+	next = ft_calloc(1, sizeof(t_token));
+	tmp = token;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	next->prev = tmp;
+	next->next = NULL;
+	next->data = str;
+	tmp->next = next;
+}
+
 t_token *test_tokenise(void)
 {
 	const char *str[] = {"cat", "file1", "|", "grep", "a", "|", "wc", "-l", NULL};
 	int i = 0;
-	t_token *new;
+	t_token *token;
 
 	while(str[i])
 	{
 		if (i == 0)
-			new = lstnew((char *)str[i]);
-		printf("new = %s\n", new->data);
+			token = lstnew((char *)str[i]);
+		else
+		{
+			ft_addtoken(token, (char *)str[i]);
+		}
 		i++;
 	}
-	return (new);
+	return (token);
 }
 
 void	run_commandline(int ret, char **command, t_env *envs)
@@ -61,6 +80,12 @@ void	run_commandline(int ret, char **command, t_env *envs)
 
 		test = ft_calloc(1, sizeof(t_token));
 		test = test_tokenise();
+		while (test->next != NULL)
+		{
+			printf("data = %s\n", test->data);
+			test = test->next;
+		}
+		printf("data = %s\n", test->data);
 		status = execute_command(command_info);
 		free(*command);
 	}
