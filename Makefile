@@ -11,6 +11,7 @@ FILES           = main.c get_next_line.c get_next_line_utils.c ft_lexer.c exec/e
 									cd/ft_cd.c \
 									expansion/ft_expand.c \
 									pwd/ft_pwd.c \
+									parser/parser.c \
 									tokens/ft_token_add.c tokens/ft_token_create.c  tokens/ft_token_print.c \
 
 SRCS        = $(addprefix $(SDIR), $(FILES))

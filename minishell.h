@@ -44,7 +44,7 @@ typedef struct		e_node
 	t_node_kind kind;
 	struct t_Node	*lefthand_side;
 	struct t_Node	*righthand_side;
-	char	**value;
+	struct s_cmd	*args;
 }					t_node;
 
 typedef enum	e_tokentype{
@@ -80,6 +80,20 @@ struct			s_token
 	t_token_type	type;
 	char			*data;
 };
+
+typedef struct s_cmd t_cmd;
+struct			s_cmd
+{
+	t_token *args;
+	//t_pid	pid;
+	struct s_cmd *next;
+};
+
+typedef enum		e_token_state{
+	STATE_IN_DQUOTE,
+	STATE_IN_QUOTE,
+	STATE_IN_GENERAL,
+}								t_token_state;
 
 typedef struct	s_env
 {
@@ -145,3 +159,8 @@ t_bool ft_cd(t_command *command_info);
 
 /* pwd function */
 t_bool ft_pwd(t_command *command_info);
+
+/* parser function */
+
+t_cmd	*ft_parser(t_token *token, t_cmd *cmd);
+t_cmd	*ft_cmd_lstnew(void);
