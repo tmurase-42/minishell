@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/15 08:08:32 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/07/04 20:26:41 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct		e_node
 	t_node_kind kind;
 	struct t_Node	*lefthand_side;
 	struct t_Node	*righthand_side;
-	char	**value;
+	struct s_cmd	*args;
 }					t_node;
 
 typedef struct s_token t_token;
@@ -57,6 +57,16 @@ struct			s_token
 	//t_token_type	type;
 	char			*data;
 };
+
+typedef struct s_cmd t_cmd;
+struct			s_cmd
+{
+	t_token *args;
+	//t_pid	pid;
+	struct s_cmd *next;
+};
+
+
 
 typedef enum		e_token_state{
 	STATE_IN_DQUOTE,
@@ -132,3 +142,8 @@ t_bool ft_cd(t_command *command_info);
 
 /* pwd function */
 t_bool ft_pwd(t_command *command_info);
+
+/* parser function */
+
+t_cmd	*ft_parser(t_token *token, t_cmd *cmd);
+t_cmd	*ft_cmd_lstnew(void);

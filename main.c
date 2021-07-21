@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/06/20 18:18:10 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/07/22 08:02:17 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_addtoken(t_token *token, char *str)
 
 t_token *test_tokenise(void)
 {
-	const char *str[] = {"cat", "file1", "|", "grep", "a", "|", "wc", "-l", NULL};
+	const char *str[] = {"cat", "file1" , "aaaa", "dbbbb", "|", "grep", "test", "|", "wc", "-l", "aaa", "cccc", NULL};
 	int i = 0;
 	t_token *token;
 
@@ -59,12 +59,14 @@ t_token *test_tokenise(void)
 	return (token);
 }
 
+
 void	run_commandline(int ret, char **command, t_env *envs)
 {
 	t_command	*command_info;
 	int			result;
 	int			status;
-	t_token		*test;
+	t_token		*token;
+	t_cmd		*cmd;
 
 	command_info = command_init(envs);
 	if (ret == 1)
@@ -77,17 +79,28 @@ void	run_commandline(int ret, char **command, t_env *envs)
 			printf("commnad_info->argv[%d] = %s\n", i, command_info->argv[i]);
 			i++;
 		}
-
-		test = ft_calloc(1, sizeof(t_token));
-		test = test_tokenise();
-		while (test->next != NULL)
+		token = ft_calloc(1, sizeof(t_token));
+		token = test_tokenise();
+		cmd = ft_cmd_lstnew();
+		ft_parser(token, cmd);
+		t_cmd	*test;
+		test = ft_cmd_lstnew();
+		test = cmd;
+		i = 0;
+		while (test)
 		{
-			printf("data = %s\n", test->data);
+			printf("------cmd構造体の値----------\n");
+			while (test->args)
+			{
+				printf("cmd->args->data[%d] = %s\n", i, test->args->data);
+				test->args = test->args->next;
+			}
+			i++;
 			test = test->next;
 		}
-		printf("data = %s\n", test->data);
 		status = execute_command(command_info);
 		free(*command);
+		free(token);
 	}
 }
 

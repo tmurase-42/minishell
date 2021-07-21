@@ -10,7 +10,8 @@ FILES           = main.c get_next_line.c get_next_line_utils.c ft_lexer.c exec/e
 									unset/ft_unset.c \
 									cd/ft_cd.c \
 									expansion/ft_expand.c \
-									pwd/ft_pwd.c
+									pwd/ft_pwd.c \
+									parser/parser.c
 
 SRCS        = $(addprefix $(SDIR), $(FILES))
 OBJS        = $(SRCS:.c=.o)
