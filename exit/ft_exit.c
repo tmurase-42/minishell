@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 17:54:57 by tmurase           #+#    #+#             */
-/*   Updated: 2021/05/15 17:03:19 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/07/03 13:50:30 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_bool	ft_is_strdigit(char *str)
 	int	index;
 
 	index = 0;
-	while (str[index] == SPACE)
+	while (str[index] == CHAR_WHITESPACE)
 		index++;
 	while (str[index])
 	{
