@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/17 17:23:05 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/07/22 09:17:23 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,6 @@ typedef enum	e_tokentype{
 	TOKEN = -1, //謎
 }				t_token_type;
 
-typedef enum	e_token_state{
-	STATE_IN_DQUOTE,
-	STATE_IN_QUOTE,
-	STATE_IN_GENERAL,
-}				t_token_state;
 
 typedef struct s_token	t_token;
 
