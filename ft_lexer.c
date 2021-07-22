@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/22 09:28:28 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/07/22 09:39:40 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,37 +112,6 @@ static	t_token	*split_word(char *str)
 				str[i] == CHAR_QUOTE || str[i] == CHAR_DQUOTE)
 			{
 				set_token_type(str, &i, &word_len, &quote_status, &token_type);
-				// if (word_len == 0)
-				// {
-				// 	token_type = get_token_type(str[i]);
-				// 	word_len++;
-				// 	i++;
-				// 	if (str[i] == '>')
-				// 	{
-				// 		word_len++;
-				// 		i++;
-				// 		token_type = DOUBLE_GREATER;
-				// 	}
-				// }
-			}
-			else if (str[i] == CHAR_QUOTE || str[i] == CHAR_DQUOTE)
-			{
-			// 	if (word_len == 0)
-			// 	{
-			// 		quote_status = str[i];
-			// 		while(str[i] != '\0')
-			// 		{
-			// 			i++;
-			// 			if (str[i] == quote_status)
-			// 			{
-			// 				i++;
-			// 				break;
-			// 			}
-			// 			word_len++;
-			// 			if (str[i] == '\0')
-			// 				ft_error(NULL, NULL);
-			// 		}
-			// 	}
 			}
 			else if (str[i] == CHAR_WHITESPACE)
 			{
