@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/07/17 17:10:57 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/07/22 09:44:17 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,18 @@ static	t_token	*get_last_token(t_token *tokens)
 
 void			ft_token_add(t_token *new_token, t_token **tokens)
 {
+	t_token *last_token;
+
+	last_token = NULL;
 	if (!new_token || !tokens)
 		return ;
 	if (!*tokens)
 		*tokens = new_token;
 	else
 	{
-		get_last_token(*tokens)->next = new_token;
+		last_token = get_last_token(*tokens);
+		new_token->prev = last_token;
+		last_token->next = new_token;
 		new_token->next = NULL;
 	}
 }
