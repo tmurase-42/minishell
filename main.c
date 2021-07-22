@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/07/22 08:02:17 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/07/22 09:07:47 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	run_commandline(int ret, char **command, t_env *envs)
 		t_cmd	*test;
 		test = ft_cmd_lstnew();
 		test = cmd;
-		i = 0;
+		int i = 0;
 		while (test)
 		{
 			printf("------cmd構造体の値----------\n");
@@ -48,7 +48,7 @@ void	run_commandline(int ret, char **command, t_env *envs)
 
 		status = execute_command(command_info);
 		free(*command);
-		free(token);
+		free(tokens);
 	}
 }
 
