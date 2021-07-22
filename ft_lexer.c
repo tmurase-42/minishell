@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/18 14:32:56 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/07/22 09:28:28 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,37 +54,37 @@ static	t_token_type	get_token_type(char c)
 	return token_type;
 }
 
-static	void	set_token_type(char *str, int *i, int *word_len, char *auote_status)
+static	void	set_token_type(char *str, int *i, int *word_len, char *quote_status, t_token_type *token_type)
 {
 	if (str[*i] == '|' || str[*i] == ';' || str[*i] == '<' || str[*i] == '>')
 	{
 		if (*word_len == 0)
 		{
-			token_type = get_token_type(str[*i]);
-			*word_len++;
-			*i++;
+			*token_type = get_token_type(str[*i]);
+			*word_len += 1;
+			*i += 1;
 			if (str[*i] == '>')
 			{
-				*word_len++;
-				*i++;
-				token_type = DOUBLE_GREATER;
+				*word_len += 1;
+				*i += 1;
+				*token_type = DOUBLE_GREATER;
 			}
 		}
 	}
 	else if (str[*i] == CHAR_QUOTE || str[*i] == CHAR_DQUOTE)
 	{
-		if (word_len == 0)
+		if (*word_len == 0)
 		{
-			quote_status = str[*i];
+			*quote_status = str[*i];
 			while(str[*i] != '\0')
 			{
-				*i++;
-				if (str[*i] == quote_status)
+				*i += 1;
+				if (str[*i] == *quote_status)
 				{
-					*i++;
+					*i += 1;
 					break;
 				}
-				word_len++;
+				*word_len += 1;
 				if (str[*i] == '\0')
 					ft_error(NULL, NULL);
 			}
@@ -111,7 +111,7 @@ static	t_token	*split_word(char *str)
 			if (str[i] == '|' || str[i] == ';' || str[i] == '<' || str[i] == '>' ||
 				str[i] == CHAR_QUOTE || str[i] == CHAR_DQUOTE)
 			{
-				set_token_type(str, i, *word_len);
+				set_token_type(str, &i, &word_len, &quote_status, &token_type);
 				// if (word_len == 0)
 				// {
 				// 	token_type = get_token_type(str[i]);
