@@ -6,28 +6,31 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/06 16:35:36 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/07/23 14:32:29 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	launch(t_command *command_info)
+static	int		launch(t_cmd *cmd)
 {
 	pid_t	pid;
 	pid_t	wpid;
 	int		status;
+	char	**str;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execvp(command_info->argv[0], command_info->argv) == -1)
-			printf("error:25");
+		str = ft_token_array(cmd->args, 0, cmd->argc);
+		if (execvp(cmd->args->data, str) == -1)
+			ft_error("error:25", cmd->args->data);
+		free(str);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 	{
-		printf("error:30");
+		ft_error("error:30", cmd->args->data);
 	}
 	else
 	{
@@ -37,52 +40,52 @@ int	launch(t_command *command_info)
 	return (1);
 }
 
-static	t_bool	ft_exec_builtin(t_command *command_info)
+static	t_bool	ft_exec_builtin(t_cmd *cmd, t_mshl_data *mshl_data)
 {
-	if (ft_strncmp(command_info->argv[0], "echo",ft_strlen("echo")) == 0)
+	if (ft_strncmp(cmd->args->data, "echo",ft_strlen("echo")) == 0)
 		return (FALSE);
-	if (ft_strncmp(command_info->argv[0], "exit", ft_strlen("exit")) == 0)
-		return (ft_exit(command_info));
-	if (ft_strncmp(command_info->argv[0], "env", ft_strlen("env")) == 0)
-		return (ft_env(command_info));
-	if (ft_strncmp(command_info->argv[0], "export", ft_strlen("export")) == 0)
-		return (ft_export(command_info));
-	if (ft_strncmp(command_info->argv[0], "unset", ft_strlen("unset")) == 0)
-		return (ft_unset(command_info));
-	if (ft_strncmp(command_info->argv[0], "pwd", ft_strlen("pwd")) == 0)
-		return (ft_pwd(command_info));
-	if (ft_strncmp(command_info->argv[0], "cd", ft_strlen("cd")) == 0)
-		return (ft_cd(command_info));
+	if (ft_strncmp(cmd->args->data, "exit", ft_strlen("exit")) == 0)
+		return (ft_exit(cmd));
+	if (ft_strncmp(cmd->args->data, "env", ft_strlen("env")) == 0)
+		return (ft_env(mshl_data));
+	if (ft_strncmp(cmd->args->data, "export", ft_strlen("export")) == 0)
+		return (ft_export(cmd, mshl_data));
+	if (ft_strncmp(cmd->args->data, "unset", ft_strlen("unset")) == 0)
+		return (ft_unset(cmd, mshl_data));
+	if (ft_strncmp(cmd->args->data, "pwd", ft_strlen("pwd")) == 0)
+		return (ft_pwd());
+	if (ft_strncmp(cmd->args->data, "cd", ft_strlen("cd")) == 0)
+		return (ft_cd(cmd, mshl_data));
 	return (FALSE);
 }
 
-static	t_bool	ft_is_command(char **args)
+static	t_bool	ft_is_command(char *str)
 {
 	const char *commands[] = {"exit", "cd", "env", "unset", "export", "echo", "pwd", NULL};
 	int		i;
 
 	i = 0;
-	if (args[0] == NULL)
+	if (str == NULL)
 		return (FALSE);
 	while (commands[i])
 	{
-		if (ft_strncmp(args[0], commands[i], ft_strlen(commands[i])) == 0)
+		if (ft_strncmp(str, commands[i], ft_strlen(commands[i])) == 0)
 			return (TRUE);
 		i++;
 	}
 	return (FALSE);
 }
 
-int	execute_command(t_command *command_info)
+int				ft_execute_command(t_cmd *cmd, t_mshl_data *mshl_data)
 {
-	if (command_info->argc == 0 || ft_strncmp(command_info->argv[0], "", 1) == 0)
+	if (cmd->argc == 0) //|| ft_strncmp(cmd->args->data, "", 1) == 0)
 		return (1);
-	if (ft_is_command(command_info->argv) == TRUE)
+	if (ft_is_command(cmd->args->data) == TRUE)
 	{
-		if (ft_exec_builtin(command_info) != TRUE)
-			ft_error("error!\n", command_info->argv[0]);
+		if (ft_exec_builtin(cmd, mshl_data) != TRUE)
+			ft_error("error!\n", cmd->args->data);
 	}
-	else	
-		return (launch(command_info));
+	else
+		return (launch(cmd));
 	return (0);
 }

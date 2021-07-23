@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/06/06 11:52:21 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/07/23 13:42:37 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,50 +66,50 @@ static	t_bool	is_valid_key(char *key)
 	return (TRUE);
 }
 
-static int		set_envs(char **args, t_env *envs)
+static int		set_envs(t_cmd *cmd, t_env *envs)
 {
-	size_t	i;
 	char	*key;
 	char	*value;
 	int		ret;
+	t_token	*token;
 
 	ret = EXIT_SUCCESS;
 	value = NULL;
 	key = NULL;
-	i = 1;
-	while (args[i])
+	token = cmd->args;
+	while (token)
 	{
-		if ((key = get_key(args[i])))
+		if ((key = get_key(token->data)))
 		{
-			value = get_value(args[i]);
+			value = get_value(token->data);
 			if (is_valid_key(key))
 			{
-				if (is_sep_equal(args[i]) == EQUAL)
+				if (is_sep_equal(token->data) == EQUAL)
 					ft_env_update(key, value, envs);
-				else if (is_sep_equal(args[i]) == PLUS_EQUAL)
+				else if (is_sep_equal(token->data) == PLUS_EQUAL)
 				{
 					if (ft_env_get(key, envs))
 						ft_env_update(key, ft_strjoin(ft_env_get(key, envs)->value, value), envs);
 					else
 					{
-						ft_error("export", args[i]);
+						ft_error("export", token->data);
 						ret = EXIT_FAILURE;
 					}
 				}
 			}
 			else
 			{
-				ft_error_identifier("export", args[i]);
+				ft_error_identifier("export", token->data);
 				ret = EXIT_FAILURE;
 			}
 		}
 		else
 		{
-			ft_error("export", args[i]);
+			ft_error("export", token->data);
 			ret = EXIT_FAILURE;
 		}
 		free(key);
-		i++;
+		token = token->next;
 	}
 	return (ret);
 }
@@ -191,11 +191,11 @@ static void	print_env(t_env *env)
 	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-int			print_envs(t_command *command_info)
+int			print_envs(t_mshl_data *mshl_data)
 {
 	t_env			*current_env;
 
-	current_env = command_info->envs;
+	current_env = mshl_data->envs;
 	// env_mergesort(&envs, compare_env);
 	while (current_env)
 	{
@@ -205,16 +205,16 @@ int			print_envs(t_command *command_info)
 	return (EXIT_SUCCESS);
 }
 
-int ft_export(t_command *command_info)
+int ft_export(t_cmd *cmd, t_mshl_data *mshl_data)
 {
-	printf("argc: %d\n", command_info->argc);
-	if (command_info->argc == 1)
+	printf("argc: %d\n", cmd->argc);
+	if (cmd->argc == 1)
 	{
-		return (print_envs(command_info));
+		return (print_envs(mshl_data));
 	}
 	else
 	{
-		return (set_envs(command_info->argv, command_info->envs));
+		return (set_envs(cmd, mshl_data->envs));
 	}
 	return (EXIT_SUCCESS);
 }

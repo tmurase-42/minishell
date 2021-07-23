@@ -1,6 +1,6 @@
 UNAME    := $(shell uname)
 NAME            = minishell
-FILES           = main.c get_next_line.c get_next_line_utils.c ft_lexer.c exec/execute_command.c init.c\
+FILES           = main.c get_next_line.c get_next_line_utils.c ft_lexer.c exec/execute_command.c \
 									environ/ft_env_add.c environ/ft_env_delete.c environ/ft_env_get.c environ/ft_env_create.c\
 									environ/ft_env_init.c environ/ft_env_update.c \
 									exit/ft_exit.c \
@@ -12,7 +12,7 @@ FILES           = main.c get_next_line.c get_next_line_utils.c ft_lexer.c exec/e
 									expansion/ft_expand.c \
 									pwd/ft_pwd.c \
 									parser/parser.c \
-									tokens/ft_token_add.c tokens/ft_token_create.c  tokens/ft_token_print.c \
+									tokens/ft_token_add.c tokens/ft_token_create.c  tokens/ft_token_print.c tokens/ft_token_length.c tokens/ft_token_array.c \
 
 SRCS        = $(addprefix $(SDIR), $(FILES))
 OBJS        = $(SRCS:.c=.o)

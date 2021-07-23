@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:38:04 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/05/15 17:29:47 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/07/23 13:50:19 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ static	t_bool	is_identifier(char *name)
 	return (TRUE);
 }
 
-int				ft_unset(t_command *command_info)
+int				ft_unset(t_cmd *cmd, t_mshl_data *mshl_data)
 {
-	size_t	i;
 	int		ret;
+	t_token	*token;
 
-	i = 1;
 	ret = EXIT_SUCCESS;
-	while (command_info->argv[i])
+	token = cmd->args;
+	while (token)
 	{
-		if (is_identifier(command_info->argv[i]) == TRUE)
+		if (is_identifier(token->data) == TRUE)
 		{
-			ft_env_delete(command_info->argv[i], command_info->envs);
+			ft_env_delete(token->data, mshl_data->envs);
 		}
 		else
 		{
@@ -48,7 +48,7 @@ int				ft_unset(t_command *command_info)
 			// ↑こんな感じの文字列をはかせる
 			ret = EXIT_FAILURE;
 		}
-		i++;
+		token = token->next;
 	}
 	return (ret);
 }
