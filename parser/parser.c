@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/23 12:27:34 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/07/23 14:59:07 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ t_cmd	*ft_parser(t_token *token, t_cmd *cmd)
 	else
 	{
 		cmd->args = copy_token(token);
+		cmd->argc = ft_token_length(cmd->args);
 	}
 
 	//tokenをパイプの次の値まで値を削る。
