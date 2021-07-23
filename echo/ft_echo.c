@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 12:24:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/23 15:21:03 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/07/23 15:55:27 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,21 @@ static t_token *delete_token(t_token *token, int n)
 t_bool	ft_echo(t_cmd *cmd)
 {
 	int		option;
+	t_token *tmp_token;
 
 	option = 0;
-
-	option = option_check(cmd->args);
+	tmp_token = cmd->args;
+	option = option_check(tmp_token);
 	if (option == TRUE)
-		cmd->args = delete_token(cmd->args, 2);
+		tmp_token = delete_token(tmp_token, 2);
 	else
-		cmd->args = delete_token(cmd->args, 1);
-	while (cmd->args)
+		tmp_token = delete_token(tmp_token, 1);
+	while (tmp_token)
 	{
-		ft_putstr_fd(cmd->args->data, 0);
-		ft_putchar_fd(' ', 0);
-		cmd->args = cmd->args->next;
+		ft_putstr_fd(tmp_token->data, 0);
+		if (tmp_token->next != NULL)
+			ft_putchar_fd(' ', 0);
+		tmp_token = tmp_token->next;
 	}
 	if (option != TRUE)
 		write(1, "\n", 1);

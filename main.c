@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/07/23 15:27:03 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/07/23 16:01:08 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static	void	run_commandline(int ret, char **command, t_env *envs)
 		current_cmd = cmd;
 		while (current_cmd)
 		{
-			ft_execute_command(cmd, mshl_data);
+			ft_execute_command(current_cmd, mshl_data);
 			current_cmd = current_cmd->next;
 		}
 	}
