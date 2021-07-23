@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/07/23 14:43:25 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/07/23 15:27:03 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static	void	run_commandline(int ret, char **command, t_env *envs)
 		while (current_cmd)
 		{
 			ft_execute_command(cmd, mshl_data);
-			current_cmd = cmd->next;
+			current_cmd = current_cmd->next;
 		}
 	}
 }

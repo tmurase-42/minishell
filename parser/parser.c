@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/23 14:59:07 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/07/23 15:24:47 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,15 +101,14 @@ static	t_token *shave_token_until_pipe(t_token *token)
 	return (token);
 }
 
-int		ft_check_pipe(t_token *token)
+static t_bool		ft_check_pipe(t_token *token)
 {
 	t_token *tmp;
 
-	tmp = create_token();
 	tmp = token;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->data, "|", 2) == 0)
+		if (ft_strncmp(tmp->data, "|", 1) == 0)
 			return (TRUE);
 		tmp = tmp->next;
 	}
@@ -119,22 +118,7 @@ int		ft_check_pipe(t_token *token)
 t_cmd	*ft_parser(t_token *token, t_cmd *cmd)
 {
 	t_cmd	*next;
-	printf("-------token構造体の値------------\n");
-	t_token *test;
-
-	test = create_token();
-	test = token;
-	while (test)
-	{
-		printf("token->data  = %s\n", test->data);
-	//	if (token->prev != NULL)
-	//		printf("token->prev  = %s\n", token->prev->data);
-	//	if (token->next != NULL)
-	//		printf("token->next  = %s\n", token->next->data);
-		test = test->next;
-	}
 	//引数のtokenが連結リストになっているときにコマンド構造体にコピーする。
-	//if (token->next != NULL)
 	if (ft_check_pipe(token) == TRUE)
 	{
 		cmd->args = copy_token(token);
@@ -142,6 +126,7 @@ t_cmd	*ft_parser(t_token *token, t_cmd *cmd)
 		token = shave_token_until_pipe(token);
 		next = ft_cmd_lstnew();
 		cmd->next = next;
+		printf("aaaaaa\n");
 		ft_parser(token, next);
 	}
 	else

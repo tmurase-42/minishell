@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_command.c                                  :+:      :+:    :+:   */
+/*   ft_execute_command.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/23 14:32:29 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/07/23 15:17:52 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static	int		launch(t_cmd *cmd)
 static	t_bool	ft_exec_builtin(t_cmd *cmd, t_mshl_data *mshl_data)
 {
 	if (ft_strncmp(cmd->args->data, "echo",ft_strlen("echo")) == 0)
-		return (FALSE);
+		return (ft_echo(cmd));
 	if (ft_strncmp(cmd->args->data, "exit", ft_strlen("exit")) == 0)
 		return (ft_exit(cmd));
 	if (ft_strncmp(cmd->args->data, "env", ft_strlen("env")) == 0)
