@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/17 18:10:42 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/07/23 12:27:34 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_cmd	*ft_cmd_lstnew(void)
 	value->args = NULL;
 	value->next = NULL;
 	value->args = create_token();
+	value->argc = 0;
 	return (value);
 }
 
@@ -137,6 +138,7 @@ t_cmd	*ft_parser(t_token *token, t_cmd *cmd)
 	if (ft_check_pipe(token) == TRUE)
 	{
 		cmd->args = copy_token(token);
+		cmd->argc = ft_token_length(cmd->args);
 		token = shave_token_until_pipe(token);
 		next = ft_cmd_lstnew();
 		cmd->next = next;

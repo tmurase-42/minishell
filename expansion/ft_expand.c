@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/06/06 16:56:17 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/07/23 13:50:33 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct	s_expansions
 // 	return (i);
 // }
 
-static	int	get_len_with_vars(const char *str, t_command *command_info)
+static	int	get_len_with_vars(const char *str, t_mshl_data *mshl_data)
 {
 	int		i;
 	int		size;
@@ -71,7 +71,7 @@ static	int	get_len_with_vars(const char *str, t_command *command_info)
 	{
 		if (str[i] == '$' && str[i+1] != '?')
 		{
-			if ((env = ft_env_get(str + i, command_info->envs)))
+			if ((env = ft_env_get(str + i, mshl_data->envs)))
 			{
 				size += ft_strlen(env->key);
 				i += (ft_strlen(env->key) + 1);
@@ -79,7 +79,7 @@ static	int	get_len_with_vars(const char *str, t_command *command_info)
 		}
 		else if (str[i] == '$' && str[i+1] == '?')
 		{
-			if ((exit_status = ft_itoa(command_info->exit_status)))
+			if ((exit_status = ft_itoa(mshl_data->exit_status)))
 			{
 				size += ft_strlen(exit_status);
 				i += (ft_strlen(exit_status) + 2);
@@ -99,7 +99,7 @@ static	int	get_len_with_vars(const char *str, t_command *command_info)
 	return (size);
 }
 
-static	int create_env_expanded_str(char *str, char *new_str, t_command *command_info)
+static	int create_env_expanded_str(char *str, char *new_str, t_cmd *cmd, t_mshl_data *mshl_data)
 {
 	int		i;
 	int		j;
@@ -117,8 +117,7 @@ static	int create_env_expanded_str(char *str, char *new_str, t_command *command_
 		if (str[i] == '$' && str[i+1] != '?')
 		{
 			printf("str[%d]: %c\n", i, str[i]);
-			// printf("%d\n", ((env = ft_env_get(str + i, command_info->envs)) != NULL));
-			if ((env = ft_env_get(str + i + 1, command_info->envs)) != NULL)
+			if ((env = ft_env_get(str + i + 1, mshl_data->envs)) != NULL)
 			{
 				printf("env is hit!\n");
 				j += ft_strlcpy(new_str+j, env->value, ft_strlen(env->value) + 1);
@@ -137,7 +136,7 @@ static	int create_env_expanded_str(char *str, char *new_str, t_command *command_
 		else if (str[i] == '$' && str[i+1] == '?')
 		{
 			i++;
-			if ((exit_status = ft_itoa(command_info->exit_status)))
+			if ((exit_status = ft_itoa(mshl_data->exit_status)))
 			{
 				j += ft_strlcpy(new_str+j, exit_status, ft_strlen(exit_status) + 1);
 				i += 2;
@@ -145,7 +144,7 @@ static	int create_env_expanded_str(char *str, char *new_str, t_command *command_
 			}
 			else
 			{
-				ft_error("error;", command_info->argv[0]);
+				ft_error("error;", cmd->args->data);
 			}
 		} else {
 			ft_strlcpy(new_str+j, str+i, 2);
@@ -157,7 +156,7 @@ static	int create_env_expanded_str(char *str, char *new_str, t_command *command_
 	return (i);
 }
 
-char			*ft_expand(char *str, t_command *command_info)
+char			*ft_expand(char *str, t_cmd *cmd, t_mshl_data *mshl_data)
 {
 	int		new_len;
 	char	*new_str;
@@ -170,10 +169,10 @@ char			*ft_expand(char *str, t_command *command_info)
 		// esc_chars = "\"\\$`";
 
 	printf("str: %s\n", str);
-	new_len = get_len_with_vars(str, command_info);
+	new_len = get_len_with_vars(str, mshl_data);
 	if (!(new_str = malloc(sizeof(char) * new_len + 1)))
-		ft_error("malloc error;", command_info->argv[0]);
-	create_env_expanded_str(str, new_str, command_info);
+		ft_error("malloc error;", cmd->args->data);
+	create_env_expanded_str(str, new_str, cmd, mshl_data);
 	printf("new_str: %s\n", new_str);
 	return (new_str);
 }

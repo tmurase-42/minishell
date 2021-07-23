@@ -1,31 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   ft_token_length.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/27 17:26:17 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/03 13:19:28 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/07/23 14:33:16 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h"
 
-#include "minishell.h"
-
-t_command	*command_init(t_env *envs)
+static	t_token	*get_first_token(t_token *tokens)
 {
-	t_command	*command_info;
+	t_token	*target;
 
-	command_info = malloc(sizeof(t_command));
-	if (!command_info)
+	if (!tokens)
 		return (NULL);
-	command_info->next = NULL;
-	command_info->argc = 0;
-	command_info->argv = NULL;
-	command_info->op = 0;
-	command_info->pid = -1;
-	command_info->envs = envs;
-	command_info->exit_status = 0;
-	return (command_info);
+	target = tokens;
+	while (target->prev)
+		target = target->prev;
+	return (target);
+}
+
+int			ft_token_length(t_token *tokens)
+{
+	t_token *token;
+	int i;
+
+	if (!tokens)
+		return 0;
+	i = 1;
+	token = get_first_token(tokens);
+	while (token->next)
+	{
+		token = token->next;
+		i++;
+	}
+	return i;
 }

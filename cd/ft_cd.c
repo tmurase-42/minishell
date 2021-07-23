@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 17:01:21 by tmurase           #+#    #+#             */
-/*   Updated: 2021/06/06 16:22:25 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/07/23 13:31:38 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static	char *get_parentdirectory(char *str)
 	return (tmp);
 }
 
-t_bool ft_cd(t_command *command_info)
+t_bool ft_cd(t_cmd *cmd, t_mshl_data *mshl_data)
 {
 	t_env	*dir;
 	char	pwd[PATH_MAX];
@@ -42,31 +42,31 @@ t_bool ft_cd(t_command *command_info)
 
 	getcwd(pwd, PATH_MAX);
 	printf("pwd = %s\n", pwd);
-	if (command_info->argc < 2)
+	if (cmd->argc < 2)
 	{
-		dir = ft_env_get("HOME", command_info->envs);
-		ft_env_update("PWD", dir->value, command_info->envs);
-		ft_env_update("OLDPWD", pwd, command_info->envs);
+		dir = ft_env_get("HOME", mshl_data->envs);
+		ft_env_update("PWD", dir->value, mshl_data->envs);
+		ft_env_update("OLDPWD", pwd, mshl_data->envs);
 		result = chdir(dir->value);
 	}
-	else if (ft_strncmp(command_info->argv[1], "..", 2) == 0)
+	else if (ft_strncmp(cmd->args->next->data, "..", 2) == 0)
 	{
 		parent_dir = get_parentdirectory(pwd);
 		printf("parent_dir = %s\n", parent_dir);
-		ft_env_update("PWD", parent_dir, command_info->envs);
-		ft_env_update("OLDPWD", pwd, command_info->envs);
+		ft_env_update("PWD", parent_dir, mshl_data->envs);
+		ft_env_update("OLDPWD", pwd, mshl_data->envs);
 		result = chdir(parent_dir);
 	}
-	else if (ft_strncmp(command_info->argv[1], ".", 1) == 0)
+	else if (ft_strncmp(cmd->args->next->data, ".", 1) == 0)
 	{
-		ft_env_update("OLDPWD", pwd, command_info->envs);
+		ft_env_update("OLDPWD", pwd, mshl_data->envs);
 		result = chdir(pwd);
 	}
 	else
 	{
-		ft_env_update("PWD", command_info->argv[1], command_info->envs);
-		ft_env_update("OLDPWD", pwd, command_info->envs);
-		result = chdir(command_info->argv[1]);
+		ft_env_update("PWD", cmd->args->next->data, mshl_data->envs);
+		ft_env_update("OLDPWD", pwd, mshl_data->envs);
+		result = chdir(cmd->args->next->data);
 	}
 	getcwd(pwd, PATH_MAX);
 	printf("pwd = %s\n", pwd);
