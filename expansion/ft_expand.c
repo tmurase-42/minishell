@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/07/23 13:50:33 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/06 00:16:54 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,18 @@ typedef struct	s_expansions
 // 	return (i);
 // }
 
+static	t_token	*get_first_token(t_token *tokens)
+{
+	t_token	*target;
+
+	if (!tokens)
+		return (NULL);
+	target = tokens;
+	while (target->prev)
+		target = target->prev;
+	return (target);
+}
+
 static	int	get_len_with_vars(const char *str, t_mshl_data *mshl_data)
 {
 	int		i;
@@ -71,18 +83,23 @@ static	int	get_len_with_vars(const char *str, t_mshl_data *mshl_data)
 	{
 		if (str[i] == '$' && str[i+1] != '?')
 		{
+			i++;
+			printf("ft_expand: str + i: %s\n", str + i);
 			if ((env = ft_env_get(str + i, mshl_data->envs)))
 			{
-				size += ft_strlen(env->key);
-				i += (ft_strlen(env->key) + 1);
+				size += ft_strlen(env->value);
+				printf("ft_expand: env->value: %s$\n", env->value);
+				printf("ft_expand: env->key: %s$\n", env->key);
+				i += (ft_strlen(env->key));
 			}
 		}
 		else if (str[i] == '$' && str[i+1] == '?')
 		{
+			i += 2;
 			if ((exit_status = ft_itoa(mshl_data->exit_status)))
 			{
 				size += ft_strlen(exit_status);
-				i += (ft_strlen(exit_status) + 2);
+				i += (ft_strlen(exit_status));
 				free(exit_status);
 			}
 			else
@@ -99,34 +116,42 @@ static	int	get_len_with_vars(const char *str, t_mshl_data *mshl_data)
 	return (size);
 }
 
-static	int create_env_expanded_str(char *str, char *new_str, t_cmd *cmd, t_mshl_data *mshl_data)
+
+
+static	char *create_env_expanded_str(char *str, t_mshl_data *mshl_data)
 {
 	int		i;
 	int		j;
 	t_env	*env;
 	char	*exit_status;
+	char	*new_str;
+	int		new_len;
 
 	i = 0;
 	j = 0;
 	env = NULL;
 	exit_status = NULL;
 
+	new_len = get_len_with_vars(str, mshl_data);
+	if (!(new_str = ft_calloc(sizeof(char), new_len + 1)))
+		ft_error("malloc error;", str);
 	while(str[i])
 	{
 		// printf("str[%d]: %c\n", i, str[i]);
 		if (str[i] == '$' && str[i+1] != '?')
 		{
-			printf("str[%d]: %c\n", i, str[i]);
+			printf("ft_expand: str[%d]: %s\n", i, str + i + 1);
 			if ((env = ft_env_get(str + i + 1, mshl_data->envs)) != NULL)
 			{
-				printf("env is hit!\n");
+				printf("ft_expand: message: env is hit!\n");
 				j += ft_strlcpy(new_str+j, env->value, ft_strlen(env->value) + 1);
 				i += (ft_strlen(env->key) + 1);
-				printf("str[%d]: %c\n", i, str[i]);
-				printf("new_str[%d]: %c\n", j-1, new_str[j-1]);
+				printf("ft_expand: str[%d]: %c\n", i, str[i]);
+				printf("ft_expand: new_str[%d]: %c\n", j-1, new_str[j-1]);
 			}
 			else
 			{
+				printf("ft_expand: message: env is not hit!\n");
 				ft_strlcpy(new_str+j, str+i, 2);
 				// printf("new_str[%d]: %c\n", j, new_str[j]);
 				i++;
@@ -144,7 +169,7 @@ static	int create_env_expanded_str(char *str, char *new_str, t_cmd *cmd, t_mshl_
 			}
 			else
 			{
-				ft_error("error;", cmd->args->data);
+				ft_error("error;", str);
 			}
 		} else {
 			ft_strlcpy(new_str+j, str+i, 2);
@@ -153,13 +178,43 @@ static	int create_env_expanded_str(char *str, char *new_str, t_cmd *cmd, t_mshl_
 			j++;
 		}
 	}
-	return (i);
+	return (new_str);
 }
 
-char			*ft_expand(char *str, t_cmd *cmd, t_mshl_data *mshl_data)
+static	char *create_env_expanded_strs(char *str, t_mshl_data *mshl_data)
 {
-	int		new_len;
+	int		i;
+	char	*tmp_str;
+	char	*add_str;
+	char	**array;
 	char	*new_str;
+
+
+	i = 0;
+	array = ft_split(str, '$');
+	add_str = NULL;
+	tmp_str = NULL;
+	new_str = NULL;
+	while(array[i])
+	{
+		// tmp_str = new_str;
+		new_str = create_env_expanded_str(array[i], mshl_data);
+		// if (i > 0) {
+		// 	new_str = ft_strjoin(new_str, add_str);
+		// }
+		// free(tmp_str);
+		// free(add_str);
+		printf("ft_expand: array[i]: %s\n", array[i]);
+		i++;
+	}
+
+	return new_str;
+}
+
+void			ft_expand(t_cmd *cmd, t_mshl_data *mshl_data)
+{
+	char	*new_str;
+	t_token	*token;
 
 
 	// esc_chars = "\"\\$";
@@ -168,11 +223,15 @@ char			*ft_expand(char *str, t_cmd *cmd, t_mshl_data *mshl_data)
 	// if (is_env == TRUE)
 		// esc_chars = "\"\\$`";
 
-	printf("str: %s\n", str);
-	new_len = get_len_with_vars(str, mshl_data);
-	if (!(new_str = malloc(sizeof(char) * new_len + 1)))
-		ft_error("malloc error;", cmd->args->data);
-	create_env_expanded_str(str, new_str, cmd, mshl_data);
-	printf("new_str: %s\n", new_str);
-	return (new_str);
+	if (!cmd->args)
+		return ;
+	token = get_first_token(cmd->args);
+	while (token)
+	{
+		new_str = create_env_expanded_strs(token->data, mshl_data);
+		free(token->data);
+		token->data = new_str;
+		token = token->next;
+	}
+	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/23 16:12:53 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/05 21:36:07 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ t_env	*ft_env_get(const char *key, t_env *envs);
 void	ft_env_update(const char *key, const char *value, t_env *envs);
 
 /* Expansion functions */
-char	*ft_expand(char *str, t_cmd *cmd, t_mshl_data *mshl_data);
+void	ft_expand(t_cmd *cmd, t_mshl_data *mshl_data);
 
 /* Env functions */
 int		ft_env(t_mshl_data *t_mshl_data);
