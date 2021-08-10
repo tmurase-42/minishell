@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/08/03 21:17:32 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/05 23:32:35 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static	void	run_commandline(int ret, char **command, t_env *envs)
 	t_cmd		*current_cmd;
 	t_token		*tokens;
 	char		*token_str;
+	// char		*tmp_str;
 
 	// printf("command = %s\n", *command);
 
@@ -58,7 +59,7 @@ static	void	run_commandline(int ret, char **command, t_env *envs)
 		while (current_cmd)
 		{
 			// トークンに環境変数展開をかける
-			// ここは未実装（堂福）
+			ft_expand(current_cmd, mshl_data);
 
 			// トークンを一度文字列に戻す
 			token_str = ft_token_str(current_cmd->args, 0, current_cmd->argc);
