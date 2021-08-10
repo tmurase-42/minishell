@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/05 21:36:07 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/10 11:17:43 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	ft_token_print(t_token *tokens);
 int		ft_token_length(t_token *tokens);
 char	**ft_token_array(t_token *tokens, int start, int len);
 char	*ft_token_str(t_token *tokens, int start, int len);
+void	ft_token_destroy(t_token *token, t_token **tokens);
 void	ft_token_free(t_token *tokens);
 
 /* Environ functions */
