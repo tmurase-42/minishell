@@ -13,8 +13,8 @@ FILES           = main.c get_next_line.c get_next_line_utils.c ft_lexer.c exec/f
 									pwd/ft_pwd.c \
 									parser/parser.c \
 									echo/ft_echo.c \
-									tokens/ft_token_add.c tokens/ft_token_create.c  tokens/ft_token_print.c tokens/ft_token_length.c tokens/ft_token_array.c \
-									utils/ft_token_error.c
+									utils/ft_token_error.c \
+									tokens/ft_token_add.c tokens/ft_token_create.c  tokens/ft_token_print.c tokens/ft_token_length.c tokens/ft_token_array.c tokens/ft_token_free.c tokens/ft_token_str.c tokens/ft_token_destroy.c \
 
 SRCS        = $(addprefix $(SDIR), $(FILES))
 OBJS        = $(SRCS:.c=.o)

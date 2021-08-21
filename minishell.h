@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/29 22:17:26 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/08/10 11:17:43 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,9 @@ void	ft_token_add(t_token *new_token, t_token **tokens);
 void	ft_token_print(t_token *tokens);
 int		ft_token_length(t_token *tokens);
 char	**ft_token_array(t_token *tokens, int start, int len);
+char	*ft_token_str(t_token *tokens, int start, int len);
+void	ft_token_destroy(t_token *token, t_token **tokens);
+void	ft_token_free(t_token *tokens);
 
 /* Environ functions */
 t_env	*ft_env_init(char **environ);
@@ -131,7 +134,7 @@ t_env	*ft_env_get(const char *key, t_env *envs);
 void	ft_env_update(const char *key, const char *value, t_env *envs);
 
 /* Expansion functions */
-char	*ft_expand(char *str, t_cmd *cmd, t_mshl_data *mshl_data);
+void	ft_expand(t_cmd *cmd, t_mshl_data *mshl_data);
 
 /* Env functions */
 int		ft_env(t_mshl_data *t_mshl_data);
