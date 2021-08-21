@@ -49,6 +49,7 @@ static	void	run_commandline(int ret, char **command, t_env *envs)
 
 		// ;とかの「異常なトークン」の検知とエラー吐き出し
 		// ここは未実装（村瀬さん）
+		ft_check_token_error(tokens);
 
 		// トークンをパースする
 		cmd = ft_cmd_lstnew();

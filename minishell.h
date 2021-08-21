@@ -111,7 +111,7 @@ t_token	*ft_lexer(char *str);
 int		ft_execute_command(t_cmd *cmd, t_mshl_data *mshl_data);
 
 /* Common functions */
-void	ft_error(char *message, char *command);
+void	ft_error(char *message, char *command, int status_num);
 void	ft_free_char(char **target);
 void	ft_error_identifier(char *command, char *name);
 
@@ -161,3 +161,6 @@ t_bool	ft_echo(t_cmd *cmd);
 
 t_cmd	*ft_parser(t_token *token, t_cmd *cmd);
 t_cmd	*ft_cmd_lstnew(void);
+
+/* error function */
+void	ft_check_token_error(t_token *tokens);

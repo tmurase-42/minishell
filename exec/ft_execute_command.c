@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/23 15:17:52 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/07/29 22:20:02 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static	int		launch(t_cmd *cmd)
 	{
 		str = ft_token_array(cmd->args, 0, cmd->argc);
 		if (execvp(cmd->args->data, str) == -1)
-			ft_error("error:25", cmd->args->data);
+			ft_error("do not work exec", cmd->args->data, 0);
 		free(str);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 	{
-		ft_error("error:30", cmd->args->data);
+		ft_error("pid is < 0", cmd->args->data, 0);
 	}
 	else
 	{
@@ -53,7 +53,7 @@ static	t_bool	ft_exec_builtin(t_cmd *cmd, t_mshl_data *mshl_data)
 	if (ft_strncmp(cmd->args->data, "unset", ft_strlen("unset")) == 0)
 		return (ft_unset(cmd, mshl_data));
 	if (ft_strncmp(cmd->args->data, "pwd", ft_strlen("pwd")) == 0)
-		return (ft_pwd());
+		return (ft_pwd(mshl_data));
 	if (ft_strncmp(cmd->args->data, "cd", ft_strlen("cd")) == 0)
 		return (ft_cd(cmd, mshl_data));
 	return (FALSE);
@@ -83,7 +83,7 @@ int				ft_execute_command(t_cmd *cmd, t_mshl_data *mshl_data)
 	if (ft_is_command(cmd->args->data) == TRUE)
 	{
 		if (ft_exec_builtin(cmd, mshl_data) != TRUE)
-			ft_error("error!\n", cmd->args->data);
+			ft_error("error!\n", cmd->args->data, 0);
 	}
 	else
 		return (launch(cmd));

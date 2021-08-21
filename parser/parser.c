@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/23 15:24:47 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/07/29 22:24:25 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_token *create_token(void)
 
 	token = (t_token *)ft_calloc(1, sizeof(t_token));
 	if (token == NULL)
-		ft_error("malloc error", "malloc");
+		ft_error("malloc error", "malloc", 0);
 	token->data = NULL;
 	token->next = NULL;
 	token->prev = NULL;
@@ -55,7 +55,7 @@ static void add_token(t_token *copy)
 	t_token *last;
 
 	if (!copy)
-		ft_error("Not extpected error", "unknown");
+		ft_error("Not extpected error", "unknown", 0);
 	next = create_token();
 	last = last_token(copy);
 	last->next = next;
@@ -118,6 +118,7 @@ static t_bool		ft_check_pipe(t_token *token)
 t_cmd	*ft_parser(t_token *token, t_cmd *cmd)
 {
 	t_cmd	*next;
+
 	//引数のtokenが連結リストになっているときにコマンド構造体にコピーする。
 	if (ft_check_pipe(token) == TRUE)
 	{
@@ -126,7 +127,6 @@ t_cmd	*ft_parser(t_token *token, t_cmd *cmd)
 		token = shave_token_until_pipe(token);
 		next = ft_cmd_lstnew();
 		cmd->next = next;
-		printf("aaaaaa\n");
 		ft_parser(token, next);
 	}
 	else
@@ -135,16 +135,5 @@ t_cmd	*ft_parser(t_token *token, t_cmd *cmd)
 		cmd->argc = ft_token_length(cmd->args);
 	}
 
-	//tokenをパイプの次の値まで値を削る。
-	//if (token->next != NULL)
-	//	ft_parser(token, next);
-//	t_cmd	*test;
-//	test = ft_cmd_lstnew();
-//	test = cmd;
-//	while (test->args)
-//	{
-//		printf("cmd->args = %s\n", test->args->data);
-//		test->args = test->args->next;
-//	}
 	return (cmd);
 }

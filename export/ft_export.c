@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/07/23 13:42:37 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/07/29 22:23:09 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int		set_envs(t_cmd *cmd, t_env *envs)
 						ft_env_update(key, ft_strjoin(ft_env_get(key, envs)->value, value), envs);
 					else
 					{
-						ft_error("export", token->data);
+						ft_error("export", token->data, 0);
 						ret = EXIT_FAILURE;
 					}
 				}
@@ -105,7 +105,7 @@ static int		set_envs(t_cmd *cmd, t_env *envs)
 		}
 		else
 		{
-			ft_error("export", token->data);
+			ft_error("export", token->data, 0);
 			ret = EXIT_FAILURE;
 		}
 		free(key);

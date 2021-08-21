@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/07/29 22:23:47 by tmurase          ###   ########.fr       */
 /*   Updated: 2021/08/10 11:21:37 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -102,8 +103,7 @@ static	t_token	*get_first_token(t_token *tokens)
 // 	printf("ft_expand: str: %s\n", str);
 // 	new_len = get_len_with_vars(str, mshl_data);
 // 	printf("ft_expand: new_len: %d\n", new_len);
-// 	if (!(new_str = ft_calloc(sizeof(char), new_len + 1)))
-// 		ft_error("malloc error;", str);
+// 	if (!(new_str = ft_calloc(sizeof(char), new_len("malloc error;", str);
 // 	while(str[i])
 // 	{
 // 		// printf("str[%d]: %c\n", i, str[i]);
@@ -313,7 +313,6 @@ void			ft_expand(t_cmd *cmd, t_mshl_data *mshl_data)
 		// esc_chars = "\'\"\\$|;><";
 	// if (is_env == TRUE)
 		// esc_chars = "\"\\$`";
-
 	if (!cmd->args)
 		return ;
 	token = get_first_token(cmd->args);
