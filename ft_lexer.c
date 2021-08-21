@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/22 10:31:17 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/07/29 22:18:27 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static	void	set_token_type(char *str, int *i, int *word_len, char *quote_status,
 				break;
 			*word_len += 1;
 			if (str[*i] == '\0')
-				ft_error(NULL, NULL);
+				ft_error(NULL, NULL, 0);
 		}
 	}
 }

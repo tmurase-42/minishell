@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/07/23 13:50:33 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/07/29 22:23:47 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ static	int create_env_expanded_str(char *str, char *new_str, t_cmd *cmd, t_mshl_
 			}
 			else
 			{
-				ft_error("error;", cmd->args->data);
+				ft_error("error;", cmd->args->data, 0);
 			}
 		} else {
 			ft_strlcpy(new_str+j, str+i, 2);
@@ -171,7 +171,7 @@ char			*ft_expand(char *str, t_cmd *cmd, t_mshl_data *mshl_data)
 	printf("str: %s\n", str);
 	new_len = get_len_with_vars(str, mshl_data);
 	if (!(new_str = malloc(sizeof(char) * new_len + 1)))
-		ft_error("malloc error;", cmd->args->data);
+		ft_error("malloc error;", cmd->args->data, 0);
 	create_env_expanded_str(str, new_str, cmd, mshl_data);
 	printf("new_str: %s\n", new_str);
 	return (new_str);

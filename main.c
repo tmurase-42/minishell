@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/07/23 16:01:08 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/07/28 22:29:49 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static	void	run_commandline(int ret, char **command, t_env *envs)
 		// トークンに分離する
 		tokens = ft_lexer(*command);
 		ft_token_print(tokens);
+
+		ft_check_token_error(tokens);
 
 		// トークンをパースする
 		cmd = ft_cmd_lstnew();
