@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/07/29 22:23:47 by tmurase          ###   ########.fr       */
-/*   Updated: 2021/08/10 11:21:37 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/23 16:31:47 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../minishell.h"
 
@@ -221,15 +221,20 @@ static	int	copy_char(const char *str, int i, char **ret)
 	return (1);
 }
 
-static	int	expand_specials(const char *str, int i, char **ret, t_mshl_data *mshl_data)
+static	int	expand_exit_status(char **ret, t_mshl_data *mshl_data)
 {
+	int		dig;
+	char	*num;
+	char	*tmp;
 
-	int	j;
-
-	j = (int)*str + i + (int)**ret + mshl_data->argc;
-
-	j = 1;
-	return (j);
+	dig = 0;
+	num = ft_itoa(mshl_data->exit_status);
+	dig = ft_strlen(num);
+	tmp = *ret;
+	*ret = ft_strjoin(*ret, num);
+	free(num);
+	free(tmp);
+	return (dig);
 }
 
 static	int	expand_args(const char *str, int i, char **ret, t_mshl_data *mshl_data)
@@ -271,10 +276,10 @@ static	char *create_env_expanded_str(const char *str, t_mshl_data *mshl_data)
 			i++;
 			i += expand_args(str, i, &ret, mshl_data);
 		}
-		else if (str[i] == '$' && (str[i + 1] == '{' || str[i + 1] == '@' || str[i + 1] == '*' || str[i + 1] == '#' || str[i + 1] == '?' || str[i + 1] == '$' || str[i + 1] == '!' || str[i + 1] == '-'))
+		else if (str[i] == '$' && str[i + 1] == '?')
 		{
 			i++;
-			i += expand_specials(str, i, &ret, mshl_data);
+			i += expand_exit_status(&ret, mshl_data);
 		}
 		else if (str[i] == '$')
 		{
