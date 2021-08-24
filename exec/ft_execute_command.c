@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/24 20:10:34 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/24 22:01:46 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static	t_bool	ft_is_command(char *str)
 
 int				ft_execute_command(t_cmd *cmd, t_mshl_data *mshl_data)
 {
-	if (cmd->argc == 0) //|| ft_strncmp(cmd->args->data, "", 1) == 0)
+	if (cmd->argc == 0 || !cmd->args || cmd->args->data == '\0')
 		return (1);
 	if (ft_is_command(cmd->args->data) == TRUE)
 	{
