@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/24 15:48:14 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/24 18:27:04 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,31 @@ static	char	*get_value(char *str)
 
 static	char	*get_key(char *str)
 {
+	int		i;
 	char 	*str1;
-	char	*str2;
+	char	*ret;
+
 
 	str1 = ft_strchr(str, '=');
-	str2 = ft_strnstr(str, "+=", ft_strlen(str));
-
-	if ((str1 && str2 == NULL) || (str1 && str1 < str2))
-		return ft_strtrim(str, ft_strchr(str, '='));
-	else if (str2 != NULL && str2 < str1)
-		return ft_strtrim(str, ft_strnstr(str, "+=", ft_strlen(str)));
+	i = 0;
+	if (str1)
+	{
+		while( str[i] != '\0' && str[i] != '=')
+			i++;
+		ret = ft_calloc(sizeof(char), i + 1);
+		ft_strlcpy(ret, str, i + 1);
+		return ret;
+	}
 	return NULL;
 }
 
 static	int	is_sep_equal(char *str)
 {
 	char 	*str1;
-	char	*str2;
 
 	str1 = ft_strchr(str, '=');
-	str2 = ft_strnstr(str, "+=", ft_strlen(str));
-
-	if ((str1 && str2 == NULL) || (str1 && str1 < str2))
+	if (str1)
 		return EQUAL;
-	else if (str2 != NULL && str2 < str1)
-		return PLUS_EQUAL;
 	return FALSE;
 }
 
@@ -76,7 +76,7 @@ static int		set_envs(t_cmd *cmd, t_env *envs)
 	ret = EXIT_SUCCESS;
 	value = NULL;
 	key = NULL;
-	token = cmd->args;
+	token = cmd->args->next;
 	while (token)
 	{
 		if ((key = get_key(token->data)))
@@ -86,15 +86,9 @@ static int		set_envs(t_cmd *cmd, t_env *envs)
 			{
 				if (is_sep_equal(token->data) == EQUAL)
 					ft_env_update(key, value, envs);
-				else if (is_sep_equal(token->data) == PLUS_EQUAL)
-				{
-					if (ft_env_get(key, envs))
-						ft_env_update(key, ft_strjoin(ft_env_get(key, envs)->value, value), envs);
-					else
-					{
-						ft_error("export", token->data, 0);
-						ret = EXIT_FAILURE;
-					}
+				else {
+					ft_error_identifier("export", token->data);
+					ret = EXIT_FAILURE;
 				}
 			}
 			else

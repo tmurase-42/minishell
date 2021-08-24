@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:38:04 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/23 21:33:03 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/24 18:24:30 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ int				ft_unset(t_cmd *cmd, t_mshl_data *mshl_data)
 
 	ret = EXIT_SUCCESS;
 	token = cmd->args->next;
+	if (!token) {
+		ret = EXIT_FAILURE;
+		ft_error_identifier("unset", "not enough arguments");
+	}
 	while (token)
 	{
 		if (is_identifier(token->data) == TRUE)
