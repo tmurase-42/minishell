@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/23 21:31:55 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/24 20:10:34 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,14 @@ static	t_bool	ft_exec_builtin(t_cmd *cmd, t_mshl_data *mshl_data)
 		return (ft_pwd(mshl_data));
 	if (ft_strncmp(cmd->args->data, "cd", ft_strlen("cd")) == 0)
 		return (ft_cd(cmd, mshl_data));
+	if (ft_strncmp(cmd->args->data, "history", ft_strlen("history")) == 0)
+		return (ft_history(mshl_data));
 	return (FALSE);
 }
 
 static	t_bool	ft_is_command(char *str)
 {
-	const char *commands[] = {"exit", "cd", "env", "unset", "export", "echo", "pwd", NULL};
+	const char *commands[] = {"exit", "cd", "env", "unset", "export", "echo", "pwd", "history", NULL};
 	int		i;
 
 	i = 0;
