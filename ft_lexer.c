@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/04 19:14:58 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/24 22:00:00 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,7 @@ t_token	*ft_lexer(char *str)
 	word_len = 0;
 	token_type = CHAR_NULL;
 	quote_status = FALSE;
+	if (!str)
+		return NULL;
 	return split_word(str, &i, &word_len, &quote_status, &token_type);
 }
