@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/07/29 22:23:09 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/08/24 15:48:14 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,6 @@ int			print_envs(t_mshl_data *mshl_data)
 
 int ft_export(t_cmd *cmd, t_mshl_data *mshl_data)
 {
-	printf("argc: %d\n", cmd->argc);
 	if (cmd->argc == 1)
 	{
 		return (print_envs(mshl_data));

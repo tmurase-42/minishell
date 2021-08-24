@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute_command.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/29 22:20:02 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/08/23 21:31:55 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int				ft_execute_command(t_cmd *cmd, t_mshl_data *mshl_data)
 		return (1);
 	if (ft_is_command(cmd->args->data) == TRUE)
 	{
-		if (ft_exec_builtin(cmd, mshl_data) != TRUE)
+		if (ft_exec_builtin(cmd, mshl_data) == EXIT_FAILURE)
 			ft_error("error!\n", cmd->args->data, 0);
 	}
 	else
