@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:38:04 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/07/23 13:50:19 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/24 18:24:30 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ int				ft_unset(t_cmd *cmd, t_mshl_data *mshl_data)
 	t_token	*token;
 
 	ret = EXIT_SUCCESS;
-	token = cmd->args;
+	token = cmd->args->next;
+	if (!token) {
+		ret = EXIT_FAILURE;
+		ft_error_identifier("unset", "not enough arguments");
+	}
 	while (token)
 	{
 		if (is_identifier(token->data) == TRUE)
@@ -45,7 +49,7 @@ int				ft_unset(t_cmd *cmd, t_mshl_data *mshl_data)
 		else
 		{
 			// -bash: unset: `.jfe': not a valid identifier
-			// ↑こんな感じの文字列をはかせる
+			ft_error(token->data, "unset", 0);
 			ret = EXIT_FAILURE;
 		}
 		token = token->next;
