@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/08/05 23:32:35 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/24 21:36:31 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ static	t_mshl_data	*mshl_data_init(t_env *envs)
 	mshl_data->argv = NULL;
 	mshl_data->envs = envs;
 	mshl_data->exit_status = 0;
+	mshl_data->histories = NULL;
 	return (mshl_data);
 }
 
-static	void	run_commandline(int ret, char **command, t_env *envs)
+static	void	run_commandline(int ret, char **command, t_mshl_data *mshl_data)
 {
-	t_mshl_data	*mshl_data;
 	t_cmd		*cmd;
 	t_cmd		*current_cmd;
 	t_token		*tokens;
@@ -36,10 +36,11 @@ static	void	run_commandline(int ret, char **command, t_env *envs)
 	// char		*tmp_str;
 
 	// printf("command = %s\n", *command);
-
 	tokens = NULL;
-	mshl_data = mshl_data_init(envs);
 	token_str = NULL;
+
+	// historyに追加する
+	ft_history_add(*command, mshl_data); // Add new history
 
 	if (ret == 1)
 	{
@@ -86,12 +87,14 @@ int	main(int argc, char *argv[], char **environ)
 	int		ret;
 	int		prompt;
 	t_env	*envs;
+	t_mshl_data	*mshl_data;
 
 	(void)argv;
 	(void)argc;
 	prompt = 1;
 	command = NULL;
 	envs = ft_env_init(environ);
+	mshl_data = mshl_data_init(envs);
 
 	while (1)
 	{
@@ -102,7 +105,7 @@ int	main(int argc, char *argv[], char **environ)
 		}
 		if ((ret = get_next_line(0, &command)) < 0)
 			return (0);
-		run_commandline(ret, &command, envs);
+		run_commandline(ret, &command, mshl_data);
 		prompt = ret == 1 ? 1 : 0;
 		if (ret == 1)
 			prompt = ret;

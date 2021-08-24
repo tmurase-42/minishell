@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/10 11:17:43 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/24 19:58:57 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,18 +93,28 @@ typedef enum		e_token_state{
 
 typedef struct	s_env
 {
-	char					*key;
-	char					*value;
-	t_bool				is_env;
+	char			*key;
+	char			*value;
+	t_bool			is_env;
 	struct s_env	*next;
 }				t_env;
 
+typedef struct s_history	t_history;
+struct			s_history
+{
+	t_history	*next;
+	t_history	*prev;
+	char		*data;
+	size_t		number;
+};
+
 typedef struct	s_mshl_data
 {
-	int					argc;
-	char				**argv;
-	t_env				*envs;
-	int					exit_status;
+	int			argc;
+	char		**argv;
+	t_env		*envs;
+	int			exit_status;
+	t_history	*histories;
 }				t_mshl_data;
 
 t_token	*ft_lexer(char *str);
@@ -164,3 +174,8 @@ t_cmd	*ft_cmd_lstnew(void);
 
 /* error function */
 void	ft_check_token_error(t_token *tokens);
+
+/* history function */
+int	ft_history_add(char *line, t_mshl_data *mshl_data);
+int	ft_history(t_mshl_data *mshl_data);
+
