@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/26 21:26:05 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/27 01:39:15 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 
 # define STATUS_CMD_NOT_FOUND 127
 # define STATUS_CMD_NOT_EXECUTABLE 126
+
+# define PIPE_IN	1
+# define PIPE_OUT	0
+
 
 typedef enum				e_cmd_type
 {
@@ -121,6 +125,14 @@ struct			s_history
 	size_t		number;
 };
 
+typedef enum			e_pipe_state
+{
+	NO_PIPE,
+	PIPE_READ_ONLY,
+	PIPE_WRITE_ONLY,
+	PIPE_READ_WRITE
+}						t_pipe_state;
+
 typedef struct	s_mshl_data
 {
 	int			argc;
@@ -189,10 +201,14 @@ t_cmd	*ft_cmd_lstnew(void);
 /* error function */
 void	ft_check_token_error(t_token *tokens);
 
-/* history function */
+/* history functions */
 int		ft_history_add(char *line, t_mshl_data *mshl_data);
 int		ft_history(t_mshl_data *mshl_data);
 
 /* get command path function */
 char	*ft_cmd_path(const char *cmd, t_mshl_data *mshl_data);
 
+/* pipe functions */
+void	ft_pipe_duplicate(t_pipe_state state, int old_pipe[], int new_pipe[]);
+void	ft_pipe_delete(t_pipe_state state, int old_pipe[], int new_pipe[]);
+void	ft_pipe_create(t_pipe_state state, int new_pipe[]);
