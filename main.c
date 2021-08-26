@@ -6,13 +6,13 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/08/24 21:36:31 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/26 22:50:21 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	t_mshl_data	*mshl_data_init(t_env *envs)
+static t_mshl_data	*mshl_data_init(t_env *envs)
 {
 	t_mshl_data	*mshl_data;
 
@@ -27,7 +27,7 @@ static	t_mshl_data	*mshl_data_init(t_env *envs)
 	return (mshl_data);
 }
 
-static	void	run_commandline(int ret, char **command, t_mshl_data *mshl_data)
+static int	run_commandline(int ret, char **command, t_mshl_data *mshl_data)
 {
 	t_cmd		*cmd;
 	t_cmd		*current_cmd;
@@ -39,12 +39,11 @@ static	void	run_commandline(int ret, char **command, t_mshl_data *mshl_data)
 	tokens = NULL;
 	token_str = NULL;
 
-	// historyに追加する
-	ft_history_add(*command, mshl_data); // Add new history
-
+	// コマンドが存在すればhistoryに追加する
+	if (**command != '\0')
+		ft_history_add(*command, mshl_data); // Add new history
 	if (ret == 1)
 	{
-
 		// トークンに分離する
 		tokens = ft_lexer(*command);
 
@@ -75,10 +74,11 @@ static	void	run_commandline(int ret, char **command, t_mshl_data *mshl_data)
 			// ft_token_print(current_cmd->args);
 
 			// コマンドを実行する
-			ft_execute_command(current_cmd, mshl_data);
+			ret = ft_execute_command(current_cmd, mshl_data);
 			current_cmd = current_cmd->next;
 		}
 	}
+	return ret;
 }
 
 int	main(int argc, char *argv[], char **environ)
@@ -105,7 +105,7 @@ int	main(int argc, char *argv[], char **environ)
 		}
 		if ((ret = get_next_line(0, &command)) < 0)
 			return (0);
-		run_commandline(ret, &command, mshl_data);
+		ret = run_commandline(ret, &command, mshl_data);
 		prompt = ret == 1 ? 1 : 0;
 		if (ret == 1)
 			prompt = ret;

@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/24 19:58:57 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/26 21:26:05 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <readline/history.h>
+#include <sys/stat.h>
 
 #define DOUBLE_QUOT 34
 #define SINGLE_QUOT 39
@@ -26,6 +27,18 @@
 #define SINGLE_MODE 101
 #define DOUBLE_MODE 102
 #define BUFF_SIZE 4096
+
+# define STATUS_CMD_NOT_FOUND 127
+# define STATUS_CMD_NOT_EXECUTABLE 126
+
+typedef enum				e_cmd_type
+{
+	ABSOLUTE,
+	RELATIVE,
+	COMMAND
+}							t_cmd_type;
+
+typedef struct stat	t_stat;
 
 typedef enum		e_bool
 {
@@ -123,6 +136,7 @@ int		ft_execute_command(t_cmd *cmd, t_mshl_data *mshl_data);
 /* Common functions */
 void	ft_error(char *message, char *command, int status_num);
 void	ft_free_char(char **target);
+void    ft_safe_free_split(char ***target);
 void	ft_error_identifier(char *command, char *name);
 
 /* Token functions */
@@ -142,6 +156,7 @@ void	ft_env_add(t_env *new_env, t_env **envs);
 void	ft_env_delete(char *key, t_env *envs);
 t_env	*ft_env_get(const char *key, t_env *envs);
 void	ft_env_update(const char *key, const char *value, t_env *envs);
+char    **ft_env_array(t_env *envs);
 
 /* Expansion functions */
 void	ft_expand(t_cmd *cmd, t_mshl_data *mshl_data);
@@ -156,19 +171,18 @@ int		ft_unset(t_cmd *cmd, t_mshl_data *mshl_data);
 int		ft_export(t_cmd *cmd, t_mshl_data *mshl_data);
 
 /* exit function */
-t_bool ft_exit(t_cmd *cmd);
+int		ft_exit(t_cmd *cmd);
 
 /* cd function */
-t_bool ft_cd(t_cmd *cmd, t_mshl_data *mshl_data);
+int		ft_cd(t_cmd *cmd, t_mshl_data *mshl_data);
 
 /* pwd function */
-t_bool ft_pwd();
+int 	ft_pwd();
 
 /* echo function */
-t_bool	ft_echo(t_cmd *cmd);
+int		ft_echo(t_cmd *cmd);
 
 /* parser function */
-
 t_cmd	*ft_parser(t_token *token, t_cmd *cmd);
 t_cmd	*ft_cmd_lstnew(void);
 
@@ -176,6 +190,9 @@ t_cmd	*ft_cmd_lstnew(void);
 void	ft_check_token_error(t_token *tokens);
 
 /* history function */
-int	ft_history_add(char *line, t_mshl_data *mshl_data);
-int	ft_history(t_mshl_data *mshl_data);
+int		ft_history_add(char *line, t_mshl_data *mshl_data);
+int		ft_history(t_mshl_data *mshl_data);
+
+/* get command path function */
+char	*ft_cmd_path(const char *cmd, t_mshl_data *mshl_data);
 

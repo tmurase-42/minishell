@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 17:01:21 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/23 13:31:38 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static	char *get_parentdirectory(char *str)
+static char *get_parentdirectory(char *str)
 {
 	size_t	len;
 	char	*tmp;
@@ -33,7 +33,7 @@ static	char *get_parentdirectory(char *str)
 	return (tmp);
 }
 
-t_bool ft_cd(t_cmd *cmd, t_mshl_data *mshl_data)
+int ft_cd(t_cmd *cmd, t_mshl_data *mshl_data)
 {
 	t_env	*dir;
 	char	pwd[PATH_MAX];

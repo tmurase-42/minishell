@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_add.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/05/07 19:14:19 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static	t_env	*get_last_env(t_env *envs)
+static t_env	*get_last_env(t_env *envs)
 {
 	t_env	*target;
 

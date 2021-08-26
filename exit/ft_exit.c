@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 17:54:57 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/29 22:22:26 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/08/26 19:35:18 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ static t_bool	ft_is_strdigit(char *str)
 	return (TRUE);
 }
 
-t_bool ft_exit(t_cmd *cmd)
+int ft_exit(t_cmd *cmd)
 {
 	if (cmd->argc > 2)
-		ft_error("error", "exitの引数が複数になっています。", 0);
+		ft_error("exit", "too many arguments.", 1);
 	if (cmd->argc == 2 && ft_is_strdigit(cmd->args->next->data) == FALSE)
-		ft_error("error", "exitの引数が数字以外になっています。", 0);
+		ft_error("exit", "numeric number is required.", 1);
 	ft_putstr_fd("exit\n", 2);
-	return (TRUE);
+	exit(EXIT_SUCCESS);
 }

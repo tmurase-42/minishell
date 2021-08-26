@@ -6,13 +6,13 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:38:04 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/24 18:24:30 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static	t_bool	is_identifier(char *name)
+static t_bool	is_identifier(char *name)
 {
 	size_t	i;
 
