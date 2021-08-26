@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/24 18:27:04 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 #define EQUAL 1
 #define PLUS_EQUAL 2
 
-static	char	*get_value(char *str)
+static char	*get_value(char *str)
 {
 	return ft_strchr(str, '=') + 1;
 }
 
-static	char	*get_key(char *str)
+static char	*get_key(char *str)
 {
 	int		i;
 	char 	*str1;
@@ -39,7 +39,7 @@ static	char	*get_key(char *str)
 	return NULL;
 }
 
-static	int	is_sep_equal(char *str)
+static int	is_sep_equal(char *str)
 {
 	char 	*str1;
 
@@ -49,7 +49,7 @@ static	int	is_sep_equal(char *str)
 	return FALSE;
 }
 
-static	t_bool	is_valid_key(char *key)
+static t_bool	is_valid_key(char *key)
 {
 	size_t	i;
 
@@ -93,22 +93,17 @@ static int		set_envs(t_cmd *cmd, t_env *envs)
 			}
 			else
 			{
-				ft_error_identifier("export", token->data);
+				ft_error_identifier("minishell", "bad assignment");
 				ret = EXIT_FAILURE;
 			}
+			free(key);
 		}
-		else
-		{
-			ft_error("export", token->data, 0);
-			ret = EXIT_FAILURE;
-		}
-		free(key);
 		token = token->next;
 	}
 	return (ret);
 }
 
-static	size_t	get_len_to_alloc(const char *str, const char *esc)
+static size_t	get_len_to_alloc(const char *str, const char *esc)
 {
 	size_t index;
 	size_t res;
@@ -125,7 +120,7 @@ static	size_t	get_len_to_alloc(const char *str, const char *esc)
 	return (res);
 }
 
-static	void	copy_escaped_value(const char *src, const char *esc, char *dest)
+static void	copy_escaped_value(const char *src, const char *esc, char *dest)
 {
 	size_t res_index;
 	size_t index;
@@ -146,7 +141,7 @@ static	void	copy_escaped_value(const char *src, const char *esc, char *dest)
 	dest[res_index] = '\0';
 }
 
-static	char	*get_escaped_value(const char *str)
+static char	*get_escaped_value(const char *str)
 {
 	char	*esc_chars;
 	int		new_len;

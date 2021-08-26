@@ -6,27 +6,33 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/24 22:01:46 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/26 22:47:18 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static	int		launch(t_cmd *cmd)
+static int		launch(t_cmd *cmd, t_mshl_data *mshl_data)
 {
 	pid_t	pid;
 	pid_t	wpid;
 	int		status;
-	char	**str;
+	char	**args;
+	char	**envs;
+	char	*path;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		str = ft_token_array(cmd->args, 0, cmd->argc);
-		if (execvp(cmd->args->data, str) == -1)
-			ft_error("do not work exec", cmd->args->data, 0);
-		free(str);
-		exit(EXIT_FAILURE);
+		args = ft_token_array(cmd->args, 0, cmd->argc);
+		envs = ft_env_array(mshl_data->envs);
+		path = ft_cmd_path(args[0], mshl_data);
+		// printf("\ncmd->argc: %d\n", cmd->argc);
+		// printf("args: %s\n", *args);
+		// printf("cmd->args->data: %s\n", cmd->args->data);
+		if (execve(path, args, envs) == -1)
+			ft_error("do not work exec", cmd->args->data, EXIT_FAILURE);
+		ft_safe_free_split(&envs);
 	}
 	else if (pid < 0)
 	{
@@ -40,7 +46,7 @@ static	int		launch(t_cmd *cmd)
 	return (1);
 }
 
-static	t_bool	ft_exec_builtin(t_cmd *cmd, t_mshl_data *mshl_data)
+static int	exec_builtin(t_cmd *cmd, t_mshl_data *mshl_data)
 {
 	if (ft_strncmp(cmd->args->data, "echo",ft_strlen("echo")) == 0)
 		return (ft_echo(cmd));
@@ -58,10 +64,10 @@ static	t_bool	ft_exec_builtin(t_cmd *cmd, t_mshl_data *mshl_data)
 		return (ft_cd(cmd, mshl_data));
 	if (ft_strncmp(cmd->args->data, "history", ft_strlen("history")) == 0)
 		return (ft_history(mshl_data));
-	return (FALSE);
+	return (EXIT_FAILURE);
 }
 
-static	t_bool	ft_is_command(char *str)
+static t_bool	is_builin_command(char *str)
 {
 	const char *commands[] = {"exit", "cd", "env", "unset", "export", "echo", "pwd", "history", NULL};
 	int		i;
@@ -81,13 +87,10 @@ static	t_bool	ft_is_command(char *str)
 int				ft_execute_command(t_cmd *cmd, t_mshl_data *mshl_data)
 {
 	if (cmd->argc == 0 || !cmd->args || cmd->args->data == '\0')
-		return (1);
-	if (ft_is_command(cmd->args->data) == TRUE)
-	{
-		if (ft_exec_builtin(cmd, mshl_data) == EXIT_FAILURE)
-			ft_error("error!\n", cmd->args->data, 0);
-	}
+		return (EXIT_FAILURE);
+	if (is_builin_command(cmd->args->data) == TRUE)
+		return (exec_builtin(cmd, mshl_data));
 	else
-		return (launch(cmd));
-	return (0);
+		return (launch(cmd, mshl_data));
+	return (EXIT_FAILURE);
 }

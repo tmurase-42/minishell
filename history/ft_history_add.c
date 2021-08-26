@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 18:32:04 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/24 21:44:05 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static t_history	*history_create(char *data, size_t number)
 	return (history);
 }
 
-static	t_history	*history_get_last(t_history *histories)
+static t_history	*history_get_last(t_history *histories)
 {
 	t_history	*history;
 

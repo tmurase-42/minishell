@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 12:24:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/23 15:55:27 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/08/26 19:06:36 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static t_token *delete_token(t_token *token, int n)
 	}
 	return (token);
 }
-t_bool	ft_echo(t_cmd *cmd)
+
+int	ft_echo(t_cmd *cmd)
 {
 	int		option;
 	t_token *tmp_token;

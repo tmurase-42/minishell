@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/24 21:57:32 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct	s_expansions
 	int				j;
 }				t_expansions;
 
-static	t_token	*get_first_token(t_token *tokens)
+static t_token	*get_first_token(t_token *tokens)
 {
 	t_token	*target;
 
@@ -33,7 +33,7 @@ static	t_token	*get_first_token(t_token *tokens)
 	return (target);
 }
 
-// static	int	get_len_with_vars(const char *str, t_mshl_data *mshl_data)
+// static int	get_len_with_vars(const char *str, t_mshl_data *mshl_data)
 // {
 // 	int		i;
 // 	int		size;
@@ -84,7 +84,7 @@ static	t_token	*get_first_token(t_token *tokens)
 
 
 
-// static	char *create_env_expanded_str(char *str, t_mshl_data *mshl_data)
+// static char *create_env_expanded_str(char *str, t_mshl_data *mshl_data)
 // {
 // 	int		i;
 // 	int		j;
@@ -172,7 +172,7 @@ static	t_token	*get_first_token(t_token *tokens)
 
 
 
-static	int	expand_str(const char *str, int i, char **ret, t_mshl_data *mshl_data)
+static int	expand_str(const char *str, int i, char **ret, t_mshl_data *mshl_data)
 {
 	int		j;
 	char	*key;
@@ -203,7 +203,7 @@ static	int	expand_str(const char *str, int i, char **ret, t_mshl_data *mshl_data
 	return (j);
 }
 
-static	int	copy_char(const char *str, int i, char **ret)
+static int	copy_char(const char *str, int i, char **ret)
 {
 	char	*c;
 	char	*tmp;
@@ -221,7 +221,7 @@ static	int	copy_char(const char *str, int i, char **ret)
 	return (1);
 }
 
-static	int	expand_exit_status(char **ret, t_mshl_data *mshl_data)
+static int	expand_exit_status(char **ret, t_mshl_data *mshl_data)
 {
 	int		dig;
 	char	*num;
@@ -237,7 +237,7 @@ static	int	expand_exit_status(char **ret, t_mshl_data *mshl_data)
 	return (dig);
 }
 
-static	int	expand_args(const char *str, int i, char **ret, t_mshl_data *mshl_data)
+static int	expand_args(const char *str, int i, char **ret, t_mshl_data *mshl_data)
 {
 
 	int	j;
@@ -253,7 +253,7 @@ static	int	expand_args(const char *str, int i, char **ret, t_mshl_data *mshl_dat
 
 
 
-static	char *create_env_expanded_str(const char *str, t_mshl_data *mshl_data)
+static char *create_env_expanded_str(const char *str, t_mshl_data *mshl_data)
 {
 	int		i;
 	char	*ret;
