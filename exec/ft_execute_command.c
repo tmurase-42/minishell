@@ -6,13 +6,13 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/26 22:47:18 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/27 01:40:31 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int		launch(t_cmd *cmd, t_mshl_data *mshl_data)
+static int		exec_common(t_cmd *cmd, t_mshl_data *mshl_data)
 {
 	pid_t	pid;
 	pid_t	wpid;
@@ -20,9 +20,12 @@ static int		launch(t_cmd *cmd, t_mshl_data *mshl_data)
 	char	**args;
 	char	**envs;
 	char	*path;
+	int		new_pipe[2];
 
 	pid = fork();
-	if (pid == 0)
+	if (pid < 0)
+		ft_error("resources runnout.", cmd->args->data, 0);
+	if (pid == 0) // 子プロセスの処理
 	{
 		args = ft_token_array(cmd->args, 0, cmd->argc);
 		envs = ft_env_array(mshl_data->envs);
@@ -34,13 +37,10 @@ static int		launch(t_cmd *cmd, t_mshl_data *mshl_data)
 			ft_error("do not work exec", cmd->args->data, EXIT_FAILURE);
 		ft_safe_free_split(&envs);
 	}
-	else if (pid < 0)
+	else // 親プロセスの処理
 	{
-		ft_error("pid is < 0", cmd->args->data, 0);
-	}
-	else
-	{
-		while (!WIFEXITED(status) && !WIFSIGNALED(status))
+		//while (!WIFEXITED(status) && !WIFSIGNALED(status))
+		if (pid > 0)
 			wpid = waitpid(pid, &status, WUNTRACED);
 	}
 	return (1);
@@ -91,6 +91,6 @@ int				ft_execute_command(t_cmd *cmd, t_mshl_data *mshl_data)
 	if (is_builin_command(cmd->args->data) == TRUE)
 		return (exec_builtin(cmd, mshl_data));
 	else
-		return (launch(cmd, mshl_data));
+		return (exec_common(cmd, mshl_data));
 	return (EXIT_FAILURE);
 }
