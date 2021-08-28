@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/27 01:39:15 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/28 20:31:52 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,9 @@ typedef enum	e_tokentype{
 	CHAR_LESSER = '<',
 	CHAR_TAB = '\t',
 	CHAR_NULL = 0, // 深掘りすぎ。不要
-	D_SEMICOLON = -4, // 深掘りすぎ。不要
-	DOUBLE_GREATER = -3, // >> ってこと。
+	D_SEMICOLON = -5, // 深掘りすぎ。不要
+	DOUBLE_GREATER = -4, // >> ってこと。
+	DOUBLE_LESSER = -3, // << ってこと。
 	IO_NUMBER = -2, //謎
 	TOKEN = -1, //謎
 }				t_token_type;

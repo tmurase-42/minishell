@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/27 01:40:31 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/28 20:32:58 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static int		exec_common(t_cmd *cmd, t_mshl_data *mshl_data)
 	char	**args;
 	char	**envs;
 	char	*path;
-	int		new_pipe[2];
 
 	pid = fork();
 	if (pid < 0)
