@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pipe_create.c                                   :+:      :+:    :+:   */
+/*   ft_pipe_state.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/27 01:30:35 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/27 18:16:09 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/08/27 12:12:17 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/08/28 17:37:25 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_bool	can_write(t_pipe_state state)
+void	ft_pipe_state(t_cmd *cmd, t_mshl_data *mshl_data)
 {
-	if (state == PIPE_WRITE_ONLY || state == PIPE_READ_WRITE)
+	if (cmd->next && cmd->next->next)
 	{
-		return (TRUE);
+		mshl_data->pipe_state = READ_WRITE;
+		printf("pipe_read_write\n");
 	}
-	return (FALSE);
-}
-
-void			ft_pipe_create(t_pipe_state state, int new_pipe[])
-{
-	if (can_write(state) == TRUE)
+	else if (cmd->next)
 	{
-		if (pipe(new_pipe) < 0)
-		{
-			ft_error(NULL, NULL, 1);
-		}
-		printf("new_pipe: %d\n", *new_pipe);
+		mshl_data->pipe_state = READ_ONLY;
+		printf("pipe_read_only\n");
 	}
 }

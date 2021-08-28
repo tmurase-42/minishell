@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pipe_create.c                                   :+:      :+:    :+:   */
+/*   ft_pipe_update.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 01:30:35 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/27 18:16:09 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/28 18:32:20 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_bool	can_write(t_pipe_state state)
+void			ft_pipe_update(t_pipe_state state, int old_pipe[], int new_pipe[])
 {
-	if (state == PIPE_WRITE_ONLY || state == PIPE_READ_WRITE)
+	printf("pipe_state: %d\n", state);
+	if (state == READ_ONLY || state == READ_WRITE)
 	{
-		return (TRUE);
+		printf("OUT: %d\n", OUT);
+		printf("IN: %d\n", IN);
+		if (close(old_pipe[OUT]) < 0 || close(old_pipe[IN]) < 0)
+			ft_error(NULL, "an error occured during closing pipes.", 1);
 	}
-	return (FALSE);
-}
-
-void			ft_pipe_create(t_pipe_state state, int new_pipe[])
-{
-	if (can_write(state) == TRUE)
+	if (state == WRITE_ONLY || state == READ_WRITE)
 	{
-		if (pipe(new_pipe) < 0)
-		{
-			ft_error(NULL, NULL, 1);
-		}
-		printf("new_pipe: %d\n", *new_pipe);
+		printf("moving!\n");
+		old_pipe[OUT] = new_pipe[OUT];
+		old_pipe[IN] = new_pipe[IN];
 	}
 }

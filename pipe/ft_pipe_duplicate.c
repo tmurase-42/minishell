@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 01:30:35 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/27 01:34:19 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/27 18:20:49 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void			ft_pipe_duplicate(t_pipe_state state, int old_pipe[], int new_pipe[])
 			dup2(old_pipe[PIPE_OUT], STDIN_FILENO) < 0 ||
 			close(old_pipe[PIPE_OUT]) < 0)
 		{
+			printf("aaaaaaaaaaa\n");
 			ft_error(NULL, NULL, 1);
 		}
 	}
@@ -47,6 +48,7 @@ void			ft_pipe_duplicate(t_pipe_state state, int old_pipe[], int new_pipe[])
 			dup2(new_pipe[PIPE_IN], STDOUT_FILENO) < 0 ||
 			close(new_pipe[PIPE_IN]) < 0)
 		{
+			printf("bbbbbbbbbbbbb\n");
 			ft_error(NULL, NULL, 1);
 		}
 	}
