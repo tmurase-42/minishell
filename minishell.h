@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/29 14:25:58 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 14:35:59 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ t_cmd	*ft_parser(t_token *token, t_cmd *cmd);
 t_cmd	*ft_cmd_lstnew(void);
 
 /* error function */
-void	ft_check_token_error(t_token *tokens);
+t_bool	ft_check_token_error(t_token *tokens);
 
 /* history functions */
 int		ft_history_add(char *line);
