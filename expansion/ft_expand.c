@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/29 12:41:39 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 18:11:26 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,6 @@ static int	expand_str(const char *str, int i, char **ret)
 	while(ft_isalnum(str[i + j]))
 		j++;
 	key = ft_substr(str, i, j);
-	// printf("ft_expnad: expand_str: key: %s\n", key);
 	env = ft_env_get(key, g_mshl_data->envs);
 	if(env)
 	{
@@ -316,6 +315,7 @@ void			ft_expand(t_cmd *cmd)
 	char	*new_str;
 	t_token	*token;
 
+	ft_token_print(cmd->args);
 
 	// esc_chars = "\"\\$";
 	// if (state == STATE_IN_GENERAL)
@@ -325,8 +325,15 @@ void			ft_expand(t_cmd *cmd)
 	if (!cmd->args || (cmd->args && cmd->args->data == '\0'))
 		return ;
 	token = get_first_token(cmd->args);
+	new_str = NULL;
+	ft_token_print(token);
 	while (token)
 	{
+		if (token->type == CHAR_QUOTE)
+		{
+			token = token->next;
+			continue ;
+		}
 		new_str = create_env_expanded_str(token->data);
 		if (*new_str)
 		{

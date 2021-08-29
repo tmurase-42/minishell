@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_get.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 18:08:38 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/06/05 14:20:25 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 18:10:50 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_env	*ft_env_get(const char *key, t_env *envs)
 		return (NULL);
 	while (envs)
 	{
-		if (ft_strncmp(envs->key, key, get_key_len(key)) == 0)
+		if (ft_strncmp(envs->key, key, get_key_len(envs->key)) == 0)
 			return (envs);
 		envs = envs->next;
 	}
