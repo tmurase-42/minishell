@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_add.c                                       :+:      :+:    :+:   */
+/*   ft_pipe_update.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/08/27 01:30:35 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/08/29 11:05:18 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_env	*get_last_env(t_env *envs)
+void			ft_pipe_update(t_pipe_state state, int old_pipe[], int new_pipe[])
 {
-	t_env	*target;
-
-	if (!envs)
-		return (NULL);
-	target = envs;
-	while (target->next)
-		target = target->next;
-	return (target);
-}
-
-void			ft_env_add(t_env *new_env, t_env **envs)
-{
-	if (!new_env || !envs)
-		return ;
-	if (!*envs)
-		*envs = new_env;
-	else
+	if (state == READ_ONLY || state == READ_WRITE)
 	{
-		get_last_env(*envs)->next = new_env;
-		new_env->next = NULL;
+		if (close(old_pipe[OUT]) < 0 || close(old_pipe[IN]) < 0)
+			ft_error(NULL, "an error occured during closing pipes.", 1);
+	}
+	if (state == WRITE_ONLY || state == READ_WRITE)
+	{
+		old_pipe[OUT] = new_pipe[OUT];
+		old_pipe[IN] = new_pipe[IN];
 	}
 }

@@ -1,38 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_add.c                                       :+:      :+:    :+:   */
+/*   ft_pipe_state.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/08/27 12:12:17 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/08/29 11:06:36 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_env	*get_last_env(t_env *envs)
+void	ft_pipe_state(t_cmd *cmd, t_mshl_data *mshl_data)
 {
-	t_env	*target;
-
-	if (!envs)
-		return (NULL);
-	target = envs;
-	while (target->next)
-		target = target->next;
-	return (target);
-}
-
-void			ft_env_add(t_env *new_env, t_env **envs)
-{
-	if (!new_env || !envs)
-		return ;
-	if (!*envs)
-		*envs = new_env;
-	else
-	{
-		get_last_env(*envs)->next = new_env;
-		new_env->next = NULL;
-	}
+	if (cmd->next && cmd->next->next)
+		mshl_data->pipe_state = READ_WRITE;
+	else if (cmd->next)
+		mshl_data->pipe_state = READ_ONLY;
 }

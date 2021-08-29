@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_add.c                                       :+:      :+:    :+:   */
+/*   ft_pipe_create.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/08/27 01:30:35 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/08/29 11:05:46 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_env	*get_last_env(t_env *envs)
+static t_bool	can_write(t_pipe_state state)
 {
-	t_env	*target;
-
-	if (!envs)
-		return (NULL);
-	target = envs;
-	while (target->next)
-		target = target->next;
-	return (target);
+	if (state == WRITE_ONLY || state == READ_WRITE)
+	{
+		return (TRUE);
+	}
+	return (FALSE);
 }
 
-void			ft_env_add(t_env *new_env, t_env **envs)
+void			ft_pipe_create(t_pipe_state state, int new_pipe[])
 {
-	if (!new_env || !envs)
-		return ;
-	if (!*envs)
-		*envs = new_env;
-	else
+	if (can_write(state) == TRUE)
 	{
-		get_last_env(*envs)->next = new_env;
-		new_env->next = NULL;
+		if (pipe(new_pipe) < 0)
+		{
+			ft_error(NULL, NULL, 1);
+		}
 	}
 }

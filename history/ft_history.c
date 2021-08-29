@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_add.c                                       :+:      :+:    :+:   */
+/*   ft_history.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/08/24 18:32:04 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/08/24 21:50:20 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_env	*get_last_env(t_env *envs)
+int	ft_history(t_mshl_data *mshl_data)
 {
-	t_env	*target;
+	t_history	*history;
 
-	if (!envs)
-		return (NULL);
-	target = envs;
-	while (target->next)
-		target = target->next;
-	return (target);
-}
-
-void			ft_env_add(t_env *new_env, t_env **envs)
-{
-	if (!new_env || !envs)
-		return ;
-	if (!*envs)
-		*envs = new_env;
-	else
+	history = mshl_data->histories;
+	while(history)
 	{
-		get_last_env(*envs)->next = new_env;
-		new_env->next = NULL;
+		if (history->next || history->number == 1)
+			printf("%5zu  %s\n", history->number, history->data);
+		history = history->next;
 	}
+	return (EXIT_SUCCESS);
 }

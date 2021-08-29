@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/07/29 22:24:25 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/08/29 10:53:03 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_cmd	*ft_cmd_lstnew(void)
 	value->next = NULL;
 	value->args = create_token();
 	value->argc = 0;
+	value->pid = 0;
 	return (value);
 }
 
@@ -84,7 +85,7 @@ static t_token *copy_token(t_token *token)
 	return (copy);
 }
 
-static	t_token *shave_token_until_pipe(t_token *token)
+static t_token *shave_token_until_pipe(t_token *token)
 {
 	t_token *tmp;
 
