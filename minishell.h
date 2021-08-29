@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/29 14:09:37 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/08/29 14:35:59 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,14 @@ typedef enum	e_tokentype{
 	CHAR_PIPE = '|',
 	CHAR_QUOTE = '\'',
 	CHAR_DQUOTE = '\"',
-	CHAR_SEMICOLON = ';',
+	//CHAR_SEMICOLON = ';',
 	CHAR_WHITESPACE = ' ',
 	CHAR_ESCAPE = '\\',
 	CHAR_GREATER = '>',
 	CHAR_LESSER = '<',
 	CHAR_TAB = '\t',
 	CHAR_NULL = 0, // 深掘りすぎ。不要
-	D_SEMICOLON = -5, // 深掘りすぎ。不要
+	//D_SEMICOLON = -5, // 深掘りすぎ。不要
 	DOUBLE_GREATER = -4, // >> ってこと。
 	DOUBLE_LESSER = -3, // << ってこと。
 	IO_NUMBER = -2, //謎
