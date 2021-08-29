@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/08/29 11:06:10 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 11:11:53 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static t_mshl_data	*mshl_data_init(t_env *envs)
 static void	run_commandline(char **command, t_mshl_data *mshl_data)
 {
 	t_cmd		*cmd;
-	t_cmd		*current_cmd;
+	t_cmd		*current_cmd = NULL;
 	t_token		*tokens;
 	char		*token_str;
 	int			pipes[2];
@@ -63,8 +63,6 @@ static void	run_commandline(char **command, t_mshl_data *mshl_data)
 	// トークンに分離する
 	tokens = ft_lexer(*command);
 
-	// t_token_print(tokens);
-
 	// ;とかの「異常なトークン」の検知とエラー吐き出し
 	// ここは未実装（村瀬さん）
 	ft_check_token_error(tokens);
@@ -72,6 +70,7 @@ static void	run_commandline(char **command, t_mshl_data *mshl_data)
 	// トークンをパースする
 	cmd = ft_cmd_lstnew();
 	ft_parser(tokens, cmd);
+
 
 	// 各コマンドの処理
 	current_cmd = cmd;
