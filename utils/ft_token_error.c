@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 22:09:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/29 14:30:58 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/08/29 14:34:38 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_bool	ft_check_pipe_error(t_token *tokens)
 	{
 		if (ft_strchr(tmp->data, '|') != NULL && ft_strchr(tmp->next->data, '|') != NULL)
 		{
-			ft_error("minishell", "syntax erro near unexpected token '|'", 1);
+			ft_error_display("minishell", "syntax erro near unexpected token '|'", 1);
 			return (FALSE);
 		}
 		tmp = tmp->next;
