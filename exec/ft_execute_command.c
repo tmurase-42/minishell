@@ -6,7 +6,8 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/28 20:15:57 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/28 20:32:58 by tdofuku          ###   ########.fr       */
+
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +72,8 @@ static void		exec_commons(t_cmd *cmd, t_mshl_data *mshl_data)
 static void		exec_command(t_cmd *cmd, t_mshl_data *mshl_data, int old_pipe[])
 {
 	pid_t	pid;
-	pid_t	wpid;
-	int		status;
+	//pid_t	wpid;
+	//int		status;
 	int		new_pipe[2];
 
 	// パイプじゃない場合
@@ -91,8 +92,6 @@ static void		exec_command(t_cmd *cmd, t_mshl_data *mshl_data, int old_pipe[])
 		close(old_pipe[OUT]);
 		ft_error("popen2", NULL, 1);
 	}
-
-	printf("hehe\n");
 
 	// プロセスの生成
 	pid = fork();
@@ -143,14 +142,14 @@ static void		exec_command(t_cmd *cmd, t_mshl_data *mshl_data, int old_pipe[])
 		else
 			exec_commons(cmd, mshl_data);
 	}
-	else // 親プロセスの処理
-	{
-		if (pid > 0)
-			wpid = waitpid(pid, &status, WUNTRACED);
-	}
-	printf("ft_pipe_update: start: %s\n", cmd->args->data);
+	// else // 親プロセスの処理
+	//{
+	//	if (pid > 0)
+	//		wpid = waitpid(pid, &status, WUNTRACED);
+	//}
+	// printf("ft_pipe_update: start: %s\n", cmd->args->data);
 	ft_pipe_update(mshl_data->pipe_state, old_pipe, new_pipe);
-	//mshl_data->pid = pid;
+	cmd->pid = pid;
 }
 
 void			ft_execute_command(t_cmd *cmd, t_mshl_data *mshl_data, int pipes[])
@@ -166,6 +165,4 @@ void			ft_execute_command(t_cmd *cmd, t_mshl_data *mshl_data, int pipes[])
 	exec_command(cmd, mshl_data, pipes);
 	// パイプステータスの更新
 	ft_pipe_state(cmd, mshl_data);
-	// コマンド終了
-	printf("終了-------------------！\n");
 }

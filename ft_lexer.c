@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/28 20:29:31 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static t_token_type	get_token_type(char c)
 		token_type = CHAR_SEMICOLON;
 	else if (c == '<')
 		token_type = CHAR_LESSER;
+	else if (c == '>')
+		token_type = CHAR_GREATER;
 	else
 		token_type = CHAR_NULL;
 	return token_type;
@@ -60,6 +62,8 @@ static void	set_token_type(char *str, int *i, int *word_len, char *quote_status,
 		*i += 1;
 		if (str[*i] == '>' && (*word_len += 1) && (*i += 1))
 			*token_type = DOUBLE_GREATER;
+		if (str[*i] == '<' && (*word_len += 1) && (*i += 1))
+			*token_type = DOUBLE_LESSER;
 	}
 	else if (str[*i] == CHAR_QUOTE || str[*i] == CHAR_DQUOTE)
 	{

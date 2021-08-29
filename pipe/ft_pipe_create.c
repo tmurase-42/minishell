@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 01:30:35 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/27 18:16:09 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 11:05:46 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_bool	can_write(t_pipe_state state)
 {
-	if (state == PIPE_WRITE_ONLY || state == PIPE_READ_WRITE)
+	if (state == WRITE_ONLY || state == READ_WRITE)
 	{
 		return (TRUE);
 	}
@@ -29,6 +29,5 @@ void			ft_pipe_create(t_pipe_state state, int new_pipe[])
 		{
 			ft_error(NULL, NULL, 1);
 		}
-		printf("new_pipe: %d\n", *new_pipe);
 	}
 }
