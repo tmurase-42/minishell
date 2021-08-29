@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/29 10:54:21 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 12:35:22 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,13 +146,13 @@ typedef struct	s_mshl_data
 }				t_mshl_data;
 
 t_token	*ft_lexer(char *str);
-void	ft_execute_command(t_cmd *cmd, t_mshl_data *mshl_data, int pipes[]);
+void	ft_execute_command(t_cmd *cmd, int pipes[]);
 
 /* Common functions */
 void	ft_error(char *message, char *command, int status_num);
 void	ft_free_char(char **target);
 void    ft_safe_free_split(char ***target);
-void	ft_error_identifier(char *command, char *name);
+void	ft_error_display(char *command, char *name, int exit_status);
 
 /* Token functions */
 t_token	*ft_token_create(char *data, t_token_type type);
@@ -174,22 +174,22 @@ void	ft_env_update(const char *key, const char *value, t_env *envs);
 char    **ft_env_array(t_env *envs);
 
 /* Expansion functions */
-void	ft_expand(t_cmd *cmd, t_mshl_data *mshl_data);
+void	ft_expand(t_cmd *cmd);
 
 /* Env functions */
-int		ft_env(t_mshl_data *t_mshl_data);
+int		ft_env();
 
 /* Unset functions */
-int		ft_unset(t_cmd *cmd, t_mshl_data *mshl_data);
+int		ft_unset(t_cmd *cmd);
 
 /* Export functions */
-int		ft_export(t_cmd *cmd, t_mshl_data *mshl_data);
+int		ft_export(t_cmd *cmd);
 
 /* exit function */
 int		ft_exit(t_cmd *cmd);
 
 /* cd function */
-int		ft_cd(t_cmd *cmd, t_mshl_data *mshl_data);
+int		ft_cd(t_cmd *cmd);
 
 /* pwd function */
 int 	ft_pwd();
@@ -205,14 +205,14 @@ t_cmd	*ft_cmd_lstnew(void);
 void	ft_check_token_error(t_token *tokens);
 
 /* history functions */
-int		ft_history_add(char *line, t_mshl_data *mshl_data);
-int		ft_history(t_mshl_data *mshl_data);
+int		ft_history_add(char *line);
+int		ft_history();
 
 /* get command path function */
-char	*ft_cmd_path(const char *cmd, t_mshl_data *mshl_data);
+char	*ft_cmd_path(const char *cmd);
 
 /* pipe functions */
 void	ft_pipe_duplicate(t_pipe_state state, int old_pipe[], int new_pipe[]);
 void	ft_pipe_update(t_pipe_state state, int old_pipe[], int new_pipe[]);
 void	ft_pipe_create(t_pipe_state state, int new_pipe[]);
-void	ft_pipe_state(t_cmd *command, t_mshl_data *mshl_data);
+void	ft_pipe_state(t_cmd *command);

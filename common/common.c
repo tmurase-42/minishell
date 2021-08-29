@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:17:42 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/29 12:26:01 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/08/29 12:44:13 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,15 @@ void	ft_error(char *message, char *command, int status_num)
 	exit(status_num);
 }
 
-void	ft_error_identifier(char *command, char *name)
+void	ft_error_display(char *command, char *name, int exit_status)
 {
+	extern t_mshl_data	*g_mshl_data;
+
 	ft_putstr_fd(command, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(name, STDERR_FILENO);
 	ft_putendl_fd("", STDERR_FILENO);
+	g_mshl_data->exit_status = exit_status;
 }
 
 void	ft_free_char(char **target)

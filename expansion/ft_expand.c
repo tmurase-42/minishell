@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 12:41:39 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ static t_token	*get_first_token(t_token *tokens)
 	return (target);
 }
 
-// static int	get_len_with_vars(const char *str, t_mshl_data *mshl_data)
+// static int	get_len_with_vars(const char *str)
 // {
+//	extern t_mshl_data	*g_mshl_data;
 // 	int		i;
 // 	int		size;
 // 	t_env	*env;
@@ -51,7 +52,7 @@ static t_token	*get_first_token(t_token *tokens)
 // 		{
 // 			i++;
 // 			printf("ft_expand: str + i: %s\n", str + i);
-// 			if ((env = ft_env_get(str + i, mshl_data->envs)))
+// 			if ((env = ft_env_get(str + i, g_mshl_data->envs)))
 // 			{
 // 				size += ft_strlen(env->value);
 // 				printf("ft_expand: env->value: %s$\n", env->value);
@@ -62,7 +63,7 @@ static t_token	*get_first_token(t_token *tokens)
 // 		else if (str[i] == '$' && str[i+1] == '?')
 // 		{
 // 			i += 2;
-// 			if ((exit_status = ft_itoa(mshl_data->exit_status)))
+// 			if ((exit_status = ft_itoa(g_mshl_data->exit_status)))
 // 			{
 // 				size += ft_strlen(exit_status);
 // 				i += (ft_strlen(exit_status));
@@ -84,8 +85,9 @@ static t_token	*get_first_token(t_token *tokens)
 
 
 
-// static char *create_env_expanded_str(char *str, t_mshl_data *mshl_data)
+// static char *create_env_expanded_str(char *str)
 // {
+//	extern t_mshl_data	*g_mshl_data;
 // 	int		i;
 // 	int		j;
 // 	int		k;
@@ -101,7 +103,7 @@ static t_token	*get_first_token(t_token *tokens)
 // 	exit_status = NULL;
 
 // 	printf("ft_expand: str: %s\n", str);
-// 	new_len = get_len_with_vars(str, mshl_data);
+// 	new_len = get_len_with_vars(str);
 // 	printf("ft_expand: new_len: %d\n", new_len);
 // 	if (!(new_str = ft_calloc(sizeof(char), new_len("malloc error;", str);
 // 	while(str[i])
@@ -110,7 +112,7 @@ static t_token	*get_first_token(t_token *tokens)
 // 		if (str[i] == '$' && str[i+1] == '?')
 // 		{
 // 			i++;
-// 			if ((exit_status = ft_itoa(mshl_data->exit_status)))
+// 			if ((exit_status = ft_itoa(g_mshl_data->exit_status)))
 // 			{
 // 				j += ft_strlcpy(new_str+j, exit_status, ft_strlen(exit_status) + 1);
 // 				i += 2;
@@ -139,7 +141,7 @@ static t_token	*get_first_token(t_token *tokens)
 
 // 			printf("ft_expand: str[%d]: %s\n", i, str + i + 1);
 // 			printf("ft_expand: var_str: %s\n", var_str);
-// 			if ((env = ft_env_get(var_str, mshl_data->envs)) != NULL)
+// 			if ((env = ft_env_get(var_str, g_mshl_data->envs)) != NULL)
 // 			{
 // 				printf("ft_expand: message: env is hit!\n");
 // 				printf("ft_expand: message: env->key: %s\n", env->key);
@@ -172,8 +174,9 @@ static t_token	*get_first_token(t_token *tokens)
 
 
 
-static int	expand_str(const char *str, int i, char **ret, t_mshl_data *mshl_data)
+static int	expand_str(const char *str, int i, char **ret)
 {
+	extern t_mshl_data	*g_mshl_data;
 	int		j;
 	char	*key;
 	char	*tmp;
@@ -186,7 +189,7 @@ static int	expand_str(const char *str, int i, char **ret, t_mshl_data *mshl_data
 		j++;
 	key = ft_substr(str, i, j);
 	// printf("ft_expnad: expand_str: key: %s\n", key);
-	env = ft_env_get(key, mshl_data->envs);
+	env = ft_env_get(key, g_mshl_data->envs);
 	if(env)
 	{
 		// printf("ft_expnad: expand_str: env->value: %s\n", env->value);
@@ -221,14 +224,15 @@ static int	copy_char(const char *str, int i, char **ret)
 	return (1);
 }
 
-static int	expand_exit_status(char **ret, t_mshl_data *mshl_data)
+static int	expand_exit_status(char **ret)
 {
+	extern t_mshl_data	*g_mshl_data;
 	int		dig;
 	char	*num;
 	char	*tmp;
 
 	dig = 0;
-	num = ft_itoa(mshl_data->exit_status);
+	num = ft_itoa(g_mshl_data->exit_status);
 	dig = ft_strlen(num);
 	tmp = *ret;
 	*ret = ft_strjoin(*ret, num);
@@ -237,12 +241,12 @@ static int	expand_exit_status(char **ret, t_mshl_data *mshl_data)
 	return (dig);
 }
 
-static int	expand_args(const char *str, int i, char **ret, t_mshl_data *mshl_data)
+static int	expand_args(const char *str, int i, char **ret)
 {
-
+	extern t_mshl_data	*g_mshl_data;
 	int	j;
 
-	j = (int)*str + i + (int)**ret + mshl_data->argc;
+	j = (int)*str + i + (int)**ret + g_mshl_data->argc;
 
 	j = 1;
 	return (j);
@@ -253,7 +257,7 @@ static int	expand_args(const char *str, int i, char **ret, t_mshl_data *mshl_dat
 
 
 
-static char *create_env_expanded_str(const char *str, t_mshl_data *mshl_data)
+static char *create_env_expanded_str(const char *str)
 {
 	int		i;
 	char	*ret;
@@ -274,17 +278,17 @@ static char *create_env_expanded_str(const char *str, t_mshl_data *mshl_data)
 		else if (str[i] == '$' && ft_isdigit(str[i + 1]))
 		{
 			i++;
-			i += expand_args(str, i, &ret, mshl_data);
+			i += expand_args(str, i, &ret);
 		}
 		else if (str[i] == '$' && str[i + 1] == '?')
 		{
 			i++;
-			i += expand_exit_status(&ret, mshl_data);
+			i += expand_exit_status(&ret);
 		}
 		else if (str[i] == '$')
 		{
 			i++;
-			i += expand_str(str, i, &ret, mshl_data);
+			i += expand_str(str, i, &ret);
 		}
 		else
 		{
@@ -307,7 +311,7 @@ static char *create_env_expanded_str(const char *str, t_mshl_data *mshl_data)
 
 
 
-void			ft_expand(t_cmd *cmd, t_mshl_data *mshl_data)
+void			ft_expand(t_cmd *cmd)
 {
 	char	*new_str;
 	t_token	*token;
@@ -323,7 +327,7 @@ void			ft_expand(t_cmd *cmd, t_mshl_data *mshl_data)
 	token = get_first_token(cmd->args);
 	while (token)
 	{
-		new_str = create_env_expanded_str(token->data, mshl_data);
+		new_str = create_env_expanded_str(token->data);
 		if (*new_str)
 		{
 			// printf("ft_expand: new_str: %s\n", new_str);
