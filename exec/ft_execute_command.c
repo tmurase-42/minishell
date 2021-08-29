@@ -31,36 +31,37 @@ static t_bool	is_builin_command(char *str)
 	return (FALSE);
 }
 
-static int	exec_builtin(t_cmd *cmd, t_mshl_data *mshl_data)
+static int	exec_builtin(t_cmd *cmd)
 {
 	if (ft_strncmp(cmd->args->data, "echo",ft_strlen("echo")) == 0)
 		return (ft_echo(cmd));
 	if (ft_strncmp(cmd->args->data, "exit", ft_strlen("exit")) == 0)
 		return (ft_exit(cmd));
 	if (ft_strncmp(cmd->args->data, "env", ft_strlen("env")) == 0)
-		return (ft_env(mshl_data));
+		return (ft_env());
 	if (ft_strncmp(cmd->args->data, "export", ft_strlen("export")) == 0)
-		return (ft_export(cmd, mshl_data));
+		return (ft_export(cmd));
 	if (ft_strncmp(cmd->args->data, "unset", ft_strlen("unset")) == 0)
-		return (ft_unset(cmd, mshl_data));
+		return (ft_unset(cmd));
 	if (ft_strncmp(cmd->args->data, "pwd", ft_strlen("pwd")) == 0)
-		return (ft_pwd(mshl_data));
+		return (ft_pwd());
 	if (ft_strncmp(cmd->args->data, "cd", ft_strlen("cd")) == 0)
-		return (ft_cd(cmd, mshl_data));
+		return (ft_cd(cmd));
 	if (ft_strncmp(cmd->args->data, "history", ft_strlen("history")) == 0)
-		return (ft_history(mshl_data));
+		return (ft_history());
 	return (EXIT_FAILURE);
 }
 
-static void		exec_commons(t_cmd *cmd, t_mshl_data *mshl_data)
+static void		exec_commons(t_cmd *cmd)
 {
+	extern t_mshl_data	*g_mshl_data;
 	char	**args;
 	char	**envs;
 	char	*path;
 
 	args = ft_token_array(cmd->args, 0, cmd->argc);
-	envs = ft_env_array(mshl_data->envs);
-	path = ft_cmd_path(args[0], mshl_data);
+	envs = ft_env_array(g_mshl_data->envs);
+	path = ft_cmd_path(args[0]);
 	// printf("\ncmd->argc: %d\n", cmd->argc);
 	// printf("args: %s\n", *args);
 	// printf("cmd->args->data: %s\n", cmd->args->data);
@@ -69,17 +70,18 @@ static void		exec_commons(t_cmd *cmd, t_mshl_data *mshl_data)
 	ft_safe_free_split(&envs);
 }
 
-static void		exec_command(t_cmd *cmd, t_mshl_data *mshl_data, int old_pipe[])
+static void		exec_command(t_cmd *cmd, int old_pipe[])
 {
+	extern t_mshl_data	*g_mshl_data;
 	pid_t	pid;
 	//pid_t	wpid;
 	//int		status;
 	int		new_pipe[2];
 
 	// パイプじゃない場合
-	if (mshl_data->pipe_state == NO_PIPE && is_builin_command(cmd->args->data))
+	if (g_mshl_data->pipe_state == NO_PIPE && is_builin_command(cmd->args->data))
 	{
-		mshl_data->exit_status = exec_builtin(cmd, mshl_data);
+		g_mshl_data->exit_status = exec_builtin(cmd);
 		return ;
 	}
 
@@ -115,7 +117,7 @@ static void		exec_command(t_cmd *cmd, t_mshl_data *mshl_data, int old_pipe[])
 		//	WRITE_ONLY,
 		//	READ_WRITE
 
-		if (mshl_data->pipe_state == READ_ONLY || mshl_data->pipe_state == READ_WRITE)
+		if (g_mshl_data->pipe_state == READ_ONLY || g_mshl_data->pipe_state == READ_WRITE)
 		{
 			// 割り当てたファイルディスクリプタは閉じる
 			close(old_pipe[IN]);
@@ -124,7 +126,7 @@ static void		exec_command(t_cmd *cmd, t_mshl_data *mshl_data, int old_pipe[])
 			// 閉じる
 			close(old_pipe[OUT]);
 		}
-		if (mshl_data->pipe_state == WRITE_ONLY || mshl_data->pipe_state == READ_WRITE)
+		if (g_mshl_data->pipe_state == WRITE_ONLY || g_mshl_data->pipe_state == READ_WRITE)
 		{
 			close(new_pipe[OUT]);
 			// 標準出力に割り当て
@@ -134,13 +136,13 @@ static void		exec_command(t_cmd *cmd, t_mshl_data *mshl_data, int old_pipe[])
 		}
 
 		// printf("fefe\n");
-		// ft_pipe_duplicate(mshl_data->pipe_state, mshl_data->pipe, new_pipe);
+		// ft_pipe_duplicate(g_mshl_data->pipe_state, g_mshl_data->pipe, new_pipe);
 		// printf("new_pipe: %d\n", *new_pipe);
 
 		if (is_builin_command(cmd->args->data) == TRUE)
-			exit(exec_builtin(cmd, mshl_data));
+			exit(exec_builtin(cmd));
 		else
-			exec_commons(cmd, mshl_data);
+			exec_commons(cmd);
 	}
 	// else // 親プロセスの処理
 	//{
@@ -148,21 +150,23 @@ static void		exec_command(t_cmd *cmd, t_mshl_data *mshl_data, int old_pipe[])
 	//		wpid = waitpid(pid, &status, WUNTRACED);
 	//}
 	// printf("ft_pipe_update: start: %s\n", cmd->args->data);
-	ft_pipe_update(mshl_data->pipe_state, old_pipe, new_pipe);
+	ft_pipe_update(g_mshl_data->pipe_state, old_pipe, new_pipe);
 	cmd->pid = pid;
 }
 
-void			ft_execute_command(t_cmd *cmd, t_mshl_data *mshl_data, int pipes[])
+void			ft_execute_command(t_cmd *cmd, int pipes[])
 {
+	extern t_mshl_data	*g_mshl_data;
+
 	// コマンドの中身がなかった場合の例外処理
 	if (cmd->argc == 0 || !cmd->args || cmd->args->data == '\0')
 	{
-		mshl_data->exit_status = EXIT_FAILURE;
+		g_mshl_data->exit_status = EXIT_FAILURE;
 		return ;
 	}
-	// printf("mshl_data->pipe_state: %d\n", mshl_data->pipe_state);
+	// printf("g_mshl_data->pipe_state: %d\n", g_mshl_data->pipe_state);
 	// 実行
-	exec_command(cmd, mshl_data, pipes);
+	exec_command(cmd, pipes);
 	// パイプステータスの更新
-	ft_pipe_state(cmd, mshl_data);
+	ft_pipe_state(cmd);
 }

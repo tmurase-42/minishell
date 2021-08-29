@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 20:51:39 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/26 21:25:06 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 12:37:07 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,14 +170,15 @@ void		try_search_command(char **split_path, char **res, const char *cmd)
 	ft_free_char(&path);
 }
 
-char		*search_command_binary(const char *cmd, t_mshl_data *mshl_data)
+char		*search_command_binary(const char *cmd)
 {
+	extern t_mshl_data	*g_mshl_data;
 	char		**split_path;
 	char		*res;
 	t_env		*env;
 
 	res = NULL;
-	env = ft_env_get("PATH", mshl_data->envs);
+	env = ft_env_get("PATH", g_mshl_data->envs);
 	if (ft_strncmp(env->value, "", ft_strlen(env->value)) == 0)
 	{
 		if (!(res = ft_strdup(cmd)))
@@ -195,13 +196,14 @@ static void	check_cmd_path(const char *cmd, const char *path)
 {
 	if (path == NULL)
 	{
-		ft_error_identifier("command not found", (char *)cmd);
+		ft_error_display("command not found", (char *)cmd, EXIT_FAILURE);
 		exit(STATUS_CMD_NOT_FOUND);
 	}
 }
 
-char		*ft_cmd_path(const char *cmd, t_mshl_data *mshl_data)
+char		*ft_cmd_path(const char *cmd)
 {
+	extern t_mshl_data	*g_mshl_data;
 	t_cmd_type	type;
 	char		*res;
 
@@ -210,7 +212,7 @@ char		*ft_cmd_path(const char *cmd, t_mshl_data *mshl_data)
 	type = judge_cmd_type(cmd);
 	if (type == COMMAND)
 	{
-		res = search_command_binary(cmd, mshl_data);
+		res = search_command_binary(cmd);
 	}
 	else
 	{

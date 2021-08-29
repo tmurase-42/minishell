@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 12:44:39 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,13 @@ static int		set_envs(t_cmd *cmd, t_env *envs)
 				if (is_sep_equal(token->data) == EQUAL)
 					ft_env_update(key, value, envs);
 				else {
-					ft_error_identifier("export", token->data);
+					ft_error_display("export", token->data, EXIT_FAILURE);
 					ret = EXIT_FAILURE;
 				}
 			}
 			else
 			{
-				ft_error_identifier("minishell", "bad assignment");
+				ft_error_display("minishell", "bad assignment", EXIT_FAILURE);
 				ret = EXIT_FAILURE;
 			}
 			free(key);
@@ -180,11 +180,12 @@ static void	print_env(t_env *env)
 	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-int			print_envs(t_mshl_data *mshl_data)
+int			print_envs()
 {
+	extern t_mshl_data	*g_mshl_data;
 	t_env			*current_env;
 
-	current_env = mshl_data->envs;
+	current_env = g_mshl_data->envs;
 	// env_mergesort(&envs, compare_env);
 	while (current_env)
 	{
@@ -194,15 +195,17 @@ int			print_envs(t_mshl_data *mshl_data)
 	return (EXIT_SUCCESS);
 }
 
-int ft_export(t_cmd *cmd, t_mshl_data *mshl_data)
+int ft_export(t_cmd *cmd)
 {
+	extern t_mshl_data	*g_mshl_data;
+
 	if (cmd->argc == 1)
 	{
-		return (print_envs(mshl_data));
+		return (print_envs());
 	}
 	else
 	{
-		return (set_envs(cmd, mshl_data->envs));
+		return (set_envs(cmd, g_mshl_data->envs));
 	}
 	return (EXIT_SUCCESS);
 }

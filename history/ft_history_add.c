@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 18:32:04 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 12:42:43 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,21 @@ static t_history	*history_get_last(t_history *histories)
 	return (history);
 }
 
-int					ft_history_add(char *line, t_mshl_data *mshl_data)
+int					ft_history_add(char *line)
 {
+	extern t_mshl_data	*g_mshl_data;
 	t_history	*last_history;
 	t_history	*history;
 
 	if (line == NULL)
 		return (EXIT_FAILURE);
-	if (mshl_data->histories == NULL)
+	if (g_mshl_data->histories == NULL)
 	{
-		mshl_data->histories = history_create(line, 1);
+		g_mshl_data->histories = history_create(line, 1);
 	}
 	else
 	{
-		last_history = history_get_last(mshl_data->histories);
+		last_history = history_get_last(g_mshl_data->histories);
 		history = history_create(line, last_history->number + 1);
 		last_history->next = history;
 	}
