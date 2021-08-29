@@ -6,11 +6,27 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/08/26 23:25:30 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 11:06:10 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+static void wait_process(t_cmd *cmd)
+{
+	int		status;
+
+	while(cmd)
+	{
+		if (cmd->pid > 0)
+			if (waitpid(cmd->pid, &status, WUNTRACED) < 0)
+				ft_error(NULL, NULL, 1);
+			//if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			//	catch_sigint = TRUE;
+		cmd = cmd->next;
+	}
+}
 
 static t_mshl_data	*mshl_data_init(t_env *envs)
 {
@@ -24,6 +40,8 @@ static t_mshl_data	*mshl_data_init(t_env *envs)
 	mshl_data->envs = envs;
 	mshl_data->exit_status = 0;
 	mshl_data->histories = NULL;
+	mshl_data->pipe_state = WRITE_ONLY;
+	//mshl_data->pipe[2];
 	return (mshl_data);
 }
 
@@ -33,6 +51,7 @@ static void	run_commandline(char **command, t_mshl_data *mshl_data)
 	t_cmd		*current_cmd;
 	t_token		*tokens;
 	char		*token_str;
+	int			pipes[2];
 
 	// printf("command = %s\n", *command);
 	tokens = NULL;
@@ -44,6 +63,8 @@ static void	run_commandline(char **command, t_mshl_data *mshl_data)
 	// トークンに分離する
 	tokens = ft_lexer(*command);
 
+	// t_token_print(tokens);
+
 	// ;とかの「異常なトークン」の検知とエラー吐き出し
 	// ここは未実装（村瀬さん）
 	ft_check_token_error(tokens);
@@ -54,6 +75,18 @@ static void	run_commandline(char **command, t_mshl_data *mshl_data)
 
 	// 各コマンドの処理
 	current_cmd = cmd;
+
+	// パイプを生成
+	if (pipe(pipes) < 0)
+		ft_error(NULL, NULL, 1);
+	mshl_data->pipe_state = WRITE_ONLY;
+	if (current_cmd->next == NULL)
+	{
+		//printf("NO PIPE!\n");
+		mshl_data->pipe_state = NO_PIPE;
+		if (close(pipes[OUT]) < 0 || close(pipes[IN]) < 0)
+			ft_error(NULL, NULL, 1);
+	}
 	while (current_cmd)
 	{
 		// トークンに環境変数展開をかける
@@ -71,9 +104,10 @@ static void	run_commandline(char **command, t_mshl_data *mshl_data)
 		// ft_token_print(current_cmd->args);
 
 		// コマンドを実行する
-		mshl_data->exit_status = ft_execute_command(current_cmd, mshl_data);
+		ft_execute_command(current_cmd, mshl_data, pipes);
 		current_cmd = current_cmd->next;
 	}
+	wait_process(cmd);
 }
 
 int	main(int argc, char *argv[], char **environ)
