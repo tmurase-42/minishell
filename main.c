@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/08/29 14:26:41 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/08/29 15:59:39 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,12 @@ static void	run_commandline(char **command)
 
 	// ;とかの「異常なトークン」の検知とエラー吐き出し
 	// ここは未実装（村瀬さん）
+	//ft_token_print(tokens);
 	if (ft_check_token_error(tokens) != TRUE)
 		return ;
 	// トークンをパースする
 	cmd = ft_cmd_lstnew();
 	ft_parser(tokens, cmd);
-
 
 	// 各コマンドの処理
 	current_cmd = cmd;
