@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/08/29 12:45:58 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 14:14:01 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,42 @@ t_mshl_data	*g_mshl_data;
 
 static void wait_process(t_cmd *cmd)
 {
-	int		status;
+	extern t_mshl_data	*g_mshl_data;
+	//int		status;
+	t_bool	catch_sigint;
+	t_bool	has_child_process;
+	int		signal;
 
+
+	catch_sigint = FALSE;
+	has_child_process = FALSE;
 	while(cmd)
 	{
 		if (cmd->pid > 0)
-			if (waitpid(cmd->pid, &status, WUNTRACED) < 0)
+		{
+			if (waitpid(cmd->pid, &g_mshl_data->exit_status, WUNTRACED) < 0)
 				ft_error(NULL, NULL, 1);
-			//if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			// シグナルの実装で使うかもしれない
+			// if (WIFSIGNALED(g_mshl_data->exit_status) && WTERMSIG(g_mshl_data->exit_status) == SIGINT)
 			//	catch_sigint = TRUE;
+			has_child_process = TRUE;
+		}
 		cmd = cmd->next;
 	}
+	if (has_child_process)
+	{
+		if (WIFEXITED(g_mshl_data->exit_status))
+			g_mshl_data->exit_status = WEXITSTATUS(g_mshl_data->exit_status);
+		else if (WIFSIGNALED(g_mshl_data->exit_status))
+		{
+			signal = WTERMSIG(g_mshl_data->exit_status);
+			if (signal == SIGQUIT)
+				ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
+			g_mshl_data->exit_status = signal + 128;
+		}
+	}
+	if (catch_sigint)
+		ft_putstr_fd("\n", STDERR_FILENO);
 }
 
 static t_mshl_data	*mshl_data_init(t_env *envs)
