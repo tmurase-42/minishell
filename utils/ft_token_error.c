@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 22:09:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/29 11:11:27 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/08/29 13:39:10 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	ft_check_redirect_error(t_token *tokens)
 	t_token *tmp;
 
 	tmp = tokens;
-	while (tmp)
+	while (tmp->next != NULL)
 	{
 		if (ft_strchr(tmp->data, '>') != NULL && ft_strchr(tmp->next->data, '>') != NULL)
 			ft_error("syntax error", NULL, 258);
@@ -83,13 +83,14 @@ static void	ft_check_unexpect_error(t_token *tokens)
 {
 	while (tokens->next != NULL)
 	{
-		//printf("tokens->data = %s\n", tokens->data);
-		//printf("tokens->type = %d\n", tokens->type);
-		//printf("----------------------------------\n");
+		printf("tokens->data = %s\n", tokens->data);
+		printf("tokens->type = %d\n", tokens->type);
+		printf("----------------------------------\n");
 		tokens = tokens->next;
 	}
-	if (tokens->type != CHAR_GENERAL)
-		ft_error("unexpect error", "minishell", 0);
+	printf("tokens->type = %d\n", tokens->type);
+	if (tokens->type != 0)
+		ft_error_identifier("minishell", "unexpect error");
 }
 
 void	ft_check_token_error(t_token *tokens)
