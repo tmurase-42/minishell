@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/08/29 14:12:20 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 14:14:01 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void	run_commandline(char **command)
 
 	// ;とかの「異常なトークン」の検知とエラー吐き出し
 	// ここは未実装（村瀬さん）
-	// ft_check_token_error(tokens);
+	ft_check_token_error(tokens);
 
 	// トークンをパースする
 	cmd = ft_cmd_lstnew();
