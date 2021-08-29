@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_print.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 14:56:40 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ void			ft_token_print(t_token *tokens)
 			ft_putnbr_fd(i, STDOUT_FILENO);
 			ft_putstr_fd(": ", STDOUT_FILENO);
 			ft_putstr_fd(current_token->data, STDOUT_FILENO);
+			ft_putchar_fd('\n', STDOUT_FILENO);
+			ft_putstr_fd(" token->type = ", STDOUT_FILENO);
+			ft_putnbr_fd(current_token->type, STDOUT_FILENO);
 			ft_putchar_fd('\n', STDOUT_FILENO);
 			current_token = current_token->next;
 			i++;
