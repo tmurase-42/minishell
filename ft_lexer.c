@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/28 20:29:31 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 14:26:13 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ static t_token_type	get_token_type(char c)
 	token_type = CHAR_NULL;
 	if (c == '|')
 		token_type = CHAR_PIPE;
-	else if (c == ';')
-		token_type = CHAR_SEMICOLON;
+	// else if (c == ';')
+	//	token_type = CHAR_SEMICOLON;
 	else if (c == '<')
 		token_type = CHAR_LESSER;
 	else if (c == '>')
