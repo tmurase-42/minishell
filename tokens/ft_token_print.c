@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 15:46:16 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ void			ft_token_print(t_token *tokens)
 	else
 	{
 		current_token = get_first_token(tokens);
+		printf("--------------------------------------\n");
+		printf("index : type : data\n");
 		while(current_token) {
-			ft_putnbr_fd(i, STDOUT_FILENO);
-			ft_putstr_fd(": ", STDOUT_FILENO);
-			ft_putstr_fd(current_token->data, STDOUT_FILENO);
-			ft_putchar_fd('\n', STDOUT_FILENO);
+			printf("%5d : %4d : %s\n", i, current_token->type, current_token->data);
 			current_token = current_token->next;
 			i++;
 		}
+		printf("--------------------------------------\n");
 	}
 }

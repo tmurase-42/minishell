@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/29 14:26:13 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 16:05:30 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,23 @@ static t_token_type	get_token_type(char c)
 {
 	t_token_type	token_type;
 
-	token_type = CHAR_NULL;
+	token_type = CHAR_GENERAL;
 	if (c == '|')
+	{
 		token_type = CHAR_PIPE;
-	// else if (c == ';')
-	//	token_type = CHAR_SEMICOLON;
+	}
 	else if (c == '<')
 		token_type = CHAR_LESSER;
 	else if (c == '>')
 		token_type = CHAR_GREATER;
-	else
+	else if (c == '\0')
 		token_type = CHAR_NULL;
 	return token_type;
 }
 
 static void	set_token_type(char *str, int *i, int *word_len, char *quote_status, t_token_type *token_type)
 {
-	if (str[*i] == '|' || str[*i] == ';' || str[*i] == '<' || str[*i] == '>')
+	if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
 	{
 		*token_type = get_token_type(str[*i]);
 		*word_len += 1;
@@ -87,7 +87,7 @@ static t_token	*split_word(char *str, int *i, int *word_len, char *quote_status,
 	tokens = NULL;
 	while (str[*i] != '\0')
 	{
-		if (str[*i] == '|' || str[*i] == ';' || str[*i] == '<' || str[*i] == '>' ||
+		if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>' ||
 			str[*i] == CHAR_QUOTE || str[*i] == CHAR_DQUOTE)
 		{
 			if (*word_len == 0)
@@ -100,6 +100,7 @@ static t_token	*split_word(char *str, int *i, int *word_len, char *quote_status,
 			*quote_status = '\0';
 		}
 		else {
+			*token_type = get_token_type(str[*i]);
 			*i += 1;
 			*word_len += 1;
 			continue;
