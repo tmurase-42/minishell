@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/31 14:44:28 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/31 17:03:59 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,7 +320,7 @@ void			ft_expand(t_cmd *cmd)
 		// esc_chars = "\'\"\\$|;><";
 	// if (is_env == TRUE)
 		// esc_chars = "\"\\$`";
-	if (!cmd->args || (cmd->args && cmd->args->data == '\0'))
+	if (!cmd->args || (cmd->args && cmd->args->data == NULL))
 		return ;
 	token = get_first_token(cmd->args);
 	new_str = NULL;
