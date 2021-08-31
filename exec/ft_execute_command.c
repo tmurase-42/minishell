@@ -161,7 +161,7 @@ void			ft_execute_command(t_cmd *cmd, int pipes[])
 	extern t_mshl_data	*g_mshl_data;
 
 	// コマンドの中身がなかった場合の例外処理
-	if (cmd->argc == 0 || !cmd->args || cmd->args->data == '\0')
+	if (cmd->argc == 0 || !cmd->args || cmd->args->data == NULL)
 	{
 		g_mshl_data->exit_status = EXIT_FAILURE;
 		return ;
