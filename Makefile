@@ -18,6 +18,7 @@ FILES           = main.c get_next_line.c get_next_line_utils.c ft_lexer.c exec/f
 									history/ft_history_add.c history/ft_history.c \
 									cmd_path/ft_cmd_path.c \
 									pipe/ft_pipe_create.c pipe/ft_pipe_update.c pipe/ft_pipe_duplicate.c pipe/ft_pipe_state.c \
+									sigint/ft_sigint_handler.c sigint/ft_sigint_setter.c \
 
 SRCS        = $(addprefix $(SDIR), $(FILES))
 OBJS        = $(SRCS:.c=.o)

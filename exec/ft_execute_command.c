@@ -116,6 +116,7 @@ static void		exec_command(t_cmd *cmd, int old_pipe[])
 		//	READ_ONLY,
 		//	WRITE_ONLY,
 		//	READ_WRITE
+		ft_sigint_setter(SIG_DFL);
 
 		if (g_mshl_data->pipe_state == READ_ONLY || g_mshl_data->pipe_state == READ_WRITE)
 		{
@@ -144,6 +145,7 @@ static void		exec_command(t_cmd *cmd, int old_pipe[])
 		else
 			exec_commons(cmd);
 	}
+	ft_sigint_setter(SIG_IGN);
 	// else // 親プロセスの処理
 	//{
 	//	if (pid > 0)

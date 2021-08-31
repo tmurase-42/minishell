@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/29 14:35:59 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/31 14:42:39 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/errno.h>
 #include <stdlib.h>
 #include <limits.h>
-#include <readline/history.h>
 #include <sys/stat.h>
 
 #define DOUBLE_QUOT 34
@@ -143,6 +143,7 @@ typedef struct	s_mshl_data
 	t_history		*histories;
 	t_pipe_state	pipe_state;
 	int				pipe[2];
+	t_bool			interrupted;
 }				t_mshl_data;
 
 t_token	*ft_lexer(char *str);
@@ -216,3 +217,7 @@ void	ft_pipe_duplicate(t_pipe_state state, int old_pipe[], int new_pipe[]);
 void	ft_pipe_update(t_pipe_state state, int old_pipe[], int new_pipe[]);
 void	ft_pipe_create(t_pipe_state state, int new_pipe[]);
 void	ft_pipe_state(t_cmd *command);
+
+/* sigint functions */
+void	ft_sigint_handler();
+void	ft_sigint_setter();

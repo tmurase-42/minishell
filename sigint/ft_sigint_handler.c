@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_sigint_handler.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/06 16:31:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/30 17:48:46 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/08/30 16:31:41 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/08/31 14:40:01 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_pwd()
+void ft_sigint_handler(int sig)
 {
-	char	pwd[PATH_MAX];
+	extern t_mshl_data	*g_mshl_data;
+	int		save_errno;
 
-	getcwd(pwd, PATH_MAX);
-	ft_putendl_fd(pwd, STDOUT_FILENO);
-	return (TRUE);
+	save_errno = errno;
+	ft_putstr_fd("\033[2D\033[OK", STDOUT_FILENO);
+	// ft_putstr_fd("\033[15C", 1);      //この15Cは打ち込んだ文字数によって変わる。
+	if (sig == SIGINT)
+	{
+		g_mshl_data->exit_status = EXIT_FAILURE;
+		g_mshl_data->interrupted = TRUE;
+		ft_putstr_fd("\n\e[36mminishell>\e[0m", STDOUT_FILENO);
+		errno = save_errno;
+	}
 }
