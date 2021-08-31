@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/29 14:35:59 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 07:30:24 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ int		ft_exit(t_cmd *cmd);
 int		ft_cd(t_cmd *cmd);
 
 /* pwd function */
-int 	ft_pwd();
+t_bool 	ft_pwd();
 
 /* echo function */
 int		ft_echo(t_cmd *cmd);
