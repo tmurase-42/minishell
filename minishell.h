@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/31 14:42:39 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/31 18:06:00 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <sys/stat.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 #define DOUBLE_QUOT 34
 #define SINGLE_QUOT 39
@@ -219,5 +221,6 @@ void	ft_pipe_create(t_pipe_state state, int new_pipe[]);
 void	ft_pipe_state(t_cmd *command);
 
 /* sigint functions */
-void	ft_sigint_handler();
-void	ft_sigint_setter();
+void	ft_sigint_handler(int sig);
+void	ft_sigint_setter(void (*func)(int));
+

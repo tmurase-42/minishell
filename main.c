@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/08/31 14:41:36 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/31 18:34:03 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static void wait_process(t_cmd *cmd)
 			if (waitpid(cmd->pid, &g_mshl_data->exit_status, WUNTRACED) < 0)
 				ft_error(NULL, NULL, 1);
 			// シグナルの実装で使うかもしれない
-			// if (WIFSIGNALED(g_mshl_data->exit_status) && WTERMSIG(g_mshl_data->exit_status) == SIGINT)
-			//	catch_sigint = TRUE;
+			if (WIFSIGNALED(g_mshl_data->exit_status) && WTERMSIG(g_mshl_data->exit_status) == SIGINT)
+				catch_sigint = TRUE;
 			has_child_process = TRUE;
 		}
 		cmd = cmd->next;
@@ -49,9 +49,9 @@ static void wait_process(t_cmd *cmd)
 				ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
 			g_mshl_data->exit_status = signal + 128;
 		}
+		if (catch_sigint)
+			ft_putstr_fd("\n", STDERR_FILENO);
 	}
-	if (catch_sigint)
-		ft_putstr_fd("\n", STDERR_FILENO);
 }
 
 static t_mshl_data	*mshl_data_init(t_env *envs)
@@ -157,10 +157,14 @@ int	main(int argc, char *argv[], char **environ)
 		g_mshl_data->interrupted = FALSE;
 		g_mshl_data->exit_status = 0;
 		ft_sigint_setter(ft_sigint_handler);
-		ft_putstr_fd("\e[36mminishell>\e[0m", 2);
-		if (get_next_line(0, &command) < 0)
-			return (0);
-		run_commandline(&command);
+		command = readline("\e[36mminishell>\e[0m");
+		if (command == NULL)
+			exit(EXIT_FAILURE);
+		else if (ft_strlen(command) > 0)
+		{
+			add_history(command);
+			run_commandline(&command);
+		}
 	}
 	return (0);
 }

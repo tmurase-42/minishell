@@ -20,18 +20,20 @@ FILES           = main.c get_next_line.c get_next_line_utils.c ft_lexer.c exec/f
 									pipe/ft_pipe_create.c pipe/ft_pipe_update.c pipe/ft_pipe_duplicate.c pipe/ft_pipe_state.c \
 									sigint/ft_sigint_handler.c sigint/ft_sigint_setter.c \
 
-SRCS        = $(addprefix $(SDIR), $(FILES))
-OBJS        = $(SRCS:.c=.o)
-CC              = gcc
-CFLAGS      = -g -Wall -Wextra -Werror
-RM              = rm -f
+SRCS		= $(addprefix $(SDIR), $(FILES))
+OBJS		= $(SRCS:.c=.o)
+CC			= gcc
+CFLAGS		= -g -Wall -Wextra -Werror
+CPPFLAGS	= -I $(shell brew --prefix readline)/include
+LDFLAGS 	= -lreadline -L $(shell brew --prefix readline)/lib
+RM			= rm -f
 
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(MAKE) -C ./libft
-	$(CC) $(OBJS) $(CFLAGS)  ./libft/libft.a -o $(NAME)
+	$(CC) $(OBJS) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) ./libft/libft.a -o $(NAME)
 
 clean:
 	$(MAKE) -C ./libft clean
