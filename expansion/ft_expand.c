@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/31 17:03:59 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/31 17:14:33 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,16 +298,6 @@ static char *create_env_expanded_str(const char *str)
 	}
 	return (ret);
 }
-
-
-
-
-
-
-
-
-
-
 
 
 void			ft_expand(t_cmd *cmd)
