@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/29 18:11:26 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/31 14:44:28 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,8 +315,6 @@ void			ft_expand(t_cmd *cmd)
 	char	*new_str;
 	t_token	*token;
 
-	ft_token_print(cmd->args);
-
 	// esc_chars = "\"\\$";
 	// if (state == STATE_IN_GENERAL)
 		// esc_chars = "\'\"\\$|;><";
@@ -326,7 +324,6 @@ void			ft_expand(t_cmd *cmd)
 		return ;
 	token = get_first_token(cmd->args);
 	new_str = NULL;
-	ft_token_print(token);
 	while (token)
 	{
 		if (token->type == CHAR_QUOTE)
