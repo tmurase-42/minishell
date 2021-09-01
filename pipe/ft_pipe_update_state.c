@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pipe_create.c                                   :+:      :+:    :+:   */
+/*   ft_pipe_update_state.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/27 01:30:35 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 17:37:44 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/08/27 12:12:17 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/09/01 17:24:41 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_bool	can_write(t_pipe_state state)
+void	ft_pipe_update_state(t_cmd *cmd)
 {
-	if (state == WRITE_ONLY || state == READ_WRITE)
-		return (TRUE);
-	return (FALSE);
-}
+	extern t_mshl_data	*g_mshl_data;
 
-void	ft_pipe_create(t_pipe_state state, int new_pipe[])
-{
-	if (can_write(state) == TRUE)
-		if (pipe(new_pipe) < 0)
-			ft_error("error", "a pipe cannot be created.", STDERR_FILENO);
+	if (cmd->next && cmd->next->next)
+		g_mshl_data->pipe_state = READ_WRITE;
+	else if (cmd->next)
+		g_mshl_data->pipe_state = READ_ONLY;
 }
