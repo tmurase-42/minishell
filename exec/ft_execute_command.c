@@ -170,5 +170,5 @@ void			ft_execute_command(t_cmd *cmd, int pipes[])
 	// 実行
 	exec_command(cmd, pipes);
 	// パイプステータスの更新
-	ft_pipe_state(cmd);
+	ft_pipe_update_state(cmd);
 }
