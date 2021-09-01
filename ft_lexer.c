@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/29 17:27:54 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 17:51:46 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ static t_token_type	get_token_type(char c)
 
 	token_type = CHAR_GENERAL;
 	if (c == '|')
-	{
 		token_type = CHAR_PIPE;
-	}
 	else if (c == '<')
 		token_type = CHAR_LESSER;
 	else if (c == '>')
@@ -57,7 +55,8 @@ static t_token_type	get_token_type(char c)
 	return token_type;
 }
 
-static void	set_token_type(char *str, int *i, int *word_len, char *quote_status, t_token_type *token_type)
+static void	set_token_type(char *str, int *i, int *word_len,
+	char *quote_status, t_token_type *token_type)
 {
 	if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
 	{
@@ -85,7 +84,8 @@ static void	set_token_type(char *str, int *i, int *word_len, char *quote_status,
 	}
 }
 
-static t_token	*split_word(char *str, int *i, int *word_len, char *quote_status, t_token_type *token_type)
+static t_token	*split_word(char *str, int *i, int *word_len,
+	char *quote_status, t_token_type *token_type)
 {
 	t_token			*tokens;
 

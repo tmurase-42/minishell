@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pipe_create.c                                   :+:      :+:    :+:   */
+/*   ft_is_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/27 01:30:35 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 18:54:42 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/09/01 19:36:17 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/09/01 19:36:29 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_bool	can_write(t_pipe_state state)
+t_bool	is_builin_command(char *str)
 {
-	if (state == WRITE_ONLY || state == READ_WRITE)
-		return (TRUE);
+	const char *commands[] = {"exit", "cd", "env", "unset", "export", "echo", "pwd", "history", NULL};
+	int		i;
+
+	i = 0;
+	if (str == NULL)
+		return (FALSE);
+	while (commands[i])
+	{
+		if (ft_strncmp(str, commands[i], ft_strlen(commands[i])) == 0)
+			return (TRUE);
+		i++;
+	}
 	return (FALSE);
-}
-
-void	ft_pipe_create(int new_pipe[])
-{
-	extern t_mshl_data	*g_mshl_data;
-
-	if (can_write(g_mshl_data->pipe_state) == TRUE)
-		return ;
-	if (pipe(new_pipe) < 0)
-		ft_error(NULL, NULL, 1);
-	g_mshl_data->pipe_state = WRITE_ONLY;
 }
