@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 16:31:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/30 17:48:46 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 21:20:16 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_pwd()
+t_bool ft_pwd()
 {
 	char	pwd[PATH_MAX];
 
