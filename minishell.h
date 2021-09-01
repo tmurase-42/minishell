@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/01 21:32:43 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 22:11:12 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,10 @@ typedef struct	s_mshl_data
 /* exec functions */
 t_token	*ft_lexer(char *str);
 void	ft_exec_commands(t_cmd *cmd);
-void	ft_exec_command(t_cmd *cmd, int pipes[]);
 void	ft_wait_process(t_cmd *cmd);
 void	ft_exec_child_process(int new_pipe[], int old_pipe[], t_cmd *cmd);
+void	ft_exec_parent_process(int new_pipe[], int old_pipe[], t_cmd *cmd,
+	pid_t pid);
 int		ft_exec_builtin(t_cmd *cmd);
 t_bool	is_builin_command(char *str);
 

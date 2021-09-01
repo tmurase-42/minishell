@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/09/01 21:31:45 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 22:29:35 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static t_mshl_data	*mshl_data_init(t_env *envs)
 	mshl_data->histories = NULL;
 	mshl_data->pipe_state = WRITE_ONLY;
 	mshl_data->interrupted = FALSE;
-	//mshl_data->pipe[2];
 	return (mshl_data);
 }
 
@@ -36,34 +35,26 @@ static t_cmd	*run_commandline(char **command)
 {
 	extern t_mshl_data *g_mshl_data;
 	t_cmd		*cmd;
-	t_cmd		*current_cmd = NULL;
 	t_token		*tokens;
 
-	// printf("command = %s\n", *command);
 	tokens = NULL;
 
-	// コマンドが存在すればhistoryに追加する
-	if (**command != '\0')
-		ft_history_add(*command); // Add new history
-
-	// トークンに分離する
+	// 文字列をトークンに分離する
 	tokens = ft_lexer(*command);
 
-	// ;とかの「異常なトークン」の検知とエラー吐き出し
-	// ここは未実装（村瀬さん）
-	// ft_token_print(tokens);
-	if (ft_check_token_error(tokens) != TRUE)
-		return ;
+	// 異常なトークンの検知とエラー吐き出し
+	// if (ft_check_token_error(tokens) != TRUE)
+	//	 return NULL;
+
 	// トークンをパースする
 	cmd = ft_cmd_lstnew();
 	ft_parser(tokens, cmd);
+
+	// テストプリント
 	// ft_token_print(cmd->args);
 
-	// 各コマンドの処理
-	current_cmd = cmd;
-
 	// 実行
-	ft_exec_commands(current_cmd);
+	ft_exec_commands(cmd);
 
 	// 返却
 	return cmd;

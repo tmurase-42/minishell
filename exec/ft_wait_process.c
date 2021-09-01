@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 17:54:33 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 17:56:30 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 22:17:04 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void ft_wait_process(t_cmd *cmd)
 	t_bool	has_child_process;
 	int		signal;
 
-
 	catch_sigint = FALSE;
 	has_child_process = FALSE;
+
 	while(cmd)
 	{
 		if (cmd->pid > 0)
@@ -36,6 +36,7 @@ void ft_wait_process(t_cmd *cmd)
 		}
 		cmd = cmd->next;
 	}
+
 	if (has_child_process)
 	{
 		if (WIFEXITED(g_mshl_data->exit_status))
