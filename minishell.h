@@ -6,11 +6,10 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/01 17:24:53 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 17:43:08 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
 #include "libft/libft.h"
 #include <stdio.h>
 #include <unistd.h>

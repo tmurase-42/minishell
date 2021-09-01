@@ -1,6 +1,6 @@
 UNAME    := $(shell uname)
 NAME            = minishell
-FILES           = main.c get_next_line.c get_next_line_utils.c ft_lexer.c exec/ft_execute_command.c \
+FILES           = main.c ft_lexer.c exec/ft_execute_command.c \
 									environ/ft_env_add.c environ/ft_env_delete.c environ/ft_env_get.c environ/ft_env_create.c\
 									environ/ft_env_init.c environ/ft_env_update.c environ/ft_env_array.c \
 									exit/ft_exit.c \
