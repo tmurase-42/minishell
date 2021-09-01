@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 17:36:11 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/29 18:08:12 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 23:04:49 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ t_token *ft_token_duplicate(t_token *tokens)
 	while (tmp_token)
 	{
 		if (!(new_token = ft_token_create(tmp_token->data, tmp_token->type)))
-			ft_error("Error", "memory has not been allocated.", 0);
+			ft_error("memory has not been allocated.", EXIT_FAILURE);
 		if (!(ft_token_add(new_token, &new_tokens)))
-			ft_error("Error", "token can't be added.", 0);
+			ft_error("token can't be added.", EXIT_FAILURE);
 		tmp_token = tmp_token->next;
 	}
 	return (new_tokens);

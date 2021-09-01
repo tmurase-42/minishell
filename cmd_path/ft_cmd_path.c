@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 20:51:39 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 17:16:20 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 23:01:06 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_cmd_path(const char *cmd)
 	{
 		res = ft_strdup(cmd);
 		if (!res)
-			ft_error(NULL, NULL, 1);
+			ft_error(NULL, EXIT_FAILURE);
 	}
 	check_cmd_path(cmd, res);
 	return (res);

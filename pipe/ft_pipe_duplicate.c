@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 01:30:35 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 22:15:15 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 23:04:07 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_pipe_duplicate(t_pipe_state state, int old_pipe[], int new_pipe[])
 			|| dup2(old_pipe[OUT], STDIN_FILENO) < 0
 			|| close(old_pipe[OUT]) < 0)
 		{
-			ft_error("error", "a pipe cannot be set up.", 1);
+			ft_error("a pipe cannot be set up.", EXIT_FAILURE);
 		}
 	}
 	if (can_write(state) == TRUE)
@@ -43,7 +43,7 @@ void	ft_pipe_duplicate(t_pipe_state state, int old_pipe[], int new_pipe[])
 			|| dup2(new_pipe[IN], STDOUT_FILENO) < 0
 			|| close(new_pipe[IN]) < 0)
 		{
-			ft_error("error", "a pipe cannot be set up.", 1);
+			ft_error("a pipe cannot be set up.", EXIT_FAILURE);
 		}
 	}
 }

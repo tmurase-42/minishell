@@ -22,7 +22,7 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 	// 新しいパイプを生成
 	if (pipe(new_pipe) < 0) {
 		ft_pipe_destroy(old_pipe); // 失敗した場合は、上で開いたパイプを閉じてから終了
-		ft_error("error", "cannot create a pipe.", 1);
+		ft_error("cannot create a pipe.", EXIT_FAILURE);
 	}
 
 	// プロセスの生成

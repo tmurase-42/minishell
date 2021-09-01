@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_update.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 18:08:59 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/07/29 22:21:53 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/01 23:01:41 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	set_env_value(t_env *env, const char *new_value)
 	if (new_value)
 	{
 		if (!(env->value = ft_strdup(new_value)))
-		ft_error(NULL, NULL, 0);
+		ft_error(NULL, EXIT_FAILURE);
 	}
 	else
 		env->value = NULL;

@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 16:41:27 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 17:29:32 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 23:01:06 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_bool	is_command_exist(const char *path, char **res)
 		return (FALSE);
 	ft_free_char(res);
 	if (!(*res = ft_strdup(path)))
-		ft_error(NULL, NULL, 1);
+		ft_error(NULL, EXIT_FAILURE);
 	return (TRUE);
 }
 
@@ -83,11 +83,11 @@ char	*ft_cmd_path_search_binary(const char *cmd)
 	if (ft_strncmp(env->value, "", ft_strlen(env->value)) == 0)
 	{
 		if (!(res = ft_strdup(cmd)))
-			ft_error(NULL, NULL, 1);
+			ft_error(NULL, EXIT_FAILURE);
 		return (res);
 	}
 	if (!(split_path = ft_cmd_path_get_colon(env->value, ".")))
-		ft_error(NULL, NULL, 1);
+		ft_error(NULL, EXIT_FAILURE);
 	try_search_command(split_path, &res, cmd);
 	ft_safe_free_split(&split_path);
 	return (res);

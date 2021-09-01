@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/29 18:04:48 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 23:13:31 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_token *create_token(void)
 
 	token = (t_token *)ft_calloc(1, sizeof(t_token));
 	if (token == NULL)
-		ft_error("malloc error", "malloc", 0);
+		ft_error("malloc error", EXIT_FAILURE);
 	token->data = NULL;
 	token->next = NULL;
 	token->prev = NULL;
@@ -56,7 +56,7 @@ static void add_token(t_token *copy)
 	t_token *last;
 
 	if (!copy)
-		ft_error("Not extpected error", "unknown", 0);
+		ft_error("Not extpected error", EXIT_FAILURE);
 	next = create_token();
 	last = last_token(copy);
 	last->next = next;

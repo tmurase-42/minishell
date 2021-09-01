@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 18:32:04 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/29 12:42:43 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 23:03:37 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_history	*history_create(char *data, size_t number)
 
 	history = malloc(sizeof(t_history));
 	if (!history)
-		ft_error("history", "mallocerror", 1);
+		ft_error("malloc error", EXIT_FAILURE);
 	history->prev = NULL;
 	history->next = NULL;
 	history->data = data;
