@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/29 10:53:03 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/08/29 18:04:48 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static t_token *copy_token(t_token *token)
 	while (token)
 	{
 		tmp->data = ft_strdup(token->data);
+		tmp->type = token->type;
 		if (token->next == NULL)
 			break ;
 		if (ft_strncmp(token->next->data, "|", 2) == 0)

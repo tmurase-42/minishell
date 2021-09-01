@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pipe_state.c                                    :+:      :+:    :+:   */
+/*   ft_sigint_setter.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/27 12:12:17 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/29 12:43:12 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/08/30 16:31:45 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/08/31 14:34:08 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_pipe_state(t_cmd *cmd)
+void	ft_sigint_setter(void (*func)(int))
 {
-	extern t_mshl_data	*g_mshl_data;
-
-	if (cmd->next && cmd->next->next)
-		g_mshl_data->pipe_state = READ_WRITE;
-	else if (cmd->next)
-		g_mshl_data->pipe_state = READ_ONLY;
+	if (signal(SIGINT, func) == SIG_ERR)
+		ft_error("signal SIGINT", "error", 0);
+	if (signal(SIGQUIT, func) == SIG_ERR)
+		ft_error("signal SIGINT", "error", 0);
 }

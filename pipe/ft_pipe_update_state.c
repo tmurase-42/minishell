@@ -1,39 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_get.c                                       :+:      :+:    :+:   */
+/*   ft_pipe_update_state.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 18:08:38 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/29 18:10:50 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/08/27 12:12:17 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/09/01 17:24:41 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		get_key_len(const char *str)
+void	ft_pipe_update_state(t_cmd *cmd)
 {
-	int	i;
+	extern t_mshl_data	*g_mshl_data;
 
-	i = 0;
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' ))
-	{
-		i++;
-	}
-	return i;
-}
-
-
-t_env	*ft_env_get(const char *key, t_env *envs)
-{
-	if (!envs || !key)
-		return (NULL);
-	while (envs)
-	{
-		if (ft_strncmp(envs->key, key, get_key_len(envs->key)) == 0)
-			return (envs);
-		envs = envs->next;
-	}
-	return (NULL);
+	if (cmd->next && cmd->next->next)
+		g_mshl_data->pipe_state = READ_WRITE;
+	else if (cmd->next)
+		g_mshl_data->pipe_state = READ_ONLY;
 }

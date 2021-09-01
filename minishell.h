@@ -16,12 +16,15 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/errno.h>
 #include <stdlib.h>
 #include <limits.h>
-#include <readline/history.h>
 #include <sys/stat.h>
 #include <sys/errno.h>
 #include <string.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+
 
 #define DOUBLE_QUOT 34
 #define SINGLE_QUOT 39
@@ -145,6 +148,7 @@ typedef struct	s_mshl_data
 	t_history		*histories;
 	t_pipe_state	pipe_state;
 	int				pipe[2];
+	t_bool			interrupted;
 }				t_mshl_data;
 
 t_token	*ft_lexer(char *str);
@@ -155,6 +159,7 @@ void	ft_error(char *message, char *command, int status_num);
 void	ft_free_char(char **target);
 void    ft_safe_free_split(char ***target);
 void	ft_error_display(char *command, char *name, int exit_status);
+char	*ft_join_path(const char *prev, const char *next);
 
 /* Token functions */
 t_token	*ft_token_create(char *data, t_token_type type);
@@ -211,10 +216,17 @@ int		ft_history_add(char *line);
 int		ft_history();
 
 /* get command path function */
+char	*ft_cmd_path_search_binary(const char *cmd);
+char	**ft_cmd_path_get_colon(const char *str, const char *default_value);
 char	*ft_cmd_path(const char *cmd);
+
 
 /* pipe functions */
 void	ft_pipe_duplicate(t_pipe_state state, int old_pipe[], int new_pipe[]);
 void	ft_pipe_update(t_pipe_state state, int old_pipe[], int new_pipe[]);
 void	ft_pipe_create(t_pipe_state state, int new_pipe[]);
-void	ft_pipe_state(t_cmd *command);
+void	ft_pipe_update_state(t_cmd *command);
+
+/* sigint functions */
+void	ft_sigint_handler(int sig);
+void	ft_sigint_setter(void (*func)(int));

@@ -116,6 +116,7 @@ static void		exec_command(t_cmd *cmd, int old_pipe[])
 		//	READ_ONLY,
 		//	WRITE_ONLY,
 		//	READ_WRITE
+		ft_sigint_setter(SIG_DFL);
 
 		if (g_mshl_data->pipe_state == READ_ONLY || g_mshl_data->pipe_state == READ_WRITE)
 		{
@@ -144,6 +145,7 @@ static void		exec_command(t_cmd *cmd, int old_pipe[])
 		else
 			exec_commons(cmd);
 	}
+	ft_sigint_setter(SIG_IGN);
 	// else // 親プロセスの処理
 	//{
 	//	if (pid > 0)
@@ -159,7 +161,7 @@ void			ft_execute_command(t_cmd *cmd, int pipes[])
 	extern t_mshl_data	*g_mshl_data;
 
 	// コマンドの中身がなかった場合の例外処理
-	if (cmd->argc == 0 || !cmd->args || cmd->args->data == '\0')
+	if (cmd->argc == 0 || !cmd->args || cmd->args->data == NULL)
 	{
 		g_mshl_data->exit_status = EXIT_FAILURE;
 		return ;
@@ -168,5 +170,5 @@ void			ft_execute_command(t_cmd *cmd, int pipes[])
 	// 実行
 	exec_command(cmd, pipes);
 	// パイプステータスの更新
-	ft_pipe_state(cmd);
+	ft_pipe_update_state(cmd);
 }

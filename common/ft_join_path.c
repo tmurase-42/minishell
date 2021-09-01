@@ -1,39 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_get.c                                       :+:      :+:    :+:   */
+/*   ft_join_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 18:08:38 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/29 18:10:50 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/09/01 16:45:56 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/09/01 17:07:41 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		get_key_len(const char *str)
+char	*ft_join_path(const char *prev, const char *next)
 {
-	int	i;
+	char	*tmp;
+	char	*res;
+	size_t	index;
 
-	i = 0;
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' ))
-	{
-		i++;
-	}
-	return i;
-}
-
-
-t_env	*ft_env_get(const char *key, t_env *envs)
-{
-	if (!envs || !key)
+	if (!prev || !next)
 		return (NULL);
-	while (envs)
-	{
-		if (ft_strncmp(envs->key, key, get_key_len(envs->key)) == 0)
-			return (envs);
-		envs = envs->next;
-	}
-	return (NULL);
+	tmp = NULL;
+	res = NULL;
+	if (!(tmp = ft_strjoin(prev, "/")))
+		ft_error(NULL, NULL, 1);
+	index = ft_strlen(tmp);
+	if (index >= 2 && tmp[index - 2] == '/')
+		tmp[index - 1] = '\0';
+	if (!(res = ft_strjoin(tmp, next)))
+		ft_error(NULL, NULL, 1);
+	free(tmp);
+	return (res);
 }

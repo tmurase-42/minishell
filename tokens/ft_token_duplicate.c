@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_token_print.c                                   :+:      :+:    :+:   */
+/*   ft_token_duplicate.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/29 16:08:07 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/08/29 17:36:11 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/08/29 18:08:12 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 static t_token	*get_first_token(t_token *tokens)
 {
 	t_token	*target;
@@ -24,24 +23,22 @@ static t_token	*get_first_token(t_token *tokens)
 	return (target);
 }
 
-void			ft_token_print(t_token *tokens)
-{
-	t_token	*current_token;
-	int		i;
 
-	i = 0;
-	if (!tokens)
-		return ;
-	else
+t_token *ft_token_duplicate(t_token *tokens)
+{
+	t_token	*tmp_token;
+	t_token *new_tokens;
+	t_token	*new_token;
+
+	tmp_token = get_first_token(tokens);
+	new_tokens = ft_token_create(tmp_token->data, tmp_token->type);
+	while (tmp_token)
 	{
-		current_token = get_first_token(tokens);
-		printf("--------------------------------------\n");
-		printf("index : type : data\n");
-		while(current_token) {
-			printf("%5d : %4d : %s\n", i, current_token->type, current_token->data);
-			current_token = current_token->next;
-			i++;
-		}
-		printf("--------------------------------------\n");
+		if (!(new_token = ft_token_create(tmp_token->data, tmp_token->type)))
+			ft_error("Error", "memory has not been allocated.", 0);
+		if (!(ft_token_add(new_token, &new_tokens)))
+			ft_error("Error", "token can't be added.", 0);
+		tmp_token = tmp_token->next;
 	}
+	return (new_tokens);
 }
