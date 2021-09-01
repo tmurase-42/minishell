@@ -6,22 +6,22 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 01:30:35 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 17:37:33 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 22:15:15 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_bool	can_write(t_pipe_state state)
+static t_bool	can_read(t_pipe_state state)
 {
-	if (state == WRITE_ONLY || state == READ_WRITE)
+	if (state == READ_ONLY || state == READ_WRITE)
 		return (TRUE);
 	return (FALSE);
 }
 
-static t_bool	can_read(t_pipe_state state)
+static t_bool	can_write(t_pipe_state state)
 {
-	if (state == READ_ONLY || state == READ_WRITE)
+	if (state == WRITE_ONLY || state == READ_WRITE)
 		return (TRUE);
 	return (FALSE);
 }
