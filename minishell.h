@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/01 17:44:02 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/01 21:32:43 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
 #include "libft/libft.h"
 #include <stdio.h>
 #include <unistd.h>
@@ -151,8 +150,15 @@ typedef struct	s_mshl_data
 	t_bool			interrupted;
 }				t_mshl_data;
 
+/* exec functions */
 t_token	*ft_lexer(char *str);
-void	ft_execute_command(t_cmd *cmd, int pipes[]);
+void	ft_exec_commands(t_cmd *cmd);
+void	ft_exec_command(t_cmd *cmd, int pipes[]);
+void	ft_wait_process(t_cmd *cmd);
+void	ft_exec_child_process(int new_pipe[], int old_pipe[], t_cmd *cmd);
+int		ft_exec_builtin(t_cmd *cmd);
+t_bool	is_builin_command(char *str);
+
 
 /* Common functions */
 void	ft_error(char *message, char *command, int status_num);
@@ -224,8 +230,11 @@ char	*ft_cmd_path(const char *cmd);
 /* pipe functions */
 void	ft_pipe_duplicate(t_pipe_state state, int old_pipe[], int new_pipe[]);
 void	ft_pipe_update(t_pipe_state state, int old_pipe[], int new_pipe[]);
-void	ft_pipe_create(t_pipe_state state, int new_pipe[]);
+void	ft_pipe_create(int new_pipe[]);
 void	ft_pipe_update_state(t_cmd *command);
+void	ft_pipe_destroy(int pipes[]);
+
+
 
 /* sigint functions */
 void	ft_sigint_handler(int sig);
