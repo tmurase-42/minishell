@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 22:09:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/29 14:34:38 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/02 10:02:43 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static t_bool	ft_check_redirect_error(t_token *tokens)
 	tmp = tokens;
 	while (tmp->next != NULL)
 	{
-		if (tmp->type != 0 && tmp->next->type != 0)
+		if (tmp->type != CHAR_GENERAL && tmp->next->type != CHAR_GENERAL)
 		{
 			ft_error_display("minishell", "syntax error", 1);
 			return (FALSE);
