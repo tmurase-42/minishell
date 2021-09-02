@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:17:42 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/29 12:44:13 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/02 20:02:03 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	ft_error(char *message, char *command, int status_num)
 	if (command)
 	{
 		ft_putstr_fd(command, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
 	}
-	ft_putstr_fd(message, STDERR_FILENO);
+	(void)message;
+	//ft_putstr_fd(message, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	exit(status_num);
 }
