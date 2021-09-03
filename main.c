@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/09/01 22:46:31 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/03 12:38:49 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static t_cmd	*run_commandline(char **command)
 	tokens = ft_lexer(*command);
 
 	// 異常なトークンの検知とエラー吐き出し
-	// if (ft_check_token_error(tokens) != TRUE)
-	//	 return NULL;
+	if (ft_check_token_error(tokens) != TRUE)
+		return NULL;
 
 	// トークンをパースする
 	cmd = ft_cmd_lstnew();
@@ -75,14 +75,12 @@ int	main(int argc, char *argv[], char **environ)
 
 	while (1)
 	{
-
 		//g_mshl_data->interrupted = FALSE;
 		//g_mshl_data->exit_status = 0;
 
 		ft_sigint_setter(ft_sigint_handler);
 
 		command = readline("\e[36mminishell>\e[0m");
-
 		if (command == NULL)
 			exit(EXIT_FAILURE);
 		else if (ft_strlen(command) > 0)
