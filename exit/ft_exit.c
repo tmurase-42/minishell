@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 17:54:57 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/02 20:05:54 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/03 12:35:36 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int ft_exit(t_cmd *cmd)
 	}
 	if (cmd->argc == 2 && ft_is_strdigit(cmd->args->next->data) == FALSE)
 	{
-		ft_error("exit", "numeric number is required", 255);
+		ft_error("numeric number is required", 255);
 	}
 	ft_putstr_fd("exit\n", 2);
 	exit(EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 20:26:21 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 23:01:06 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,17 @@ char	**ft_env_array(t_env *envs)
 
 	env_size = get_environ_size(envs);
 	if (!(environ = (char **)malloc(sizeof(char *) * (env_size + 1))))
-		ft_error(NULL, NULL, 1);
+		ft_error(NULL, EXIT_FAILURE);
 	i = 0;
 	while (i < env_size)
 	{
 		if (can_generate_environ(envs))
 		{
 			if (!(environ[i] = ft_strjoin(envs->key, "=")))
-				ft_error(NULL, NULL, 1);
+				ft_error(NULL, EXIT_FAILURE);
 			tmp = environ[i];
 			if (!(environ[i] = ft_strjoin(environ[i], envs->value)))
-				ft_error(NULL, NULL, 1);
+				ft_error(NULL, EXIT_FAILURE);
 			free(tmp);
 			i++;
 		}

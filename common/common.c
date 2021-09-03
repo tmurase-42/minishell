@@ -3,26 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   common.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:17:42 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/02 20:02:03 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/03 12:35:16 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_error(char *message, char *command, int status_num)
+void	ft_error(char *message, int exit_status)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	if (command)
+	ft_putendl_fd(strerror(errno), STDERR_FILENO);
+	if (message)
 	{
-		ft_putstr_fd(command, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(message, STDERR_FILENO);
 	}
-	(void)message;
-	//ft_putstr_fd(message, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-	exit(status_num);
+	exit(exit_status);
 }
 
 void	ft_error_display(char *command, char *name, int exit_status)

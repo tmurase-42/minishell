@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/09/03 11:42:36 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/03 12:38:49 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	main(int argc, char *argv[], char **environ)
 		else if (ft_strlen(command) > 0)
 		{
 			add_history(command);
+			ft_history_add(command);
 			cmd = run_commandline(&command);
 			ft_wait_process(cmd);
 		}

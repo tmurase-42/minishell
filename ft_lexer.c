@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/01 17:51:46 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 23:01:41 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	set_token_type(char *str, int *i, int *word_len,
 				break;
 			*word_len += 1;
 			if (str[*i] == '\0')
-				ft_error(NULL, NULL, 0);
+				ft_error(NULL, EXIT_FAILURE);
 		}
 	}
 }

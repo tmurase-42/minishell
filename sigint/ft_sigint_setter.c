@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:31:45 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/31 14:34:08 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 23:04:25 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_sigint_setter(void (*func)(int))
 {
 	if (signal(SIGINT, func) == SIG_ERR)
-		ft_error("signal SIGINT", "error", 0);
+		ft_error("signal SIGINT", EXIT_FAILURE);
 	if (signal(SIGQUIT, func) == SIG_ERR)
-		ft_error("signal SIGINT", "error", 0);
+		ft_error("signal SIGINT", EXIT_FAILURE);
 }

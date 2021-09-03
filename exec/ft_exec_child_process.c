@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 19:27:55 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 22:16:28 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 23:02:14 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void		exec_commons(t_cmd *cmd)
 	envs = ft_env_array(g_mshl_data->envs);
 	path = ft_cmd_path(args[0]);
 	if (execve(path, args, envs) == -1)
-		ft_error("do not work exec", cmd->args->data, EXIT_FAILURE);
+		ft_error("execve not working.", EXIT_FAILURE);
 	ft_safe_free_split(&envs);
 }
 

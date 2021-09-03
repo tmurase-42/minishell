@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 16:55:36 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 16:56:58 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 23:01:07 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ static char	*strdup_colon_unit(char *unit, const char *default_value)
 	if (ft_strlen(unit) == 0)
 	{
 		if (!(res = ft_strdup(default_value)))
-			ft_error(NULL, NULL, 1);
+			ft_error(NULL, EXIT_FAILURE);
 	}
 	else
 	{
 		if (!(res = ft_strdup(unit)))
-			ft_error(NULL, NULL, 1);
+			ft_error(NULL, EXIT_FAILURE);
 	}
 	return (res);
 }
@@ -46,7 +46,7 @@ static char	**allocate_colon_unit_parent(const char *str)
 		index++;
 	}
 	if (!(res = malloc(sizeof(char *) * (colon_count + 2))))
-		ft_error(NULL, NULL, 1);
+		ft_error(NULL, EXIT_FAILURE);
 	res[colon_count + 1] = NULL;
 	return (res);
 }
@@ -62,7 +62,7 @@ char	**ft_cmd_path_get_colon(const char *str, const char *default_value)
 	index = 0;
 	res = allocate_colon_unit_parent(str);
 	if (!(copied_str = ft_strdup(str)))
-		ft_error(NULL, NULL, 1);
+		ft_error(NULL, EXIT_FAILURE);
 	unit_start = copied_str;
 	unit_end = ft_strchr(unit_start, ':');
 	while (unit_end)

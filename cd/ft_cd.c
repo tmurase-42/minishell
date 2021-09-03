@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 16:52:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/03 11:55:43 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/03 12:39:43 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*ft_get_dir_path_relative(char *current_dir, char *second_argv)
 
 	dot_count = 0;
 	dot_dot_count = 0;
-	current_dir = ft_strjoin(current_dir, '/');
+	current_dir = ft_strjoin(current_dir, "/");
 	current_path = ft_split(current_dir, '/');
 	path = ft_strjoin(current_dir, second_argv);
 	split_path = ft_split(second_argv, '/');

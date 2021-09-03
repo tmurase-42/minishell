@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 01:30:35 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 18:54:42 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/01 23:01:06 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ void	ft_pipe_create(int new_pipe[])
 	if (can_write(g_mshl_data->pipe_state) == TRUE)
 		return ;
 	if (pipe(new_pipe) < 0)
-		ft_error(NULL, NULL, 1);
+		ft_error(NULL, EXIT_FAILURE);
 	g_mshl_data->pipe_state = WRITE_ONLY;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/03 11:41:05 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/03 12:38:41 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ t_bool	is_builin_command(char *str);
 
 
 /* Common functions */
-void	ft_error(char *message, char *command, int status_num);
+void	ft_error(char *message, int exit_status);
 void	ft_free_char(char **target);
 void    ft_safe_free_split(char ***target);
 void	ft_error_display(char *command, char *name, int exit_status);
