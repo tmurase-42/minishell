@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 22:09:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/02 10:02:43 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/03 11:43:08 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static t_bool	ft_check_unexpect_error(t_token *tokens)
 {
 	while (tokens->next != NULL)
 		tokens = tokens->next;
-	if (tokens->type != 0)
+	if (tokens->type != CHAR_GENERAL)
 	{
 		ft_error_display("minishell", "error: identifier unexpected error", 1);
 		return (FALSE);
