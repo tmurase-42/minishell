@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:38:04 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/29 12:43:26 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/03 14:35:03 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int				ft_unset(t_cmd *cmd)
 		else
 		{
 			// -bash: unset: `.jfe': not a valid identifier
-			ft_error(token->data, "unset", 0);
+			ft_error_display(token->data, "unset", 0);
 			ret = EXIT_FAILURE;
 		}
 		token = token->next;
