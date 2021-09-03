@@ -8,7 +8,7 @@ FILES           = main.c ft_lexer.c exec/ft_exec_commands.c exec/ft_wait_process
 									env/ft_env.c \
 									export/ft_export.c \
 									unset/ft_unset.c \
-									cd/ft_cd.c \
+									cd/ft_cd.c  cd/ft_cd_utils.c\
 									expansion/ft_expand.c \
 									pwd/ft_pwd.c \
 									parser/parser.c \
