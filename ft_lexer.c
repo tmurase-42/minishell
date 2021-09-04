@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/01 23:01:41 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/04 22:51:01 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,17 @@ static void	set_token_type(char *str, int *i, int *word_len,
 				ft_error(NULL, EXIT_FAILURE);
 		}
 	}
+	else if (ft_isdigit(str[*i]))
+	{
+		*token_type = CHAR_GENERAL;
+		while(ft_isdigit(str[*i]))
+		{
+			*i += 1;
+			*word_len += 1;
+		}
+		if (str[*i] == '>')
+			*token_type = IO_NUMBER;
+	}
 }
 
 static t_token	*split_word(char *str, int *i, int *word_len,
@@ -104,13 +115,20 @@ static t_token	*split_word(char *str, int *i, int *word_len,
 				*i += 1;
 			*quote_status = '\0';
 		}
-		else {
+		else if (ft_isdigit(str[*i]) && *token_type != CHAR_GENERAL)
+		{
+			set_token_type(str, i, word_len, quote_status, token_type);
+			continue ;
+		}
+		else
+		{
 			*token_type = get_token_type(str[*i]);
 			*i += 1;
 			*word_len += 1;
 			continue;
 		}
 		ft_token_add(create_new_token(str, *i, word_len, quote_status, *token_type), &tokens);
+		*token_type = CHAR_NULL;
 	}
 	if (*word_len > 0)
 		ft_token_add(create_new_token(str, *i, word_len, quote_status, *token_type), &tokens);
