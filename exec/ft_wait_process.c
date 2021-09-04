@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 17:54:33 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 23:01:06 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/04 10:49:47 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,17 @@
 void ft_wait_process(t_cmd *cmd)
 {
 	extern t_mshl_data	*g_mshl_data;
-	//int		status;
-	t_bool	catch_sigint;
+	int		status;
 	t_bool	has_child_process;
-	int		signal;
 
-	catch_sigint = FALSE;
 	has_child_process = FALSE;
 
 	while(cmd)
 	{
 		if (cmd->pid > 0)
 		{
-			if (waitpid(cmd->pid, &g_mshl_data->exit_status, WUNTRACED) < 0)
-				ft_error(NULL, EXIT_FAILURE);
-			// シグナルの実装で使うかもしれない
-			if (WIFSIGNALED(g_mshl_data->exit_status) && WTERMSIG(g_mshl_data->exit_status) == SIGINT)
-				catch_sigint = TRUE;
+			if (waitpid(cmd->pid, &status, WUNTRACED) < 0)
+				ft_error("waitpid failed.", EXIT_FAILURE);
 			has_child_process = TRUE;
 		}
 		cmd = cmd->next;
@@ -39,16 +33,17 @@ void ft_wait_process(t_cmd *cmd)
 
 	if (has_child_process)
 	{
-		if (WIFEXITED(g_mshl_data->exit_status))
-			g_mshl_data->exit_status = WEXITSTATUS(g_mshl_data->exit_status);
-		else if (WIFSIGNALED(g_mshl_data->exit_status))
+		if (WIFEXITED(status))
+			g_mshl_data->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
 		{
-			signal = WTERMSIG(g_mshl_data->exit_status);
-			if (signal == SIGQUIT)
+			if (WTERMSIG(status) == SIGQUIT)
 				ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
-			g_mshl_data->exit_status = signal + 128;
+			else
+				ft_putstr_fd("\n", STDERR_FILENO);
+			g_mshl_data->exit_status = WTERMSIG(status) + 128;
 		}
-		if (catch_sigint)
-			ft_putstr_fd("\n", STDERR_FILENO);
+		else
+			ft_error("child exited abnormally.", EXIT_FAILURE);
 	}
 }
