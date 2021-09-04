@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 19:34:08 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 22:44:42 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/04 20:17:28 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,5 @@ int	ft_exec_builtin(t_cmd *cmd)
 		return (ft_pwd());
 	if (ft_strncmp(cmd->args->data, "cd", ft_strlen("cd")) == 0)
 		return (ft_cd(cmd));
-	if (ft_strncmp(cmd->args->data, "history", ft_strlen("history")) == 0)
-		return (ft_history());
 	return (EXIT_FAILURE);
 }

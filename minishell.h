@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/04 11:12:53 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/04 20:18:47 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,23 +228,16 @@ t_cmd	*ft_cmd_lstnew(void);
 /* error function */
 t_bool	ft_check_token_error(t_token *tokens);
 
-/* history functions */
-int		ft_history_add(char *line);
-int		ft_history();
-
 /* get command path function */
 char	*ft_cmd_path_search_binary(const char *cmd);
 char	**ft_cmd_path_get_colon(const char *str, const char *default_value);
 char	*ft_cmd_path(const char *cmd);
-
 
 /* pipe functions */
 void	ft_pipe_duplicate(t_pipe_state state, int old_pipe[], int new_pipe[]);
 void	ft_pipe_update(t_pipe_state state, int old_pipe[], int new_pipe[]);
 void	ft_pipe_update_state(t_cmd *command);
 void	ft_pipe_destroy(int pipes[]);
-
-
 
 /* sigint functions */
 void	ft_sigint_handler(int sig);
