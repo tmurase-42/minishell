@@ -8,12 +8,12 @@ FILES           = main.c ft_lexer.c exec/ft_exec_commands.c exec/ft_wait_process
 									env/ft_env.c \
 									export/ft_export.c \
 									unset/ft_unset.c \
-									cd/ft_cd.c  cd/ft_cd_utils.c\
+									cd/ft_cd.c  cd/ft_cd_utils.c cd/ft_cd_utils_2.c \
 									expansion/ft_expand.c \
 									pwd/ft_pwd.c \
 									parser/parser.c \
 									echo/ft_echo.c \
-									utils/ft_token_error.c \
+									tokens/ft_token_error.c tokens/ft_token_error_2.c \
 									tokens/ft_token_add.c tokens/ft_token_create.c  tokens/ft_token_print.c tokens/ft_token_length.c tokens/ft_token_array.c tokens/ft_token_free.c tokens/ft_token_str.c tokens/ft_token_destroy.c \
 									history/ft_history_add.c history/ft_history.c \
 									cmd_path/ft_cmd_path.c cmd_path/ft_cmd_path_search_binary.c cmd_path/ft_cmd_path_get_colon.c \
