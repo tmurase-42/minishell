@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/03 15:14:51 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/04 11:12:53 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void	ft_exec_child_process(int new_pipe[], int old_pipe[], t_cmd *cmd);
 void	ft_exec_parent_process(int new_pipe[], int old_pipe[], t_cmd *cmd,
 	pid_t pid);
 int		ft_exec_builtin(t_cmd *cmd);
-t_bool	is_builin_command(char *str);
+t_bool	ft_is_builtin_command(char *str);
 
 
 /* Common functions */
@@ -241,7 +241,6 @@ char	*ft_cmd_path(const char *cmd);
 /* pipe functions */
 void	ft_pipe_duplicate(t_pipe_state state, int old_pipe[], int new_pipe[]);
 void	ft_pipe_update(t_pipe_state state, int old_pipe[], int new_pipe[]);
-void	ft_pipe_create(int new_pipe[]);
 void	ft_pipe_update_state(t_cmd *command);
 void	ft_pipe_destroy(int pipes[]);
 

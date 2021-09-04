@@ -1,13 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_execute_command.c                               :+:      :+:    :+:   */
+/*   ft_exec_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/28 20:32:58 by tdofuku          ###   ########.fr       */
-
+/*   Updated: 2021/09/04 11:24:52 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +37,6 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 		ft_exec_parent_process(new_pipe, old_pipe, cmd, pid);
 }
 
-
 static void	exec_command(t_cmd *cmd, int old_pipe[])
 {
 	extern t_mshl_data	*g_mshl_data;
@@ -50,7 +48,7 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 		return ;
 	}
 	// パイプがない → 場合
-	if (g_mshl_data->pipe_state == NO_PIPE && is_builin_command(cmd->args->data))
+	if (g_mshl_data->pipe_state == NO_PIPE && ft_is_builtin_command(cmd->args->data))
 	{
 		g_mshl_data->exit_status = ft_exec_builtin(cmd);
 		return ;
@@ -63,12 +61,14 @@ void	ft_exec_commands(t_cmd *cmd)
 	extern t_mshl_data	*g_mshl_data;
 	char		*token_str;
 	t_token		*tokens;
-	int			pipes[2];
+	int			old_pipe[2];
 
 	tokens = NULL;
 	token_str = NULL;
-	// パイプを生成
-	ft_pipe_create(pipes);
+
+	// 古いパイプを生成
+	if (pipe(old_pipe) < 0)
+		ft_error("cannot create a pipe.", EXIT_FAILURE);
 	// コマンドが一つだったらNO_PIPEステータスにする
 	if (cmd->next == NULL)
 		g_mshl_data->pipe_state = NO_PIPE;
@@ -85,7 +85,7 @@ void	ft_exec_commands(t_cmd *cmd)
 		ft_token_free(cmd->args);
 		cmd->args = tokens;
 		// コマンドを実行する
-		exec_command(cmd, pipes);
+		exec_command(cmd, old_pipe);
 		// 次のコマンドへ
 		cmd = cmd->next;
 	}
