@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 12:24:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/08/29 16:04:11 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/05 16:16:59 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int	ft_echo(t_cmd *cmd)
 		tmp_token = delete_token(tmp_token, 1);
 	while (tmp_token)
 	{
-		ft_putstr_fd(tmp_token->data, 0);
+		ft_putstr_fd(tmp_token->data, STDOUT_FILENO);
 		if (tmp_token->next != NULL)
-			ft_putchar_fd(' ', 0);
+			ft_putchar_fd(' ', STDOUT_FILENO);
 		tmp_token = tmp_token->next;
 	}
 	if (option != TRUE)
