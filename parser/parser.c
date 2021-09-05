@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/01 23:13:31 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/05 18:42:12 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,19 @@ static t_token *create_token(void)
 	return (token);
 }
 
+t_redirect	*create_redirect(void)
+{
+	t_redirect *redirect;
+
+	redirect = ft_calloc(1, sizeof(t_redirect));
+	redirect->backup_fd = 0;
+	redirect->left_fd = 0;
+	redirect->right_fd = 0;
+	redirect->open_filepath = NULL;
+
+	return (redirect);
+}
+
 t_cmd	*ft_cmd_lstnew(void)
 {
 	t_cmd	*value;
@@ -37,6 +50,7 @@ t_cmd	*ft_cmd_lstnew(void)
 	value->args = create_token();
 	value->argc = 0;
 	value->pid = 0;
+	value->redirect = create_redirect();
 	return (value);
 }
 
@@ -93,8 +107,8 @@ static t_token *shave_token_until_pipe(t_token *token)
 	tmp = create_token();
 	while (token->next != NULL)
 	{
-		//tmp = token->next;
-		//free(token->data);
+		free(token->data);
+		token->data = NULL;
 		token = token->next;
 		if (ft_strncmp(token->prev->data, "|", 2) == 0)
 			break ;
