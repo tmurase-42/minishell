@@ -51,7 +51,7 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 	if (g_mshl_data->pipe_state == NO_PIPE && ft_is_builtin_command(cmd->args->data))
 	{
 		//パイプがない場合、リダイレクトの準備をここでする？
-
+		ft_setup_redirect(cmd);
 		g_mshl_data->exit_status = ft_exec_builtin(cmd);
 		return ;
 	}

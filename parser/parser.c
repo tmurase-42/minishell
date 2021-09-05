@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/05 18:42:12 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/05 20:04:06 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ static t_token *shave_token_until_pipe(t_token *token)
 	tmp = create_token();
 	while (token->next != NULL)
 	{
-		free(token->data);
-		token->data = NULL;
+		//free(token->data);
+		//token->data = NULL;
 		token = token->next;
 		if (ft_strncmp(token->prev->data, "|", 2) == 0)
 			break ;
