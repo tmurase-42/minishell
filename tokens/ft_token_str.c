@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/26 21:08:24 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/05 17:53:04 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,26 @@ char			*ft_token_str(t_token *tokens, int start, int len)
 	while (current_token && i < len)
 	{
 		// printf("str: str:%s\n", str);
-		tmp = str;
-		str = ft_strjoin(str, " ");
-		free(tmp);
-		tmp = str;
-		str = ft_strjoin(str, current_token->data);
-		free(tmp);
+		if (current_token->type == CHAR_EMPTY)
+			str = ft_strjoin(str, " '' ");
+		else
+		{
+			//tmp = str;
+			//str = ft_strjoin("'", str);
+			//free(tmp);
+
+			tmp = str;
+			str = ft_strjoin(str, " '");
+			free(tmp);
+
+			tmp = str;
+			str = ft_strjoin(str, current_token->data);
+			free(tmp);
+
+			tmp = str;
+			str = ft_strjoin(str, "'");
+			free(tmp);
+		}
 		current_token = current_token->next;
 		i++;
 	}

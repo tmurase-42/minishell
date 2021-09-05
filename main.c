@@ -73,6 +73,11 @@ int	main(int argc, char *argv[], char **environ)
 	envs = ft_env_init(environ);
 	g_mshl_data = mshl_data_init(envs);
 
+	if (argc > 2 && ft_strncmp("-c", argv[1], 3) == 0)
+	{
+		run_commandline(&argv[2]);
+		return g_mshl_data->exit_status;
+	}
 	while (1)
 	{
 		//g_mshl_data->interrupted = FALSE;
