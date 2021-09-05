@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/05 18:39:54 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/05 19:18:18 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,3 +254,6 @@ void	ft_pipe_destroy(int pipes[]);
 /* sigint functions */
 void	ft_sigint_handler(int sig);
 void	ft_sigint_setter(void (*func)(int));
+
+/* redirect functions */
+void	ft_setup_redirect(t_cmd	*cmd);
