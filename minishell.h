@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/04 21:58:03 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/05 18:24:11 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 
 # define IN 1
 # define OUT 0
+# define MIN(x,y) (x < y ? x : y)
+# define MAX(x,y) (x > y ? x : y)
 
 
 typedef enum				e_cmd_type
@@ -81,10 +83,10 @@ typedef enum	e_tokentype{
 	CHAR_TAB = '\t',
 	CHAR_NULL = 0, // 深掘りすぎ。不要
 	//D_SEMICOLON = -5, // 深掘りすぎ。不要
+	CHAR_EMPTY = -5, //空文字
 	DOUBLE_GREATER = -4, // >> ってこと。
 	DOUBLE_LESSER = -3, // << ってこと。
 	IO_NUMBER = -2, //謎
-	TOKEN = -1, //謎
 }				t_token_type;
 
 typedef struct s_token	t_token;

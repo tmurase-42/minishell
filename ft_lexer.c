@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/04 22:51:01 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/05 18:49:27 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ static t_token	*create_new_token(char *str, int i, int *word_len,
 		word_start = (i - (*word_len));
 		if (*quote_status == CHAR_QUOTE || *quote_status == CHAR_DQUOTE)
 			word_start = (i - (*word_len + 1));
-		word = ft_substr(str, word_start, *word_len);
+		if (token_type == CHAR_EMPTY)
+			word = "\0";
+		else
+			word = ft_substr(str, word_start, *word_len);
 		new_token = ft_token_create(word, token_type);
 		*word_len = 0;
 		*quote_status = '\0';
@@ -72,15 +75,18 @@ static void	set_token_type(char *str, int *i, int *word_len,
 	{
 		*token_type = get_token_type(str[*i]);
 		*quote_status = str[*i];
-		while(str[*i] != '\0')
-		{
-			*i += 1;
-			if (str[*i] == *quote_status && (*i += 1))
-				break;
-			*word_len += 1;
-			if (str[*i] == '\0')
-				ft_error(NULL, EXIT_FAILURE);
-		}
+		if (str[*i + 1] == *quote_status && (*i += 2) && (*word_len += 1))
+			*token_type = CHAR_EMPTY;
+		else
+			while(str[*i] != '\0')
+			{
+				*i += 1;
+				if (str[*i] == *quote_status && (*i += 1))
+					break;
+				*word_len += 1;
+				if (str[*i] == '\0')
+					ft_error("an unclosed quote is detected.", EXIT_FAILURE);
+			}
 	}
 	else if (ft_isdigit(str[*i]))
 	{
@@ -90,7 +96,7 @@ static void	set_token_type(char *str, int *i, int *word_len,
 			*i += 1;
 			*word_len += 1;
 		}
-		if (str[*i] == '>')
+		if (str[*i] == '>' || str[*i] == '<')
 			*token_type = IO_NUMBER;
 	}
 }
@@ -109,7 +115,7 @@ static t_token	*split_word(char *str, int *i, int *word_len,
 			if (*word_len == 0)
 				set_token_type(str, i, word_len, quote_status, token_type);
 		}
-		else if (str[*i] == CHAR_WHITESPACE)
+		else if (str[*i] == CHAR_WHITESPACE || str[*i] == CHAR_TAB)
 		{
 			if (*word_len == 0)
 				*i += 1;

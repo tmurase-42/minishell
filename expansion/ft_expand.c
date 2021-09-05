@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 17:45:06 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/05 18:43:12 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static t_token	*get_first_token(t_token *tokens)
 	return (target);
 }
 
-static int	expand_str(const char *str, int i, char **ret)
+static int	expand_str(t_token *t, int i, char **ret)
 {
 	extern t_mshl_data	*g_mshl_data;
 	int		j;
@@ -41,12 +41,12 @@ static int	expand_str(const char *str, int i, char **ret)
 	char	*tmp;
 	t_env	*env;
 
-	if (!str[i])
+	if (!t->data[i])
 		return (0);
 	j = 0;
-	while(ft_isalnum(str[i + j]))
+	while(ft_isalnum(t->data[i + j]) || t->data[i + j] == '_')
 		j++;
-	key = ft_substr(str, i, j);
+	key = ft_substr(t->data, i, j);
 	env = ft_env_get(key, g_mshl_data->envs);
 	if(env)
 	{
@@ -110,7 +110,7 @@ static int	expand_args(const char *str, int i, char **ret)
 	return (j);
 }
 
-static char *create_env_expanded_str(const char *str)
+static char *create_env_expanded_str(t_token *t)
 {
 	int		i;
 	char	*ret;
@@ -121,32 +121,32 @@ static char *create_env_expanded_str(const char *str)
 
 	ret = ft_calloc(sizeof(char*), 1);
 
-	while(str[i])
+	while(t->data[i])
 	{
-		if (str[i] == '$' && str[i + 1] == '0')
+		if (t->data[i] == '$' && t->data[i + 1] == '0')
 		{
 			i++;
 			// プログラム名を返す
 		}
-		else if (str[i] == '$' && ft_isdigit(str[i + 1]))
+		else if (t->data[i] == '$' && ft_isdigit(t->data[i + 1]))
 		{
 			i++;
-			i += expand_args(str, i, &ret);
+			i += expand_args(t->data, i, &ret);
 		}
-		else if (str[i] == '$' && str[i + 1] == '?')
+		else if (t->data[i] == '$' && t->data[i + 1] == '?')
 		{
 			i++;
 			i += expand_exit_status(&ret);
 		}
-		else if (str[i] == '$')
+		else if (t->data[i] == '$' && t->data[i + 1] != '\0' && t->data[i + 1] != ' ')
 		{
 			i++;
-			i += expand_str(str, i, &ret);
+			i += expand_str(t, i, &ret);
 		}
 		else
 		{
-			// printf("ft_expand: str: %s\n", str + i);
-			i += copy_char(str, i, &ret);
+			// printf("ft_expand: t->data: %s\n", t->data + i);
+			i += copy_char(t->data, i, &ret);
 			// printf("ft_expnad: ret: %s\n", ret);
 		}
 	}
@@ -170,12 +170,12 @@ void			ft_expand(t_cmd *cmd)
 	new_str = NULL;
 	while (token)
 	{
-		if (token->type == CHAR_QUOTE)
+		if (token->type == CHAR_QUOTE || token->type == CHAR_EMPTY)
 		{
 			token = token->next;
 			continue ;
 		}
-		new_str = create_env_expanded_str(token->data);
+		new_str = create_env_expanded_str(token);
 		if (*new_str)
 		{
 			// printf("ft_expand: new_str: %s\n", new_str);
@@ -184,7 +184,7 @@ void			ft_expand(t_cmd *cmd)
 		}
 		else
 		{
-			// printf("ft_expand: new_str: %s\n", new_str);
+			//printf("ft_expand: new_str: %s\n", new_str);
 			free(token->data);
 			token->data = new_str;
 			ft_token_destroy(token, &cmd->args);
