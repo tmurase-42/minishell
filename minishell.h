@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/04 21:58:03 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/05 18:39:54 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,24 @@ struct			s_token
 	char			*data;
 };
 
+typedef struct s_redirect t_redirect;
+
+struct 				s_redirect
+{
+	int		backup_fd;
+	int		left_fd;
+	int		right_fd;
+	char	*open_filepath;
+};
+
 typedef struct s_cmd t_cmd;
 struct			s_cmd
 {
 	t_token	*args;
 	int		argc;
 	struct	s_cmd *next;
+	struct 	s_redirect *redirect;
 	pid_t	pid;
-	// int		op;
 };
 
 typedef enum		e_token_state{

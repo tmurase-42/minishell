@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/09/04 20:20:50 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/05 18:11:48 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static t_cmd	*run_commandline(char **command)
 	ft_parser(tokens, cmd);
 
 	// テストプリント
-	// ft_token_print(cmd->args);
+	ft_token_print(cmd->args);
 
 	// 実行
 	ft_exec_commands(cmd);
