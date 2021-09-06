@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/05 21:28:15 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/06 12:14:04 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,29 @@ static t_token	*check_redirect(t_token *token)
 	return (token);
 }
 
-static void ft_test_print_redirect(t_redirect *redirect)
+void ft_test_print_redirect(t_redirect *redirect)
 {
 	printf("---------------\n");
-	printf("redirect->right_id: %d\n" ,redirect->right_fd);
-	printf("open_filepath: %s\n", redirect->open_filepath);
 	printf("redirect->left_id: %d\n" ,redirect->left_fd);
+	printf("redirect->right_id: %d\n" ,redirect->right_fd);
+	printf("open_filepath:%s\n", redirect->open_filepath);
 
+}
+
+static void	import_redirect_information(t_cmd *cmd, t_token *redirect_token, int default_fd)
+{
+	if (redirect_token->prev->type == IO_NUMBER)
+		cmd->redirect->left_fd = ft_atoi(redirect_token->prev->data);
+	else
+		cmd->redirect->left_fd = default_fd;
+	cmd->redirect->open_filepath = ft_strdup(redirect_token->next->data);
+	cmd->redirect->right_fd = open(cmd->redirect->open_filepath, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (cmd->redirect->right_fd < 0)
+		return (ft_error_display("No such file or directory", cmd->redirect->open_filepath, 1));
+	if (redirect_token->prev->type == IO_NUMBER)
+		ft_token_destroy(redirect_token->prev, &cmd->args);
+	ft_token_destroy(redirect_token, &cmd->args);
+	ft_token_destroy(redirect_token->next, &cmd->args);
 }
 
 void	ft_setup_redirect(t_cmd	*cmd)
@@ -44,20 +60,11 @@ void	ft_setup_redirect(t_cmd	*cmd)
 	if (cmd == NULL)
 		return ;
 	redirect_token = check_redirect(cmd->args);
-	printf("redirect_token->type = %d\n", redirect_token->type);
-	if (redirect_token->type == CHAR_GREATER)
-	{
-		if (redirect_token->prev->type == IO_NUMBER)
-			cmd->redirect->left_fd = ft_atoi(redirect_token->prev->data);
-		else
-			cmd->redirect->left_fd = 1;
-		cmd->redirect->open_filepath = ft_strdup(redirect_token->next->data);
-		cmd->redirect->right_fd = open(cmd->redirect->open_filepath, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-		if (cmd->redirect->right_fd < 0)
-			ft_error("could not open file", 1);
-		ft_token_destroy(redirect_token, &cmd->args);
-	}
-	ft_test_print_redirect(cmd->redirect);
-
+	if (redirect_token->type == CHAR_GREATER || redirect_token->type == DOUBLE_GREATER)
+		import_redirect_information(cmd, redirect_token, 1);
+	else if (redirect_token->type == CHAR_LESSER || redirect_token->type == DOUBLE_LESSER)
+		import_redirect_information(cmd, redirect_token, 0);
+	//ft_test_print_redirect(cmd->redirect);
+	//ft_token_print(cmd->args);
 	return ;
 }
