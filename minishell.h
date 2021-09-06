@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/05 19:18:18 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/05 21:01:05 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <fcntl.h>
 
 
 #define DOUBLE_QUOT 34
