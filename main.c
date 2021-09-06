@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/09/06 11:22:17 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/06 15:28:37 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static t_cmd	*run_commandline(char **command)
 	tokens = ft_lexer(*command);
 
 	// 異常なトークンの検知とエラー吐き出し
-	//if (ft_check_token_error(tokens) != TRUE)
-		//return NULL;
+	if (ft_check_token_error(tokens) != TRUE)
+		return NULL;
 
 	// トークンをパースする
 	cmd = ft_cmd_lstnew();

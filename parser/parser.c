@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/05 20:04:06 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/06 15:52:27 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_redirect	*create_redirect(void)
 	redirect->backup_fd = 0;
 	redirect->left_fd = 0;
 	redirect->right_fd = 0;
+	redirect->type = 0;
 	redirect->open_filepath = NULL;
 
 	return (redirect);
