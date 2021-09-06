@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/06 12:13:40 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/06 16:08:43 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 static void	exec_command(t_cmd *cmd, int old_pipe[])
 {
 	extern t_mshl_data	*g_mshl_data;
+	int			result;
 
+	result = 0;
 	// コマンドの中身がなかった場合の例外処理
 	if (cmd->argc == 0 || !cmd->args || cmd->args->data == NULL)
 	{
@@ -52,8 +54,20 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 	{
 		//パイプがない場合、リダイレクトの準備をここでする？
 		//ft_token_print(cmd->args);
-		ft_setup_redirect(cmd);
+		result = ft_setup_redirect(cmd);
+		if (result == TRUE)
+			ft_dup_redirect(cmd->redirect);
 		g_mshl_data->exit_status = ft_exec_builtin(cmd);
+		if (result == TRUE)
+		{
+			close(cmd->redirect->right_fd);
+			if (cmd->redirect->type == CHAR_GREATER || cmd->redirect->type == DOUBLE_GREATER)
+				dup2(cmd->redirect->backup_fd, 1);
+			else
+			{
+				dup2(cmd->redirect->backup_fd, 0);
+			}
+		}
 		return ;
 	}
 	fork_process(cmd, old_pipe);
