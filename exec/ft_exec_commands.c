@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
 /*   Updated: 2021/09/06 10:53:29 by tmurase          ###   ########.fr       */
@@ -79,11 +79,15 @@ void	ft_exec_commands(t_cmd *cmd)
 	while (cmd)
 	{
 		// トークンに環境変数展開をかける
+		// ft_token_print(cmd->args);
 		ft_expand(cmd);
 		// トークンを一度文字列に戻す
+		// ft_token_print(cmd->args);
 		token_str = ft_token_str(cmd->args, 0, cmd->argc);
+		// printf("token_str: %s\n", token_str);
 		// 再度トークンに分離する（それをcmd構造体に入れる）
 		tokens = ft_lexer(token_str);
+		// ft_token_print(tokens);
 		// 再生成したトークンを代入する
 		ft_token_free(cmd->args);
 		cmd->args = tokens;

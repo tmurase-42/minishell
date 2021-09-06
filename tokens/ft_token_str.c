@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/05 17:53:04 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/05 23:37:48 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,34 @@ char			*ft_token_str(t_token *tokens, int start, int len)
 	{
 		// printf("str: str:%s\n", str);
 		if (current_token->type == CHAR_EMPTY)
+		{
+			tmp = str;
 			str = ft_strjoin(str, " '' ");
+			free(tmp);
+		}
 		else
 		{
 			//tmp = str;
 			//str = ft_strjoin("'", str);
 			//free(tmp);
 
-			tmp = str;
-			str = ft_strjoin(str, " '");
-			free(tmp);
+			// tmp = str;
+			// str = ft_strjoin(str, " '");
+			// free(tmp);
 
+			// tmp = str;
+			// str = ft_strjoin(str, current_token->data);
+			// free(tmp);
+
+			// tmp = str;
+			// str = ft_strjoin(str, "'");
+			// free(tmp);
+
+			tmp = str;
+			str = ft_strjoin(str, " ");
+			free(tmp);
 			tmp = str;
 			str = ft_strjoin(str, current_token->data);
-			free(tmp);
-
-			tmp = str;
-			str = ft_strjoin(str, "'");
 			free(tmp);
 		}
 		current_token = current_token->next;

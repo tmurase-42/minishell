@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/05 18:43:12 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/05 23:39:00 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ static int	expand_str(t_token *t, int i, char **ret)
 			*ret = ft_strjoin(*ret, env->value);
 			free(tmp);
 		}
+	}
+	else if (t->type == CHAR_DQUOTE)
+	{
+		j = ft_strlen(key);
+		tmp = *ret;
+		*ret = ft_strjoin(*ret, "");
+		free(tmp);
+		t->type = CHAR_EMPTY;
 	}
 	// printf("ft_expand: expand_str: j: %d\n", j);
 	return (j);
@@ -176,7 +184,8 @@ void			ft_expand(t_cmd *cmd)
 			continue ;
 		}
 		new_str = create_env_expanded_str(token);
-		if (*new_str)
+		// printf("token->type: %d\n", token->type);
+		if (*new_str || token->type == CHAR_EMPTY)
 		{
 			// printf("ft_expand: new_str: %s\n", new_str);
 			free(token->data);
