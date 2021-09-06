@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/05 23:39:20 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/06 10:53:29 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 	if (g_mshl_data->pipe_state == NO_PIPE && ft_is_builtin_command(cmd->args->data))
 	{
 		//パイプがない場合、リダイレクトの準備をここでする？
-		ft_setup_redirect(cmd);
+		//ft_token_print(cmd->args);
+		//ft_setup_redirect(cmd);
 		g_mshl_data->exit_status = ft_exec_builtin(cmd);
 		return ;
 	}
@@ -91,6 +92,7 @@ void	ft_exec_commands(t_cmd *cmd)
 		ft_token_free(cmd->args);
 		cmd->args = tokens;
 		// コマンドを実行する
+		ft_token_print(cmd->args);
 		exec_command(cmd, old_pipe);
 		// 次のコマンドへ
 		cmd = cmd->next;
