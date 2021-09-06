@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/06 10:53:29 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/06 12:13:40 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 	{
 		//パイプがない場合、リダイレクトの準備をここでする？
 		//ft_token_print(cmd->args);
-		//ft_setup_redirect(cmd);
+		ft_setup_redirect(cmd);
 		g_mshl_data->exit_status = ft_exec_builtin(cmd);
 		return ;
 	}
@@ -84,15 +84,14 @@ void	ft_exec_commands(t_cmd *cmd)
 		// トークンを一度文字列に戻す
 		// ft_token_print(cmd->args);
 		token_str = ft_token_str(cmd->args, 0, cmd->argc);
-		// printf("token_str: %s\n", token_str);
+		//printf("token_str: %s\n", token_str);
 		// 再度トークンに分離する（それをcmd構造体に入れる）
 		tokens = ft_lexer(token_str);
-		// ft_token_print(tokens);
+		//ft_token_print(tokens);
 		// 再生成したトークンを代入する
 		ft_token_free(cmd->args);
 		cmd->args = tokens;
 		// コマンドを実行する
-		ft_token_print(cmd->args);
 		exec_command(cmd, old_pipe);
 		// 次のコマンドへ
 		cmd = cmd->next;
