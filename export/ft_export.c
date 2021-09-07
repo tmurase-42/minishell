@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/07 15:40:06 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 18:36:02 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,47 @@
 #define EQUAL 1
 #define PLUS_EQUAL 2
 
-static char	*get_value(char *str)
+static char	*get_value(t_token *token)
 {
-	return ft_strchr(str, '=') + 1;
+	char	*str;
+	char	*ret;
+
+	if (token->next && token->next->space_len == 0)
+	{
+		str = ft_strjoin(token->data, token->next->data);
+		ret = ft_strchr(str, '=') + 1;
+	}
+	else
+	{
+		ret = ft_strchr(token->data, '=') + 1;
+	}
+	return ret;
 }
 
-static char	*get_key(char *str)
+static char	*get_key(t_token *token)
 {
 	int		i;
+	char	*str0;
 	char 	*str1;
 	char	*ret;
 
-
-	str1 = ft_strchr(str, '=');
+	if (token->next && token->next->space_len == 0)
+	{
+		str0 = ft_strjoin(token->data, token->next->data);
+		str1 = ft_strchr(str0, '=');
+	}
+	else
+		str1 = ft_strchr(token->data, '=');
 	i = 0;
 	if (str1)
 	{
-		while( str[i] != '\0' && str[i] != '=')
+		while( token->data[i] != '\0' && token->data[i] != '=')
 			i++;
 		ret = ft_calloc(sizeof(char), i + 1);
-		ft_strlcpy(ret, str, i + 1);
+		ft_strlcpy(ret, token->data, i + 1);
 		return ret;
 	}
 	return NULL;
-}
-
-static int	is_sep_equal(char *str)
-{
-	char 	*str1;
-
-	str1 = ft_strchr(str, '=');
-	if (str1)
-		return EQUAL;
-	return FALSE;
 }
 
 static t_bool	is_valid_key(char *key)
@@ -79,18 +87,11 @@ static int		set_envs(t_cmd *cmd)
 	token = cmd->args->next;
 	while (token)
 	{
-		if ((key = get_key(token->data)))
+		if ((key = get_key(token)))
 		{
-			value = get_value(token->data);
+			value = get_value(token);
 			if (is_valid_key(key))
-			{
-				if (is_sep_equal(token->data) == EQUAL)
-					ft_env_update(key, value);
-				else {
-					ft_error_display("export", token->data, EXIT_FAILURE);
-					ret = EXIT_FAILURE;
-				}
-			}
+				ft_env_update(key, value);
 			else
 			{
 				ft_error_display("minishell", "bad assignment", EXIT_FAILURE);

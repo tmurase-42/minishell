@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/07 15:53:48 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 17:15:55 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ struct			s_token
 	t_token			*prev;
 	t_token_type	type;
 	char			*data;
+	size_t			space_len;
 };
 
 typedef struct s_redirect t_redirect;

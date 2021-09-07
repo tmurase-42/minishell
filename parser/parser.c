@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/06 15:52:27 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/07 17:31:53 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static t_token *create_token(void)
 	token->data = NULL;
 	token->next = NULL;
 	token->prev = NULL;
+	token->space_len = 0;
 	return (token);
 }
 
@@ -90,6 +91,7 @@ static t_token *copy_token(t_token *token)
 	{
 		tmp->data = ft_strdup(token->data);
 		tmp->type = token->type;
+		tmp->space_len = token->space_len;
 		if (token->next == NULL)
 			break ;
 		if (ft_strncmp(token->next->data, "|", 2) == 0)
