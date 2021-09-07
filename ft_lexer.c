@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/07 17:46:54 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 22:00:32 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_token	*create_new_token(char *str, int i, int *word_len,
 		if (*quote_status == CHAR_QUOTE || *quote_status == CHAR_DQUOTE)
 			word_start = (i - (*word_len + 1));
 		if (token_type == CHAR_EMPTY)
-			word = "\0";
+			word = ft_strdup("\0");
 		else
 			word = ft_substr(str, word_start, *word_len);
 		new_token = ft_token_create(word, token_type);

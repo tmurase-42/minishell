@@ -6,56 +6,13 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/07 18:36:02 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 22:01:16 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #define EQUAL 1
 #define PLUS_EQUAL 2
-
-static char	*get_value(t_token *token)
-{
-	char	*str;
-	char	*ret;
-
-	if (token->next && token->next->space_len == 0)
-	{
-		str = ft_strjoin(token->data, token->next->data);
-		ret = ft_strchr(str, '=') + 1;
-	}
-	else
-	{
-		ret = ft_strchr(token->data, '=') + 1;
-	}
-	return ret;
-}
-
-static char	*get_key(t_token *token)
-{
-	int		i;
-	char	*str0;
-	char 	*str1;
-	char	*ret;
-
-	if (token->next && token->next->space_len == 0)
-	{
-		str0 = ft_strjoin(token->data, token->next->data);
-		str1 = ft_strchr(str0, '=');
-	}
-	else
-		str1 = ft_strchr(token->data, '=');
-	i = 0;
-	if (str1)
-	{
-		while( token->data[i] != '\0' && token->data[i] != '=')
-			i++;
-		ret = ft_calloc(sizeof(char), i + 1);
-		ft_strlcpy(ret, token->data, i + 1);
-		return ret;
-	}
-	return NULL;
-}
 
 static t_bool	is_valid_key(char *key)
 {
@@ -74,6 +31,81 @@ static t_bool	is_valid_key(char *key)
 	return (TRUE);
 }
 
+static char *create_assignment_expression(t_token *token)
+{
+	char	*str;
+	char	*tmp;
+	size_t	i;
+
+	str = ft_strdup(token->data);
+	i = 0;
+	while (token->next && token->next->space_len == 0)
+	{
+		token = token->next;
+		tmp = str;
+		str = ft_strjoin(str, token->data);
+		if (i > 0)
+			free(tmp);
+		i++;
+	}
+	return (str);
+}
+
+static char	*get_value(t_token *token)
+{
+	char	*str;
+	char	*ret;
+
+	str = create_assignment_expression(token);
+	//printf("ret: %s\n", str);
+	if (ft_strchr(str, '='))
+	{
+		ret = ft_strchr(str, '=') + 1;
+		if (ret && *ret)
+			return ret;
+	}
+	free(str);
+	return NULL;
+}
+
+static char	*get_key(t_token *token)
+{
+	int		i;
+	char	*str;
+	char	*ret;
+
+	ret = NULL;
+	str = create_assignment_expression(token);
+	// printf("str: %s\n", str);
+	i = 0;
+	if (str && ft_strchr(str, '='))
+	{
+		while( str[i] != '\0' && str[i] != '=')
+			i++;
+		ret = ft_calloc(sizeof(char), i + 1);
+		ft_strlcpy(ret, str, i + 1);
+	}
+	if (ret)
+	{
+		if (is_valid_key(ret))
+			return ret;
+		else
+			ft_error_display("minishell", "bad assignment", EXIT_FAILURE);
+	}
+	free(str);
+	return NULL;
+}
+
+static void	get_key_value(t_token **token, char **key, char **value)
+{
+	*key = get_key(*token);
+	*value = get_value(*token);
+	while ((*token)->next && (*token)->next->space_len == 0)
+		*token = (*token)->next;
+}
+
+
+
 static int		set_envs(t_cmd *cmd)
 {
 	char	*key;
@@ -87,18 +119,12 @@ static int		set_envs(t_cmd *cmd)
 	token = cmd->args->next;
 	while (token)
 	{
-		if ((key = get_key(token)))
-		{
-			value = get_value(token);
-			if (is_valid_key(key))
-				ft_env_update(key, value);
-			else
-			{
-				ft_error_display("minishell", "bad assignment", EXIT_FAILURE);
-				ret = EXIT_FAILURE;
-			}
-			free(key);
-		}
+		get_key_value(&token, &key, &value);
+		//printf("key: %s$\n", key);
+		//printf("value: %s$\n", value);
+		if (key)
+			ft_env_update(key, value);
+		free(key);
 		token = token->next;
 	}
 	return (ret);

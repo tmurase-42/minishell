@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 18:08:59 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/07 15:54:10 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 22:00:53 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	set_env_value(t_env *env, const char *new_value)
 		ft_error(NULL, EXIT_FAILURE);
 	}
 	else
-		env->value = NULL;
+		env->value =ft_strdup("\0");
 	ft_free_char(&old_value);
 }
 
@@ -32,7 +32,7 @@ void		ft_env_update(const char *key, const char *value)
 	extern t_mshl_data	*g_mshl_data;
 	t_env				*env;
 
-	if (!key)
+	if (!key || !*key)
 		return ;
 	if (!(env = ft_env_get(key, g_mshl_data->envs)))
 	{
