@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/06 15:52:27 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/07 13:46:53 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static t_token *create_token(void)
 	return (token);
 }
 
-t_redirect	*create_redirect(void)
+t_redirect	*ft_create_redirect(void)
 {
 	t_redirect *redirect;
 
@@ -35,7 +35,8 @@ t_redirect	*create_redirect(void)
 	redirect->right_fd = 0;
 	redirect->type = 0;
 	redirect->open_filepath = NULL;
-
+	redirect->next = NULL;
+	redirect->prev = NULL;
 	return (redirect);
 }
 
@@ -51,7 +52,7 @@ t_cmd	*ft_cmd_lstnew(void)
 	value->args = create_token();
 	value->argc = 0;
 	value->pid = 0;
-	value->redirect = create_redirect();
+	value->redirect = ft_create_redirect();
 	return (value);
 }
 

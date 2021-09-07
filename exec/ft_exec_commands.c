@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/07 12:26:25 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 15:20:40 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 static void	exec_command(t_cmd *cmd, int old_pipe[])
 {
 	extern t_mshl_data	*g_mshl_data;
-	int			result;
 
-	result = 0;
 	// コマンドの中身がなかった場合の例外処理
 	if (cmd->argc == 0 || !cmd->args || cmd->args->data == NULL)
 	{
@@ -52,14 +50,17 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 	// パイプがない → 場合
 	if (g_mshl_data->pipe_state == NO_PIPE && ft_is_builtin_command(cmd->args->data))
 	{
-		//パイプがない場合、リダイレクトの準備をここでする？
-		//ft_token_print(cmd->args);
-		result = ft_setup_redirect(cmd);
-		if (result == TRUE)
-			ft_dup_redirect(cmd->redirect);
-		g_mshl_data->exit_status = ft_exec_builtin(cmd);
-		if (result == TRUE)
+		//cmd構造体内の全てのtoken構造体の中から、redirect情報の有無を調べ、redirect構造体に全て格納する。
+		if (ft_setup_redirect(cmd) == TRUE)
 		{
+			//setupした情報の中から、bashの仕様通りにdupすべきfdのみ選定してdup処理を行う。
+			//初めからお尻のアドレスを保持させておく。別の種類のリダイレクトがある場合は後ろに下がって一個ずつチェックして違うが生まれればdupする。
+			ft_dup_redirect(cmd->redirect);
+		}
+		g_mshl_data->exit_status = ft_exec_builtin(cmd);
+		if (cmd->redirect->open_filepath != NULL)
+		{
+			//全てのfileをクローズする必要がある。
 			close(cmd->redirect->right_fd);
 			if (cmd->redirect->type == CHAR_GREATER || cmd->redirect->type == DOUBLE_GREATER)
 				dup2(cmd->redirect->backup_fd, 1);

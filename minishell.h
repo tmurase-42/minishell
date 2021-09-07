@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/06 15:51:56 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/07 13:52:32 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,9 @@ struct 				s_redirect
 	int		left_fd;
 	int		right_fd;
 	int		type;
-	char	*open_filepath;
+	char		*open_filepath;
+	t_redirect	*next;
+	t_redirect	*prev;
 };
 
 typedef struct s_cmd t_cmd;
@@ -261,3 +263,5 @@ void	ft_sigint_setter(void (*func)(int));
 t_bool	ft_setup_redirect(t_cmd	*cmd);
 void	ft_test_print_redirect(t_redirect *redirect);
 void	ft_dup_redirect(t_redirect *redirect);
+t_redirect	*ft_create_redirect(void);
+void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int default_fd);
