@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/07 17:34:57 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 20:14:22 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,12 @@ char			*ft_token_str(t_token *tokens, int start, int len)
 		// printf("str: str:%s\n", str);
 		if (current_token->type == CHAR_EMPTY)
 		{
-			tmp = str;
-			str = ft_strjoin(str, " '' ");
-			free(tmp);
+			if (current_token->next && current_token->next->space_len != 0)
+			{
+				tmp = str;
+				str = ft_strjoin(str, " '' ");
+				free(tmp);
+			}
 		}
 		else
 		{

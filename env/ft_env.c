@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:33:29 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/29 12:37:42 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 20:50:57 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	print_env(t_env *env)
 {
-	if (env->value == NULL)
+	if (env->value == NULL || env->key == NULL)
 		return ;
 	if (env->is_env == FALSE)
 		return ;

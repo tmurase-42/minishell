@@ -14,6 +14,6 @@ export TEST=ech, "$TEST"o hello
 export TEST="echo hello", $TEST
 export TEST='echo hello', $TEST
 export TEST="\$\"echo hello\"", $TEST
-export TEST="echo hello", export TEST2="$TEST", $TEST2
+export TEST="echo hello", export TEST2="$TEST" | echo $TEST2
 export abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890=hello, echo $abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
-export TEST="export TEST=echo" , $TEST hello , $TEST hello
+export TEST="export TEST=echo", $TEST hello
