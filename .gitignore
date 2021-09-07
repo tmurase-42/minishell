@@ -3,6 +3,11 @@
 *.o
 *.a
 minishell
+file1
+file2
+file3
+file4
+
 
 #テストツールの不要部分をignore
 test/*.log

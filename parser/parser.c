@@ -26,7 +26,7 @@ static t_token *create_token(void)
 	return (token);
 }
 
-t_redirect	*create_redirect(void)
+t_redirect	*ft_create_redirect(void)
 {
 	t_redirect *redirect;
 
@@ -36,7 +36,8 @@ t_redirect	*create_redirect(void)
 	redirect->right_fd = 0;
 	redirect->type = 0;
 	redirect->open_filepath = NULL;
-
+	redirect->next = NULL;
+	redirect->prev = NULL;
 	return (redirect);
 }
 
@@ -52,7 +53,7 @@ t_cmd	*ft_cmd_lstnew(void)
 	value->args = create_token();
 	value->argc = 0;
 	value->pid = 0;
-	value->redirect = create_redirect();
+	value->redirect = ft_create_redirect();
 	return (value);
 }
 
