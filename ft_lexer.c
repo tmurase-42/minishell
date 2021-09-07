@@ -6,14 +6,14 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/05 18:49:27 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 17:46:54 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static t_token	*create_new_token(char *str, int i, int *word_len,
-	char *quote_status, t_token_type token_type)
+	char *quote_status, t_token_type token_type, size_t *space_len)
 {
 	int				word_start;
 	char			*word;
@@ -32,8 +32,10 @@ static t_token	*create_new_token(char *str, int i, int *word_len,
 		else
 			word = ft_substr(str, word_start, *word_len);
 		new_token = ft_token_create(word, token_type);
+		new_token->space_len = *space_len;
 		*word_len = 0;
 		*quote_status = '\0';
+		*space_len = 0;
 	}
 	return new_token;
 }
@@ -105,8 +107,10 @@ static t_token	*split_word(char *str, int *i, int *word_len,
 	char *quote_status, t_token_type *token_type)
 {
 	t_token			*tokens;
+	size_t			space_len;
 
 	tokens = NULL;
+	space_len = 0;
 	while (str[*i] != '\0')
 	{
 		if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>' ||
@@ -118,7 +122,10 @@ static t_token	*split_word(char *str, int *i, int *word_len,
 		else if (str[*i] == CHAR_WHITESPACE || str[*i] == CHAR_TAB)
 		{
 			if (*word_len == 0)
+			{
+				space_len += 1;
 				*i += 1;
+			}
 			*quote_status = '\0';
 		}
 		else if (ft_isdigit(str[*i]) && *token_type != CHAR_GENERAL)
@@ -133,11 +140,11 @@ static t_token	*split_word(char *str, int *i, int *word_len,
 			*word_len += 1;
 			continue;
 		}
-		ft_token_add(create_new_token(str, *i, word_len, quote_status, *token_type), &tokens);
+		ft_token_add(create_new_token(str, *i, word_len, quote_status, *token_type, &space_len), &tokens);
 		*token_type = CHAR_NULL;
 	}
 	if (*word_len > 0)
-		ft_token_add(create_new_token(str, *i, word_len, quote_status, *token_type), &tokens);
+		ft_token_add(create_new_token(str, *i, word_len, quote_status, *token_type, &space_len), &tokens);
 	return tokens;
 }
 

@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 15:53:43 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 23:01:41 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 17:16:22 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_token	*ft_token_create(char *data, t_token_type type)
 		ft_error(NULL, EXIT_FAILURE);
 	token->data = data;
 	token->type = type;
+	token->space_len = 0;
 	token->next = NULL;
 	token->prev = NULL;
 	return (token);
