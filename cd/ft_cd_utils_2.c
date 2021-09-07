@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_utils_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 16:52:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/03 14:49:25 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/07 16:19:59 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ t_bool	ft_isnot_path(t_mshl_data *g_mshl_data, char *pwd)
 	dir = ft_env_get("HOME", g_mshl_data->envs);
 	if (!dir)
 		ft_error_display("minishell", "ft_env_get: unexpected error", 1);
-	ft_env_update("PWD", dir->value, g_mshl_data->envs);
-	ft_env_update("OLDPWD", pwd, g_mshl_data->envs);
+	ft_env_update("PWD", dir->value);
+	ft_env_update("OLDPWD", pwd);
 	if (chdir(dir->value) != 0)
 		ft_error_display("minishell", "chdir: unexpected error", 1);
 	else
