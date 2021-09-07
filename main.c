@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/09/07 15:25:51 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 16:17:51 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static t_cmd	*run_commandline(char **command)
 	tokens = ft_lexer(*command);
 
 	// 異常なトークンの検知とエラー吐き出し
-	if (ft_check_token_error(tokens) != TRUE)
-		return NULL;
+	//if (ft_check_token_error(tokens) != TRUE)
+	//	return NULL;
 
 	// トークンをパースする
 	cmd = ft_cmd_lstnew();
@@ -78,15 +78,16 @@ static void	update_shlvl()
 	shlvl_str = ft_itoa(shlvl_num);
 	if (!shlvl_str)
 		return ;
-	ft_env_update("SHLVL", shlvl_str, g_mshl_data->envs);
+	ft_env_update("SHLVL", shlvl_str);
 }
 
 int	main(int argc, char *argv[], char **environ)
 {
+	extern t_mshl_data	*g_mshl_data;
 	char	*command;
 	t_env	*envs;
-	extern t_mshl_data	*g_mshl_data;
 	t_cmd	*cmd;
+
 
 	(void)argv;
 	(void)argc;
@@ -94,6 +95,7 @@ int	main(int argc, char *argv[], char **environ)
 	envs = ft_env_init(environ);
 	g_mshl_data = mshl_data_init(envs);
 	update_shlvl();
+	ft_env_destroy("OLDPWD");
 
 	if (argc > 2 && ft_strncmp("-c", argv[1], 3) == 0)
 	{

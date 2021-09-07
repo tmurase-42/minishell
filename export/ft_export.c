@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/08/29 12:44:39 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 15:40:06 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_bool	is_valid_key(char *key)
 	return (TRUE);
 }
 
-static int		set_envs(t_cmd *cmd, t_env *envs)
+static int		set_envs(t_cmd *cmd)
 {
 	char	*key;
 	char	*value;
@@ -85,7 +85,7 @@ static int		set_envs(t_cmd *cmd, t_env *envs)
 			if (is_valid_key(key))
 			{
 				if (is_sep_equal(token->data) == EQUAL)
-					ft_env_update(key, value, envs);
+					ft_env_update(key, value);
 				else {
 					ft_error_display("export", token->data, EXIT_FAILURE);
 					ret = EXIT_FAILURE;
@@ -197,15 +197,13 @@ int			print_envs()
 
 int ft_export(t_cmd *cmd)
 {
-	extern t_mshl_data	*g_mshl_data;
-
 	if (cmd->argc == 1)
 	{
 		return (print_envs());
 	}
 	else
 	{
-		return (set_envs(cmd, g_mshl_data->envs));
+		return (set_envs(cmd));
 	}
 	return (EXIT_SUCCESS);
 }
