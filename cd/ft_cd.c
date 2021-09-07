@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 16:52:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/03 12:39:43 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 16:20:23 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_bool	ft_cd(t_cmd *cmd)
 		path = ft_get_dir_path_relative(current_dir, second_argv);
 	if (chdir(path) != 0)
 		return (ft_error_cd(path));
-	ft_env_update("PWD", path, g_mshl_data->envs);
-	ft_env_update("OLDPWD", current_dir, g_mshl_data->envs);
+	ft_env_update("PWD", path);
+	ft_env_update("OLDPWD", current_dir);
 	return (TRUE);
 }

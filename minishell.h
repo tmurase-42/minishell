@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/07 13:52:32 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/07 17:15:55 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ struct			s_token
 	t_token			*prev;
 	t_token_type	type;
 	char			*data;
+	size_t			space_len;
 };
 
 typedef struct s_redirect t_redirect;
@@ -200,9 +201,9 @@ t_bool	ft_check_quot(char *str);
 t_env	*ft_env_init(char **environ);
 t_env	*ft_env_create(char *str);
 void	ft_env_add(t_env *new_env, t_env **envs);
-void	ft_env_delete(char *key, t_env *envs);
+void	ft_env_destroy(char *key);
 t_env	*ft_env_get(const char *key, t_env *envs);
-void	ft_env_update(const char *key, const char *value, t_env *envs);
+void	ft_env_update(const char *key, const char *value);
 char    **ft_env_array(t_env *envs);
 
 /* Expansion functions */

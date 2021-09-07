@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/09/07 12:52:08 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/07 16:17:51 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,42 @@ static t_cmd	*run_commandline(char **command)
 	return cmd;
 }
 
+static void	update_shlvl()
+{
+	extern t_mshl_data	*g_mshl_data;
+	t_env	*shlvl_env;
+	char	*shlvl_str;
+	char	shlvl_num;
+
+	shlvl_num = 0;
+	shlvl_str = NULL;
+	shlvl_env = ft_env_get("SHLVL", g_mshl_data->envs);
+	if (!shlvl_env)
+		return ;
+	shlvl_str = shlvl_env->value;
+	shlvl_num = ft_atoi(shlvl_str);
+	shlvl_num += 1;
+	shlvl_str = ft_itoa(shlvl_num);
+	if (!shlvl_str)
+		return ;
+	ft_env_update("SHLVL", shlvl_str);
+}
+
 int	main(int argc, char *argv[], char **environ)
 {
+	extern t_mshl_data	*g_mshl_data;
 	char	*command;
 	t_env	*envs;
-	extern t_mshl_data	*g_mshl_data;
 	t_cmd	*cmd;
+
 
 	(void)argv;
 	(void)argc;
 	command = NULL;
 	envs = ft_env_init(environ);
 	g_mshl_data = mshl_data_init(envs);
+	update_shlvl();
+	ft_env_destroy("OLDPWD");
 
 	if (argc > 2 && ft_strncmp("-c", argv[1], 3) == 0)
 	{
@@ -83,7 +107,6 @@ int	main(int argc, char *argv[], char **environ)
 		//g_mshl_data->interrupted = FALSE;
 		//g_mshl_data->exit_status = 0;
 		ft_sigint_setter(ft_sigint_handler);
-
 		command = readline("\e[36mminishell>\e[0m");
 		if (command == NULL)
 			exit(EXIT_FAILURE);
