@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/07 12:48:28 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 13:04:33 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,6 @@ char			*ft_token_str(t_token *tokens, int start, int len)
 		}
 		else
 		{
-			//tmp = str;
-			//str = ft_strjoin("'", str);
-			//free(tmp);
-
 			// tmp = str;
 			// str = ft_strjoin(str, " '");
 			// free(tmp);
@@ -78,9 +74,19 @@ char			*ft_token_str(t_token *tokens, int start, int len)
 				str = ft_strjoin(str, " ");
 				free(tmp);
 			}
+			if(current_token->type == CHAR_DQUOTE || current_token->type == CHAR_QUOTE) {
+				tmp = str;
+				str = ft_strjoin(str, (current_token->type == CHAR_DQUOTE ? "\"" : "'"));
+				free(tmp);
+			}
 			tmp = str;
 			str = ft_strjoin(str, current_token->data);
 			free(tmp);
+			if(current_token->type == CHAR_DQUOTE || current_token->type == CHAR_QUOTE) {
+				tmp = str;
+				str = ft_strjoin(str, (current_token->type == CHAR_DQUOTE ? "\"" : "'"));
+				free(tmp);
+			}
 		}
 		current_token = current_token->next;
 		i++;
