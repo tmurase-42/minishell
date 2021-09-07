@@ -6,44 +6,62 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/06 16:09:10 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/07 19:37:37 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_token	*check_redirect(t_token *token)
+static void	check_redirect(t_cmd *cmd)
 {
-	if (token == NULL)
-		return (NULL);
+	t_token *token;
+	t_redirect	*tmp;
+
+	token = cmd->args;
 	while (token)
 	{
-		if (token->type == CHAR_GREATER)
-			return (token);
-		if (token->type == DOUBLE_GREATER)
-			return (token);
-		if (token->type == CHAR_LESSER)
-			return (token);
-		if (token->type == DOUBLE_LESSER)
-			return (token);
-		if (token->next == NULL)
-			break ;
+		if (token->type == CHAR_GREATER || token->type == DOUBLE_GREATER)
+		{
+			if (cmd->redirect->open_filepath != NULL)
+			{
+				tmp = cmd->redirect;
+				cmd->redirect->next = ft_create_redirect();
+				cmd->redirect = cmd->redirect->next;
+				cmd->redirect->prev = tmp;
+			}
+			ft_import_redirect_information(cmd, token, 1);
+		}
+		if (token->type == CHAR_LESSER || token->type == DOUBLE_LESSER)
+		{
+			if (cmd->redirect->open_filepath != NULL)
+			{
+				tmp = cmd->redirect;
+				cmd->redirect->next = ft_create_redirect();
+				cmd->redirect = cmd->redirect->next;
+				cmd->redirect->prev = tmp;
+			}
+			ft_import_redirect_information(cmd, token, 0);
+		}
 		token = token->next;
 	}
-	return (token);
 }
 
 void ft_test_print_redirect(t_redirect *redirect)
 {
-	printf("---------------\n");
-	printf("redirect->left_id: %d\n" ,redirect->left_fd);
-	printf("redirect->right_id: %d\n" ,redirect->right_fd);
-	printf("open_filepath:%s\n", redirect->open_filepath);
-
+	while (redirect)
+	{
+		printf("redirect->left_id: %d\n" ,redirect->left_fd);
+		printf("redirect->right_id: %d\n" ,redirect->right_fd);
+		printf("redirect->type: %d\n", redirect->type);
+		printf("open_filepath:%s\n", redirect->open_filepath);
+		printf("---------------\n");
+		redirect = redirect->next;
+	}
 }
 
-static void	import_redirect_information(t_cmd *cmd, t_token *redirect_token, int default_fd)
+void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int default_fd)
 {
+
 	cmd->redirect->type = redirect_token->type;
 	if (redirect_token->prev->type == IO_NUMBER)
 		cmd->redirect->left_fd = ft_atoi(redirect_token->prev->data);
@@ -64,18 +82,14 @@ static void	import_redirect_information(t_cmd *cmd, t_token *redirect_token, int
 
 t_bool	ft_setup_redirect(t_cmd	*cmd)
 {
-	t_token	*redirect_token;
+	t_cmd	*tmp;
 	// cmd構造体にリダイレクトの有無をチェック
-
+	tmp = cmd;
 	if (cmd == NULL)
 		return (FALSE) ;
-	redirect_token = check_redirect(cmd->args);
-	if (redirect_token == NULL)
-		return (FALSE);
-	if (redirect_token->type == CHAR_GREATER || redirect_token->type == DOUBLE_GREATER)
-		import_redirect_information(cmd, redirect_token, 1);
-	else if (redirect_token->type == CHAR_LESSER || redirect_token->type == DOUBLE_LESSER)
-		import_redirect_information(cmd, redirect_token, 0);
+	check_redirect(tmp);
+	//while (cmd->redirect->prev != NULL)
+	//	cmd->redirect = cmd->redirect->prev;
 	//ft_test_print_redirect(cmd->redirect);
 	//ft_token_print(cmd->args);
 	return (TRUE);
