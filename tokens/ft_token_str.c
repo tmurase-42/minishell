@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/05 23:37:48 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 12:48:28 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,12 @@ char			*ft_token_str(t_token *tokens, int start, int len)
 			// tmp = str;
 			// str = ft_strjoin(str, "'");
 			// free(tmp);
-
-			tmp = str;
-			str = ft_strjoin(str, " ");
-			free(tmp);
+			if(current_token->prev->type != IO_NUMBER)
+			{
+				tmp = str;
+				str = ft_strjoin(str, " ");
+				free(tmp);
+			}
 			tmp = str;
 			str = ft_strjoin(str, current_token->data);
 			free(tmp);
