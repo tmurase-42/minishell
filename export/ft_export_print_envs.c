@@ -6,34 +6,11 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:33:24 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 16:49:47 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/08 19:01:44 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static char	*get_key(char *str)
-{
-	int		i;
-	char	*ret;
-
-	i = 0;
-	ret = NULL;
-	if (str && ft_strchr(str, '='))
-	{
-		while( str[i] != '\0' && str[i] != '=')
-			i++;
-		ret = ft_calloc(sizeof(char), i + 1);
-		ft_strlcpy(ret, str, i + 1);
-	}
-	if (ret)
-	{
-		if (ft_env_is_valid_key(ret))
-			return ret;
-	}
-	free(str);
-	return NULL;
-}
 
 static size_t	get_len_to_alloc(const char *str, const char *esc)
 {
@@ -93,33 +70,27 @@ static char	*get_escaped_value(const char *str)
 	return (new_str);
 }
 
-static void	print_env(char *str)
+static void	print_env(t_env *env)
 {
 	char	*escaped_value;
-	char	*key;
-	char	*value;
 
-	value = ft_strchr(str, '=');
-	value += 1;
-	key = get_key(str);
 	ft_putstr_fd("declare -x ", STDOUT_FILENO);
-	ft_putstr_fd(key, STDOUT_FILENO);
-	if (value)
+	ft_putstr_fd(env->key, STDOUT_FILENO);
+	if (env->value)
 	{
-		escaped_value = get_escaped_value(value);
+		escaped_value = get_escaped_value(env->value);
 		ft_putstr_fd("=\"", STDOUT_FILENO);
 		ft_putstr_fd(escaped_value, STDOUT_FILENO);
 		ft_putchar_fd('"', STDOUT_FILENO);
 		free(escaped_value);
 	}
-	free(key);
 	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
 int			ft_export_print_envs()
 {
-	char			**array;
-	int				i;
+	t_env	**array;
+	int		i;
 
 	i = 0;
 	array = ft_env_sort();
@@ -128,6 +99,7 @@ int			ft_export_print_envs()
 		print_env(array[i]);
 		i++;
 	}
-	ft_safe_free_split(&array);
+	i = 0;
+	free(array);
 	return (EXIT_SUCCESS);
 }

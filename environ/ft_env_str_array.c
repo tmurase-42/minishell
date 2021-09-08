@@ -1,16 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_array.c                                     :+:      :+:    :+:   */
+/*   ft_env_str_array.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/08 18:31:33 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 18:36:21 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/08/26 20:26:21 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/09/08 19:06:13 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static t_bool	can_generate_environ(t_env *env)
+{
+	if (env->value == NULL)
+		return (FALSE);
+	if (env->is_env == FALSE)
+		return (FALSE);
+	return (TRUE);
+}
 
 static size_t	get_environ_size(t_env *envs)
 {
@@ -19,27 +28,37 @@ static size_t	get_environ_size(t_env *envs)
 	size = 0;
 	while (envs)
 	{
-		size++;
+		if (can_generate_environ(envs))
+			size++;
 		envs = envs->next;
 	}
 	return (size);
 }
 
-t_env	**ft_env_array(t_env *envs)
+char	**ft_env_str_array(t_env *envs)
 {
-	t_env	**environ;
+	char	**environ;
+	char	*tmp;
 	size_t	env_size;
 	size_t	i;
 
 	env_size = get_environ_size(envs);
-	if (!(environ = (t_env **)malloc(sizeof(t_env *) * (env_size + 1))))
+	if (!(environ = (char **)malloc(sizeof(char *) * (env_size + 1))))
 		ft_error(NULL, EXIT_FAILURE);
 	i = 0;
 	while (i < env_size)
 	{
-		environ[i] = envs;
+		if (can_generate_environ(envs))
+		{
+			if (!(environ[i] = ft_strjoin(envs->key, "=")))
+				ft_error(NULL, EXIT_FAILURE);
+			tmp = environ[i];
+			if (!(environ[i] = ft_strjoin(environ[i], envs->value)))
+				ft_error(NULL, EXIT_FAILURE);
+			free(tmp);
+			i++;
+		}
 		envs = envs->next;
-		i++;
 	}
 	environ[i] = NULL;
 	return (environ);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_child_process.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 19:27:55 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 09:43:02 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/08 18:55:40 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void		exec_commons(t_cmd *cmd)
 	char	*path;
 
 	args = ft_token_array(cmd->args, 0, cmd->argc);
-	envs = ft_env_array(g_mshl_data->envs);
+	envs = ft_env_str_array(g_mshl_data->envs);
 	path = ft_cmd_path(args[0]);
 	if (execve(path, args, envs) == -1)
 		ft_error("execve not working.", EXIT_FAILURE);

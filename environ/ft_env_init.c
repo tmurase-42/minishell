@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 18:08:41 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/07 15:53:20 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/08 18:57:56 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ t_env		*ft_env_init(char **environ)
 	while (environ[i])
 	{
 		current = ft_env_create(environ[i]);
+		if (ft_strncmp(current->key, "OLDPWD", ft_strlen(current->key)) == 0)
+		{
+			current->is_env = FALSE;
+			free(current->value);
+			current->value = NULL;
+		}
 		if (current)
 			ft_env_add(current, &envs);
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 08:55:35 by mitchiwak         #+#    #+#             */
-/*   Updated: 2021/09/08 10:10:59 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/08 18:15:54 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static t_mshl_data	*mshl_data_init(t_env *envs)
 	mshl_data->argv = NULL;
 	mshl_data->envs = envs;
 	mshl_data->exit_status = 0;
-	mshl_data->histories = NULL;
 	mshl_data->pipe_state = WRITE_ONLY;
 	mshl_data->interrupted = FALSE;
 	return (mshl_data);
@@ -95,7 +94,7 @@ int	main(int argc, char *argv[], char **environ)
 	envs = ft_env_init(environ);
 	g_mshl_data = mshl_data_init(envs);
 	update_shlvl();
-	ft_env_destroy("OLDPWD");
+	//ft_env_destroy("OLDPWD");
 
 	if (argc > 2 && ft_strncmp("-c", argv[1], 3) == 0)
 	{
