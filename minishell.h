@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/07 17:15:55 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 20:29:35 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,3 +266,4 @@ void	ft_test_print_redirect(t_redirect *redirect);
 void	ft_dup_redirect(t_redirect *redirect);
 t_redirect	*ft_create_redirect(void);
 void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int default_fd);
+void	ft_dup_heredoc(t_cmd *cmd);

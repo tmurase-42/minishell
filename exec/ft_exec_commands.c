@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/07 15:20:40 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/08 10:08:19 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,30 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 		{
 			//setupした情報の中から、bashの仕様通りにdupすべきfdのみ選定してdup処理を行う。
 			//初めからお尻のアドレスを保持させておく。別の種類のリダイレクトがある場合は後ろに下がって一個ずつチェックして違うが生まれればdupする。
-			ft_dup_redirect(cmd->redirect);
-		}
-		g_mshl_data->exit_status = ft_exec_builtin(cmd);
-		if (cmd->redirect->open_filepath != NULL)
-		{
-			//全てのfileをクローズする必要がある。
-			close(cmd->redirect->right_fd);
-			if (cmd->redirect->type == CHAR_GREATER || cmd->redirect->type == DOUBLE_GREATER)
-				dup2(cmd->redirect->backup_fd, 1);
-			else
+			while (cmd->redirect)
 			{
-				dup2(cmd->redirect->backup_fd, 0);
+				if (cmd->redirect->type != DOUBLE_LESSER)
+					ft_dup_redirect(cmd->redirect);
+				else
+				{
+					ft_dup_heredoc(cmd);
+					ft_dup_redirect(cmd->redirect);
+				}
+				cmd->redirect = cmd->redirect->next;
 			}
 		}
+		g_mshl_data->exit_status = ft_exec_builtin(cmd);
+	//	if (cmd->redirect->open_filepath != NULL)
+	//	{
+	//		//全てのfileをクローズする必要がある。
+	//		close(cmd->redirect->right_fd);
+	//		if (cmd->redirect->type == CHAR_GREATER || cmd->redirect->type == DOUBLE_GREATER)
+	//			dup2(cmd->redirect->backup_fd, 1);
+	//		else
+	//		{
+	//			dup2(cmd->redirect->backup_fd, 0);
+	//		}
+	//	}
 		return ;
 	}
 	fork_process(cmd, old_pipe);
