@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/07 20:29:35 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/08 20:51:12 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ struct 				s_redirect
 	int		left_fd;
 	int		right_fd;
 	int		type;
+	int		is_last;
 	char		*open_filepath;
 	t_redirect	*next;
 	t_redirect	*prev;
@@ -121,6 +122,8 @@ struct			s_cmd
 	int		argc;
 	struct	s_cmd *next;
 	struct 	s_redirect *redirect;
+	int		final_greater_fd;
+	int		final_lesser_fd;
 	pid_t	pid;
 };
 
@@ -262,8 +265,12 @@ void	ft_sigint_setter(void (*func)(int));
 
 /* redirect functions */
 t_bool	ft_setup_redirect(t_cmd	*cmd);
-void	ft_test_print_redirect(t_redirect *redirect);
-void	ft_dup_redirect(t_redirect *redirect);
+void ft_test_print_redirect(t_cmd *cmd);
 t_redirect	*ft_create_redirect(void);
 void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int default_fd);
-void	ft_dup_heredoc(t_cmd *cmd);
+void	ft_dup_heredoc(t_redirect *redir);
+void	ft_getfd_redirect(t_cmd *cmd);
+t_bool	ft_check_redirect(t_cmd *cmd);
+t_bool	ft_dup_redirect(t_cmd *cmd);
+t_bool	ft_backup_fd(t_cmd *cmd);
+t_bool	ft_delete_tmpfile(t_cmd *cmd, int final_greater_fd);
