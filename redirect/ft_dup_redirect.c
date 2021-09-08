@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:05:32 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/07 15:03:02 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/07 20:16:35 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_dup_redirect(t_redirect *redirect)
 	}
 	else
 	{
-		if (dup2(redirect->right_fd, redirect->left_fd) < 0)
+		if (dup2(redirect->right_fd, 0) < 0)
 			ft_error_display("", "",1);
 	}
 }
