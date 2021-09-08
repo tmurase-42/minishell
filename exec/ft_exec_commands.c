@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/08 10:08:19 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/08 21:17:21 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,32 +53,27 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 		//cmd構造体内の全てのtoken構造体の中から、redirect情報の有無を調べ、redirect構造体に全て格納する。
 		if (ft_setup_redirect(cmd) == TRUE)
 		{
-			//setupした情報の中から、bashの仕様通りにdupすべきfdのみ選定してdup処理を行う。
-			//初めからお尻のアドレスを保持させておく。別の種類のリダイレクトがある場合は後ろに下がって一個ずつチェックして違うが生まれればdupする。
-			while (cmd->redirect)
-			{
-				if (cmd->redirect->type != DOUBLE_LESSER)
-					ft_dup_redirect(cmd->redirect);
-				else
-				{
-					ft_dup_heredoc(cmd);
-					ft_dup_redirect(cmd->redirect);
-				}
-				cmd->redirect = cmd->redirect->next;
-			}
+			//格納したredirect構造体の中から、一個ずつfdの情報を取得していく。errorチェックはしない。
+			ft_getfd_redirect(cmd);
+			//正常にopenできたか、不要なものfileはクローズできるかのエラーチェック
+			if (ft_check_redirect(cmd) == FALSE)
+				ft_error("コマンドを中断させたい", 1);
+			//リダイレクトすべきfdだけdupする。
+			if (ft_dup_redirect(cmd) == FALSE)
+				ft_error("コマンドを中断させたい", 1);
 		}
 		g_mshl_data->exit_status = ft_exec_builtin(cmd);
-	//	if (cmd->redirect->open_filepath != NULL)
-	//	{
-	//		//全てのfileをクローズする必要がある。
-	//		close(cmd->redirect->right_fd);
-	//		if (cmd->redirect->type == CHAR_GREATER || cmd->redirect->type == DOUBLE_GREATER)
-	//			dup2(cmd->redirect->backup_fd, 1);
-	//		else
-	//		{
-	//			dup2(cmd->redirect->backup_fd, 0);
-	//		}
-	//	}
+		//利用したファイルをcloseする。
+		if (cmd->final_greater_fd != 0)
+			close(cmd->final_greater_fd);
+		if (cmd->final_lesser_fd != 0)
+		{
+			close(cmd->final_lesser_fd);
+			if (ft_delete_tmpfile(cmd, cmd->final_lesser_fd) == FALSE)
+				ft_error("コマンドを中断させたい", 1);
+		}
+		if (ft_backup_fd(cmd) == FALSE)
+			ft_error("コマンドを中断させたい", 1);
 		return ;
 	}
 	fork_process(cmd, old_pipe);

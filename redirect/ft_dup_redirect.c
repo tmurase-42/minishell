@@ -6,30 +6,123 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:05:32 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/07 20:16:35 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/08 21:17:44 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_dup_redirect(t_redirect *redirect)
+t_bool	ft_dup_redirect(t_cmd *cmd)
 {
-	if (redirect->type == CHAR_GREATER || redirect->type == DOUBLE_GREATER)
-		redirect->backup_fd = dup(1);
-	else
+	t_redirect	*greater_redir;
+	t_redirect	*lesser_redir;
+
+	greater_redir = cmd->redirect;
+	lesser_redir = cmd->redirect;
+	if (cmd->final_greater_fd != 0)
 	{
-		redirect->backup_fd = dup(0);
+		while(greater_redir)
+		{
+			if (greater_redir->right_fd == cmd->final_greater_fd)
+				break;
+			greater_redir = greater_redir->next;
+		}
+		greater_redir->backup_fd = dup(1);
+		if (greater_redir->backup_fd < 0)
+		{
+			ft_error_display("minishell", "dup2", 1);
+			return (FALSE);
+		}
+		if (dup2(cmd->final_greater_fd, greater_redir->left_fd) < 0)
+		{
+			ft_error_display("minishell", "dup2", 1);
+			return (FALSE);
+		}
 	}
-	if (redirect->backup_fd < 0)
-		ft_error_display("","",1);
-	if (redirect->type == CHAR_GREATER || redirect->type == DOUBLE_GREATER)
+	if (cmd->final_lesser_fd != 0)
 	{
-		if (dup2(redirect->right_fd, redirect->left_fd) < 0)
-			ft_error_display("", "",1);
+		while(lesser_redir)
+		{
+			if (lesser_redir->right_fd == cmd->final_lesser_fd)
+				break ;
+			lesser_redir = lesser_redir->next;
+		}
+		lesser_redir->backup_fd = dup(0);
+		if (lesser_redir->backup_fd < 0)
+		{
+			ft_error_display("minishell", "dup", 1);
+			return (FALSE);
+		}
+		if (dup2(cmd->final_lesser_fd, lesser_redir->left_fd) < 0)
+		{
+			ft_error_display("minishell", "dup2", 1);
+			return (FALSE);
+		}
 	}
-	else
+	return (TRUE);
+}
+
+t_bool	ft_backup_fd(t_cmd *cmd)
+{
+	t_redirect	*greater_redir;
+	t_redirect	*lesser_redir;
+
+	greater_redir = cmd->redirect;
+	lesser_redir = cmd->redirect;
+
+	if (cmd->final_greater_fd != 0)
 	{
-		if (dup2(redirect->right_fd, 0) < 0)
-			ft_error_display("", "",1);
+		while(greater_redir)
+		{
+			if (greater_redir->right_fd == cmd->final_greater_fd)
+				break;
+			greater_redir = greater_redir->next;
+		}
+		if (dup2(greater_redir->backup_fd, 1) < 0)
+		{
+			ft_error_display("minishell", "dup2", 1);
+			return (FALSE);
+		}
 	}
+	if (cmd->final_lesser_fd != 0)
+	{
+		while(lesser_redir)
+		{
+			if (lesser_redir->right_fd == cmd->final_lesser_fd)
+				break ;
+			lesser_redir = lesser_redir->next;
+		}
+		if (dup2(lesser_redir->backup_fd, 0) < 0)
+		{
+			ft_error_display("minishell", "dup2", 1);
+			return (FALSE);
+		}
+	}
+	return (TRUE);
+}
+
+
+t_bool	ft_delete_tmpfile(t_cmd *cmd, int final_lesser_fd)
+{
+	t_redirect	*lesser_redir;
+
+	lesser_redir = cmd->redirect;
+	if (final_lesser_fd != 0)
+	{
+		while(lesser_redir)
+		{
+			if (lesser_redir->right_fd == final_lesser_fd)
+				break ;
+			lesser_redir = lesser_redir->next;
+		}
+	}
+	if (lesser_redir->type == DOUBLE_LESSER)
+	{
+		if (unlink("tmp.txt") < 0)
+		{
+			ft_error_display("minishell", "dup2", 1);
+			return (FALSE);
+		}
+	}
+	return (TRUE);
 }

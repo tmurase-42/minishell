@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/08 09:43:02 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/08 21:04:42 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,17 @@ static void	check_redirect(t_cmd *cmd)
 	}
 }
 
-void ft_test_print_redirect(t_redirect *redirect)
+void ft_test_print_redirect(t_cmd *cmd)
 {
+	t_redirect *redirect = cmd->redirect;
 	while (redirect)
 	{
 		printf("redirect->left_id: %d\n" ,redirect->left_fd);
 		printf("redirect->right_id: %d\n" ,redirect->right_fd);
 		printf("redirect->type: %d\n", redirect->type);
 		printf("open_filepath:%s\n", redirect->open_filepath);
+		printf("cmd->final_grater_fd:%d\n", cmd->final_greater_fd);
+		printf("cmd->final_lesser_fd:%d\n", cmd->final_lesser_fd);
 		printf("---------------\n");
 		redirect = redirect->next;
 	}
@@ -68,12 +71,6 @@ void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int def
 	else
 		cmd->redirect->left_fd = default_fd;
 	cmd->redirect->open_filepath = ft_strdup(redirect_token->next->data);
-	if (redirect_token->type == CHAR_GREATER || redirect_token->type == CHAR_LESSER || redirect_token->type == DOUBLE_LESSER)
-		cmd->redirect->right_fd = open(cmd->redirect->open_filepath, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	else if (redirect_token->type == DOUBLE_GREATER)
-		cmd->redirect->right_fd = open(cmd->redirect->open_filepath, O_RDWR | O_CREAT | O_APPEND, 0777);
-	if (cmd->redirect->right_fd < 0)
-		return (ft_error_display("No such file or directory!", cmd->redirect->open_filepath, 1));
 	if (redirect_token->prev->type == IO_NUMBER)
 		ft_token_destroy(redirect_token->prev, &cmd->args);
 	ft_token_destroy(redirect_token, &cmd->args);
@@ -88,8 +85,8 @@ t_bool	ft_setup_redirect(t_cmd	*cmd)
 	if (cmd == NULL)
 		return (FALSE) ;
 	check_redirect(tmp);
-	//while (cmd->redirect->prev != NULL)
-	//	cmd->redirect = cmd->redirect->prev;
+	while (cmd->redirect->prev != NULL)
+		cmd->redirect = cmd->redirect->prev;
 	//ft_test_print_redirect(cmd->redirect);
 	//ft_token_print(cmd->args);
 	return (TRUE);

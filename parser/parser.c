@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/07 17:31:53 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/08 16:52:55 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ t_redirect	*ft_create_redirect(void)
 	t_redirect *redirect;
 
 	redirect = ft_calloc(1, sizeof(t_redirect));
-	redirect->backup_fd = 0;
-	redirect->left_fd = 0;
-	redirect->right_fd = 0;
+	redirect->backup_fd = -1;
+	redirect->left_fd = -1;
+	redirect->right_fd = -1;
 	redirect->type = 0;
 	redirect->open_filepath = NULL;
 	redirect->next = NULL;
@@ -53,6 +53,8 @@ t_cmd	*ft_cmd_lstnew(void)
 	value->args = create_token();
 	value->argc = 0;
 	value->pid = 0;
+	value->final_greater_fd = 0;
+	value->final_lesser_fd = 0;
 	value->redirect = ft_create_redirect();
 	return (value);
 }
