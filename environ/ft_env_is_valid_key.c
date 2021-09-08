@@ -1,46 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_array.c                                     :+:      :+:    :+:   */
+/*   ft_env_is_valid_key.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/08 18:31:33 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 18:36:21 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/05/06 18:08:41 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/09/08 10:28:49 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static size_t	get_environ_size(t_env *envs)
+t_bool	ft_env_is_valid_key(char *key)
 {
-	size_t	size;
-
-	size = 0;
-	while (envs)
-	{
-		size++;
-		envs = envs->next;
-	}
-	return (size);
-}
-
-t_env	**ft_env_array(t_env *envs)
-{
-	t_env	**environ;
-	size_t	env_size;
 	size_t	i;
 
-	env_size = get_environ_size(envs);
-	if (!(environ = (t_env **)malloc(sizeof(t_env *) * (env_size + 1))))
-		ft_error(NULL, EXIT_FAILURE);
 	i = 0;
-	while (i < env_size)
+	if (key[i] != '_' && !ft_isalpha(key[i]))
+		return (FALSE);
+	i++;
+	while (key[i])
 	{
-		environ[i] = envs;
-		envs = envs->next;
+		if (key[i] != '_' && !ft_isalnum(key[i]))
+			return (FALSE);
 		i++;
 	}
-	environ[i] = NULL;
-	return (environ);
+	return (TRUE);
 }

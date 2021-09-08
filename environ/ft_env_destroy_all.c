@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_is_builtin_command.c                            :+:      :+:    :+:   */
+/*   ft_env_destroy_all.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/01 19:36:17 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 16:21:56 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/05/06 18:08:33 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/09/08 11:41:18 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_bool	ft_is_builtin_command(char *str)
+void	ft_env_destroy_all(t_env *env)
 {
-	const char *commands[] = {"exit", "cd", "env", "unset", "export", "echo", "pwd", NULL};
-	int		i;
+	t_env				*tmp;
 
-	i = 0;
-	if (str == NULL)
-		return (FALSE);
-	while (commands[i])
+	while(env)
 	{
-		if (ft_strncmp(str, commands[i], ft_strlen(str)) == 0)
-			return (TRUE);
-		i++;
+		tmp = env;
+		ft_free_char(&(env->value));
+		ft_free_char(&(env->key));
+		free(env);
+		env = tmp->next;
 	}
-	return (FALSE);
+	free(env);
 }

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
 /*   Updated: 2021/09/08 20:51:12 by tmurase          ###   ########.fr       */
@@ -141,15 +141,6 @@ typedef struct	s_env
 	struct s_env	*next;
 }				t_env;
 
-typedef struct s_history	t_history;
-struct			s_history
-{
-	t_history	*next;
-	t_history	*prev;
-	char		*data;
-	size_t		number;
-};
-
 typedef enum			e_pipe_state
 {
 	NO_PIPE,
@@ -164,7 +155,6 @@ typedef struct	s_mshl_data
 	char			**argv;
 	t_env			*envs;
 	int				exit_status;
-	t_history		*histories;
 	t_pipe_state	pipe_state;
 	int				pipe[2];
 	t_bool			interrupted;
@@ -204,10 +194,19 @@ t_bool	ft_check_quot(char *str);
 t_env	*ft_env_init(char **environ);
 t_env	*ft_env_create(char *str);
 void	ft_env_add(t_env *new_env, t_env **envs);
+t_env	*ft_env_dup(t_env *env);
 void	ft_env_destroy(char *key);
+void	ft_env_destroy_all();
 t_env	*ft_env_get(const char *key, t_env *envs);
 void	ft_env_update(const char *key, const char *value);
-char    **ft_env_array(t_env *envs);
+char	**ft_env_str_array(t_env *envs);
+t_env	**ft_env_array(t_env *envs);
+t_bool	ft_env_is_valid_key(char *key);
+t_env	**ft_env_sort();
+size_t	ft_env_len(t_env *envs);
+
+
+
 
 /* Expansion functions */
 void	ft_expand(t_cmd *cmd);
@@ -219,6 +218,8 @@ int		ft_env();
 int		ft_unset(t_cmd *cmd);
 
 /* Export functions */
+int		ft_export_print_envs();
+int		ft_export_set_envs(t_cmd *cmd);
 int		ft_export(t_cmd *cmd);
 
 /* exit function */
