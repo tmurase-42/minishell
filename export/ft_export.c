@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/07 22:01:16 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/07 22:22:20 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,15 @@ static void	get_key_value(t_token **token, char **key, char **value)
 
 static int		set_envs(t_cmd *cmd)
 {
+	extern t_mshl_data	*g_mshl_data;
 	char	*key;
 	char	*value;
-	int		ret;
 	t_token	*token;
 
-	ret = EXIT_SUCCESS;
 	value = NULL;
 	key = NULL;
 	token = cmd->args->next;
+	g_mshl_data->exit_status = EXIT_SUCCESS;
 	while (token)
 	{
 		get_key_value(&token, &key, &value);
@@ -127,7 +127,7 @@ static int		set_envs(t_cmd *cmd)
 		free(key);
 		token = token->next;
 	}
-	return (ret);
+	return (g_mshl_data->exit_status);
 }
 
 static size_t	get_len_to_alloc(const char *str, const char *esc)
