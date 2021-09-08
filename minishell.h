@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/07 20:29:35 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/08 16:24:35 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,10 +201,16 @@ t_bool	ft_check_quot(char *str);
 t_env	*ft_env_init(char **environ);
 t_env	*ft_env_create(char *str);
 void	ft_env_add(t_env *new_env, t_env **envs);
+t_env	*ft_env_dup(t_env *env);
 void	ft_env_destroy(char *key);
+void	ft_env_destroy_all();
 t_env	*ft_env_get(const char *key, t_env *envs);
 void	ft_env_update(const char *key, const char *value);
 char    **ft_env_array(t_env *envs);
+t_bool	ft_env_is_valid_key(char *key);
+char	**ft_env_sort();
+
+
 
 /* Expansion functions */
 void	ft_expand(t_cmd *cmd);
@@ -216,6 +222,8 @@ int		ft_env();
 int		ft_unset(t_cmd *cmd);
 
 /* Export functions */
+int		ft_export_print_envs();
+int		ft_export_set_envs(t_cmd *cmd);
 int		ft_export(t_cmd *cmd);
 
 /* exit function */

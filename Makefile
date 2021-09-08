@@ -2,11 +2,12 @@ UNAME    := $(shell uname)
 NAME            = minishell
 FILES           = main.c ft_lexer.c exec/ft_exec_commands.c exec/ft_wait_process.c exec/ft_exec_child_process.c exec/ft_exec_builtin.c exec/ft_is_builtin_command.c exec/ft_exec_parent_process.c \
 									environ/ft_env_add.c environ/ft_env_destroy.c environ/ft_env_get.c environ/ft_env_create.c \
-									environ/ft_env_init.c environ/ft_env_update.c environ/ft_env_array.c \
+									environ/ft_env_init.c environ/ft_env_update.c environ/ft_env_array.c environ/ft_env_is_valid_key.c \
+									environ/ft_env_dup.c environ/ft_env_sort.c environ/ft_env_destroy_all.c \
 									exit/ft_exit.c \
 									common/common.c common/ft_join_path.c \
 									env/ft_env.c \
-									export/ft_export.c \
+									export/ft_export_set_envs.c export/ft_export.c export/ft_export_print_envs.c \
 									unset/ft_unset.c \
 									cd/ft_cd.c  cd/ft_cd_utils.c cd/ft_cd_utils_2.c \
 									expansion/ft_expand.c \
