@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_is_builtin_command.c                            :+:      :+:    :+:   */
+/*   ft_env_is_valid_key.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/01 19:36:17 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 16:21:56 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/05/06 18:08:41 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/09/08 10:28:49 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_bool	ft_is_builtin_command(char *str)
+t_bool	ft_env_is_valid_key(char *key)
 {
-	const char *commands[] = {"exit", "cd", "env", "unset", "export", "echo", "pwd", NULL};
-	int		i;
+	size_t	i;
 
 	i = 0;
-	if (str == NULL)
+	if (key[i] != '_' && !ft_isalpha(key[i]))
 		return (FALSE);
-	while (commands[i])
+	i++;
+	while (key[i])
 	{
-		if (ft_strncmp(str, commands[i], ft_strlen(str)) == 0)
-			return (TRUE);
+		if (key[i] != '_' && !ft_isalnum(key[i]))
+			return (FALSE);
 		i++;
 	}
-	return (FALSE);
+	return (TRUE);
 }
