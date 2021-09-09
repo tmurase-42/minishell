@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/08 21:17:21 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/09 17:02:23 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,13 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 		ft_pipe_destroy(new_pipe); // 失敗した場合は、上で開いたパイプを閉じてから終了
 	}
 	if (pid == 0) // 子プロセスの処理
+	{
 		ft_exec_child_process(new_pipe, old_pipe, cmd);
+	}
 	else // 親プロセスの処理
+	{
 		ft_exec_parent_process(new_pipe, old_pipe, cmd, pid);
+	}
 }
 
 static void	exec_command(t_cmd *cmd, int old_pipe[])
@@ -57,10 +61,10 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 			ft_getfd_redirect(cmd);
 			//正常にopenできたか、不要なものfileはクローズできるかのエラーチェック
 			if (ft_check_redirect(cmd) == FALSE)
-				ft_error("コマンドを中断させたい", 1);
+				return ;
 			//リダイレクトすべきfdだけdupする。
-			if (ft_dup_redirect(cmd) == FALSE)
-				ft_error("コマンドを中断させたい", 1);
+			if (ft_dup_redirect(cmd, 1) == FALSE)
+				return ;
 		}
 		g_mshl_data->exit_status = ft_exec_builtin(cmd);
 		//利用したファイルをcloseする。
@@ -70,10 +74,10 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 		{
 			close(cmd->final_lesser_fd);
 			if (ft_delete_tmpfile(cmd, cmd->final_lesser_fd) == FALSE)
-				ft_error("コマンドを中断させたい", 1);
+				return ;
 		}
 		if (ft_backup_fd(cmd) == FALSE)
-			ft_error("コマンドを中断させたい", 1);
+			return ;
 		return ;
 	}
 	fork_process(cmd, old_pipe);

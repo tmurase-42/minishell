@@ -6,13 +6,13 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:05:32 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/08 21:17:44 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/09 16:54:20 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_bool	ft_dup_redirect(t_cmd *cmd)
+t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent)
 {
 	t_redirect	*greater_redir;
 	t_redirect	*lesser_redir;
@@ -27,11 +27,14 @@ t_bool	ft_dup_redirect(t_cmd *cmd)
 				break;
 			greater_redir = greater_redir->next;
 		}
-		greater_redir->backup_fd = dup(1);
-		if (greater_redir->backup_fd < 0)
+		if (is_parent == TRUE)
 		{
-			ft_error_display("minishell", "dup2", 1);
-			return (FALSE);
+			greater_redir->backup_fd = dup(1);
+			if (greater_redir->backup_fd < 0)
+			{
+				ft_error_display("minishell", "dup2", 1);
+				return (FALSE);
+			}
 		}
 		if (dup2(cmd->final_greater_fd, greater_redir->left_fd) < 0)
 		{
@@ -47,11 +50,14 @@ t_bool	ft_dup_redirect(t_cmd *cmd)
 				break ;
 			lesser_redir = lesser_redir->next;
 		}
-		lesser_redir->backup_fd = dup(0);
-		if (lesser_redir->backup_fd < 0)
+		if (is_parent == TRUE)
 		{
-			ft_error_display("minishell", "dup", 1);
-			return (FALSE);
+			lesser_redir->backup_fd = dup(0);
+			if (lesser_redir->backup_fd < 0)
+			{
+				ft_error_display("minishell", "dup", 1);
+				return (FALSE);
+			}
 		}
 		if (dup2(cmd->final_lesser_fd, lesser_redir->left_fd) < 0)
 		{
@@ -59,6 +65,7 @@ t_bool	ft_dup_redirect(t_cmd *cmd)
 			return (FALSE);
 		}
 	}
+	//ft_test_print_redirect(cmd);
 	return (TRUE);
 }
 
