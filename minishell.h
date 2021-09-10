@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/10 18:34:01 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 21:53:51 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,8 @@ void	ft_token_destroy(t_token *token, t_token **tokens);
 void	ft_token_free(t_token *tokens);
 t_bool	ft_isalnum_str(char *str);
 t_bool	ft_check_quot(char *str);
+t_token	*ft_token_get_first(t_token *tokens);
+t_token	*ft_token_get_last(t_token *tokens);
 
 /* Environ functions */
 t_env	*ft_env_init(char **environ);
@@ -209,7 +211,8 @@ size_t	ft_env_len(t_env *envs);
 
 
 /* Expansion functions */
-void	ft_expand(t_cmd *cmd);
+void	ft_expand_cmd(t_cmd *cmd);
+void	ft_expand_str(char **str);
 
 /* Env functions */
 int		ft_env();

@@ -6,32 +6,11 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/10 17:19:17 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/10 21:31:37 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../minishell.h"
-
-#define EXPANSION -36
-typedef struct	s_expansions
-{
-	char			*new_arg;
-	int				i;
-	int				j;
-}				t_expansions;
-
-static t_token	*get_first_token(t_token *tokens)
-{
-	t_token	*target;
-
-	if (!tokens)
-		return (NULL);
-	target = tokens;
-	while (target->prev)
-		target = target->prev;
-	return (target);
-}
 
 static int	expand_str(t_token *t, int i, char **ret, t_bool flag)
 {
@@ -65,11 +44,6 @@ static int	expand_str(t_token *t, int i, char **ret, t_bool flag)
 		j = ft_strlen(key);
 		if (t->data[i + j] == '\0' && flag)
 			t->type = CHAR_EMPTY;
-		//tmp = *ret;
-		//*ret = ft_strjoin(*ret, "");
-		//free(tmp);
-		//else
-			//t->type = CHAR_GENERAL;
 	}
 	//printf("ft_expand: expand_str: j: %d\n", j);
 	return (j);
@@ -110,19 +84,9 @@ static int	expand_exit_status(char **ret)
 	return (dig);
 }
 
-static int	expand_args(const char *str, int i, char **ret)
+static char	*create_env_expanded_str(t_token *t)
 {
 	extern t_mshl_data	*g_mshl_data;
-	int	j;
-
-	j = (int)*str + i + (int)**ret + g_mshl_data->argc;
-
-	j = 1;
-	return (j);
-}
-
-static char *create_env_expanded_str(t_token *t)
-{
 	int		i;
 	char	*ret;
 	t_bool	first_str_in_quotes_flag;
@@ -136,22 +100,13 @@ static char *create_env_expanded_str(t_token *t)
 
 	while(t->data[i])
 	{
-		if (t->data[i] == '$' && t->data[i + 1] == '0')
-		{
-			i++;
-			// プログラム名を返す
-		}
-		else if (t->data[i] == '$' && ft_isdigit(t->data[i + 1]))
-		{
-			i++;
-			i += expand_args(t->data, i, &ret);
-		}
-		else if (t->data[i] == '$' && t->data[i + 1] == '?')
+		if (t->data[i] == '$' && t->data[i + 1] == '?')
 		{
 			i++;
 			i += expand_exit_status(&ret);
 		}
-		else if (t->data[i] == '$' && t->data[i + 1] != '\0' && t->data[i + 1] != ' ')
+		else if (t->data[i] == '$' && t->data[i + 1] != '\0'
+			&& t->data[i + 1] != ' ' && ft_isdigit(t->data[i + 1]) == FALSE)
 		{
 			i++;
 			i += expand_str(t, i, &ret, first_str_in_quotes_flag);
@@ -167,44 +122,22 @@ static char *create_env_expanded_str(t_token *t)
 	return (ret);
 }
 
-
-void			ft_expand(t_cmd *cmd)
+void		ft_expand_cmd(t_cmd *cmd)
 {
 	char	*new_str;
 	t_token	*token;
 
-	// esc_chars = "\"\\$";
-	// if (state == STATE_IN_GENERAL)
-		// esc_chars = "\'\"\\$|;><";
-	// if (is_env == TRUE)
-		// esc_chars = "\"\\$`";
 	if (!cmd->args || (cmd->args && cmd->args->data == NULL))
 		return ;
-	token = get_first_token(cmd->args);
+	token = ft_token_get_first(cmd->args);
 	new_str = NULL;
 	while (token)
 	{
-		if (token->type == CHAR_QUOTE || token->type == CHAR_EMPTY)
+		if ((token->type != CHAR_QUOTE && token->type != CHAR_EMPTY))
 		{
-			token = token->next;
-			continue ;
-		}
-		new_str = create_env_expanded_str(token);
-		//printf("token->type: %d\n", token->type);
-		//printf("new_str: %s\n", new_str);
-		//printf("token->data: %s\n", token->data);
-		if ((new_str && *new_str) || token->type == CHAR_EMPTY)
-		{
-			// printf("ft_expand: new_str: %s\n", new_str);
+			new_str = create_env_expanded_str(token);
 			free(token->data);
 			token->data = new_str;
-		}
-		else
-		{
-			//printf("ft_expand: new_str: %s\n", new_str);
-			free(token->data);
-			token->data = new_str;
-			ft_token_destroy(token, &cmd->args);
 		}
 		token = token->next;
 	}

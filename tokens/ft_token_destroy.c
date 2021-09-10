@@ -6,36 +6,11 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/10 16:35:21 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/10 20:56:26 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static t_token	*get_first_token(t_token *tokens)
-{
-	t_token	*target;
-
-	if (!tokens)
-		return (NULL);
-	target = tokens;
-	while (target->prev)
-		target = target->prev;
-	return (target);
-}
-
-static t_token	*get_last_token(t_token *tokens)
-{
-	t_token	*target;
-
-	if (!tokens)
-		return (NULL);
-	target = tokens;
-	while (target->next)
-		target = target->next;
-	return (target);
-}
-
 
 void			ft_token_destroy(t_token *token, t_token **tokens)
 {
@@ -46,8 +21,8 @@ void			ft_token_destroy(t_token *token, t_token **tokens)
 	last_token = NULL;
 	if (!token || !tokens)
 		return ;
-	first_token = get_first_token(*tokens);
-	last_token = get_last_token(*tokens);
+	first_token = ft_token_get_first(*tokens);
+	last_token = ft_token_get_last(*tokens);
 	if (first_token != token && last_token != token)
 	{
 		token->prev->next = token->next;

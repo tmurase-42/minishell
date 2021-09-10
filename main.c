@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/10 16:36:41 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/10 21:47:03 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_mshl_data	*g_mshl_data;
 
-static t_mshl_data	*mshl_data_init(t_env *envs)
+static t_mshl_data	*mshl_data_init(t_env *envs, char *argv[])
 {
 	t_mshl_data	*mshl_data;
 
@@ -22,7 +22,7 @@ static t_mshl_data	*mshl_data_init(t_env *envs)
 	if (!mshl_data)
 		return (NULL);
 	mshl_data->argc = 0;
-	mshl_data->argv = NULL;
+	mshl_data->argv = argv;
 	mshl_data->envs = envs;
 	mshl_data->exit_status = 0;
 	mshl_data->pipe_state = WRITE_ONLY;
@@ -88,11 +88,10 @@ int	main(int argc, char *argv[], char **environ)
 	t_cmd	*cmd;
 
 
-	(void)argv;
 	(void)argc;
 	command = NULL;
 	envs = ft_env_init(environ);
-	g_mshl_data = mshl_data_init(envs);
+	g_mshl_data = mshl_data_init(envs, argv);
 	update_shlvl();
 	//ft_env_destroy("OLDPWD");
 
