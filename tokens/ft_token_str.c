@@ -6,23 +6,11 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/07 20:14:22 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/10 20:56:26 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static t_token	*get_first_token(t_token *tokens)
-{
-	t_token	*target;
-
-	if (!tokens)
-		return (NULL);
-	target = tokens;
-	while (target->prev)
-		target = target->prev;
-	return (target);
-}
 
 char			*ft_token_str(t_token *tokens, int start, int len)
 {
@@ -36,7 +24,7 @@ char			*ft_token_str(t_token *tokens, int start, int len)
 	if (!tokens)
 		return NULL;
 	token_length = ft_token_length(tokens);
-	current_token = get_first_token(tokens);
+	current_token = ft_token_get_first(tokens);
 	i = 0;
 	while(current_token->next && (start - i) > 0 )
 	{
