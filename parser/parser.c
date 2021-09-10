@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/10 19:55:01 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 23:08:03 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_token *create_token(void)
 
 	token = (t_token *)ft_calloc(1, sizeof(t_token));
 	if (token == NULL)
-		ft_error("malloc error", EXIT_FAILURE);
+		ft_error(NULL, "Memory cound not be allocated.", EXIT_FAILURE);
 	token->data = NULL;
 	token->next = NULL;
 	token->prev = NULL;
@@ -75,7 +75,7 @@ static void add_token(t_token *copy)
 	t_token *last;
 
 	if (!copy)
-		ft_error("Not extpected error", EXIT_FAILURE);
+		ft_error(NULL, "Not extpected error", EXIT_FAILURE);
 	next = create_token();
 	last = last_token(copy);
 	last->next = next;

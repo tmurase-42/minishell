@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/10 21:53:51 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/11 01:29:28 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,10 +172,10 @@ t_bool	ft_is_builtin_command(char *str);
 
 
 /* Common functions */
-void	ft_error(char *message, int exit_status);
+void	ft_error(char *command, char *message, int exit_status);
 void	ft_free_char(char **target);
 void    ft_safe_free_split(char ***target);
-void	ft_error_display(char *command, char *name, int exit_status);
+void	ft_error_display(char *command, char *message, int exit_status);
 char	*ft_join_path(const char *prev, const char *next);
 
 /* Token functions */

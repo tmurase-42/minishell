@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_error.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 22:09:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/03 20:07:50 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 22:56:19 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ static t_bool	ft_check_pipe_error(t_token *tokens)
 	tmp = tokens;
 	if (ft_strchr(tmp->data, '|') != NULL)
 	{
-		ft_error_display("minishell", "syntax near unexpected token '|'",1);
+		ft_error_display("token_checker", "Syntax near unexpected token '|'", EXIT_FAILURE);
 		return (FALSE);
 	}
 	while (tmp->next != NULL)
 	{
 		if (ft_strchr(tmp->data, '|') != NULL && ft_strchr(tmp->next->data, '|') != NULL)
 		{
-			ft_error_display("minishell", "syntax near unexpected token '|'", 1);
+			ft_error_display("token_checker", "Syntax near unexpected token '|'", EXIT_FAILURE);
 			return (FALSE);
 		}
 		tmp = tmp->next;
@@ -43,7 +43,7 @@ static t_bool	ft_check_redirect_error(t_token *tokens)
 	{
 		if (tmp->type != CHAR_GENERAL && tmp->next->type != CHAR_GENERAL)
 		{
-			ft_error_display("minishell", "syntax error", 1);
+			ft_error_display("token_checker", "Unexpected tokne type is detected.", 1);
 			return (FALSE);
 		}
 		tmp = tmp->next;
@@ -57,7 +57,7 @@ static t_bool	ft_check_expect_let(t_token *tokens)
 	{
 		if (ft_isalnum_str(tokens->data) != TRUE)
 		{
-			ft_error_display("minishell", "not expect error", 1);
+			ft_error_display("token_checker", "Unexpected token data is detected.", EXIT_FAILURE);
 			return (FALSE);
 		}
 		tokens = tokens->next;
@@ -71,7 +71,7 @@ static t_bool	ft_check_unexpect_error(t_token *tokens)
 		tokens = tokens->next;
 	if (tokens->type != CHAR_GENERAL)
 	{
-		ft_error_display("minishell", "error: identifier unexpected error", 1);
+		ft_error_display("token_checker", "Unexpected token type is detected.", EXIT_FAILURE);
 		return (FALSE);
 	}
 	return (TRUE);

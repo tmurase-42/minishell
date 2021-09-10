@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_wait_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 17:54:33 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/09 20:47:16 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 22:48:11 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void ft_wait_process(t_cmd *cmd)
 		if (cmd->pid > 0)
 		{
 			if (waitpid(cmd->pid, &status, WUNTRACED) < 0)
-				ft_error("waitpid failed.", EXIT_FAILURE);
+				ft_error(NULL, "waitpid failed.", EXIT_FAILURE);
 			has_child_process = TRUE;
 		}
 		cmd = cmd->next;
@@ -44,6 +44,6 @@ void ft_wait_process(t_cmd *cmd)
 			g_mshl_data->exit_status = WTERMSIG(status) + 128;
 		}
 		else
-			ft_error("child exited abnormally.", EXIT_FAILURE);
+			ft_error(NULL, "child exited abnormally.", EXIT_FAILURE);
 	}
 }

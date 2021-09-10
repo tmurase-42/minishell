@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/07 22:00:32 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/10 22:48:11 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void	set_token_type(char *str, int *i, int *word_len,
 					break;
 				*word_len += 1;
 				if (str[*i] == '\0')
-					ft_error("an unclosed quote is detected.", EXIT_FAILURE);
+					ft_error(NULL, "An unclosed quote is detected.", EXIT_FAILURE);
 			}
 	}
 	else if (ft_isdigit(str[*i]))

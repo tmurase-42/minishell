@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/10 21:56:29 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/10 22:48:11 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 	// 新しいパイプを生成
 	if (pipe(new_pipe) < 0) {
 		ft_pipe_destroy(old_pipe); // 失敗した場合は、上で開いたパイプを閉じてから終了
-		ft_error("cannot create a pipe.", EXIT_FAILURE);
+		ft_error(NULL, "cannot create a pipe.", EXIT_FAILURE);
 	}
 	if (ft_setup_redirect(cmd) == TRUE)
 	{
@@ -98,7 +98,7 @@ void	ft_exec_commands(t_cmd *cmd)
 	if (g_mshl_data->pipe_state != WRITE_ONLY && g_mshl_data->pipe_state != READ_WRITE)
 	{
 		if (pipe(old_pipe) < 0)
-			ft_error("cannot create a pipe.", EXIT_FAILURE);
+			ft_error(NULL, "cannot create a pipe.", EXIT_FAILURE);
 		g_mshl_data->pipe_state = WRITE_ONLY;
 	}
 	// コマンドが一つだったらNO_PIPEステータスにする
