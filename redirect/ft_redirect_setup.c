@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/08 21:04:42 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/09 14:03:30 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_bool	ft_setup_redirect(t_cmd	*cmd)
 	check_redirect(tmp);
 	while (cmd->redirect->prev != NULL)
 		cmd->redirect = cmd->redirect->prev;
-	//ft_test_print_redirect(cmd->redirect);
+	//ft_test_print_redirect(cmd);
 	//ft_token_print(cmd->args);
 	return (TRUE);
 }

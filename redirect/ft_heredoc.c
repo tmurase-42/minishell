@@ -6,18 +6,16 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 20:13:07 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/08 17:21:46 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 09:51:59 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_dup_heredoc(t_redirect *redir)
+void	ft_dup_heredoc(t_redirect *redir, t_cmd *cmd)
 {
-	int	fd;
 	char *string;
 
-	fd = redir->right_fd;
 	string = NULL;
 	while (1)
 	{
@@ -28,6 +26,11 @@ void	ft_dup_heredoc(t_redirect *redir)
 		else if (ft_strncmp(string, redir->open_filepath, ft_strlen(redir->open_filepath)) == 0)
 			break;
 		else
-			write(fd, string, ft_strlen(string));
+		{
+			write(cmd->redirect->right_fd, string, ft_strlen(string));
+			write(cmd->redirect->right_fd, "\n", 1);
+		}
 	}
+	(void)cmd;
+	//ft_test_print_redirect(cmd);
 }

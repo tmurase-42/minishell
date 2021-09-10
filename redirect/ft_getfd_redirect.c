@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 14:47:16 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/08 21:04:13 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 10:43:45 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,14 @@ void	ft_getfd_redirect(t_cmd *cmd)
 		}
 		else if (redir->type == DOUBLE_LESSER)
 		{
-			redir->right_fd = open("tmp.txt", O_WRONLY | O_CREAT | O_TRUNC, 0664);
+			///redir->right_fd = open(redir->open_filepath, O_RDWR | O_CREAT, 0777);
+			redir->right_fd = open("tmp.txt", O_RDWR | O_CREAT , 0777);
+			ft_dup_heredoc(redir, cmd);
 			cmd->final_lesser_fd = redir->right_fd;
-			ft_dup_heredoc(redir);
+			//close(redir->right_fd);
+			//cmd->final_lesser_fd = dup(redir->right_fd);
+			//close(redir->right_fd);
+			//unlink("tmp.txt");
 		}
 		redir = redir->next;
 	}
@@ -59,14 +64,15 @@ static	t_bool check_error_open_close(t_redirect *redir, int final_fd)
 			ft_error_display("minishell", "close", 1);
 			return (FALSE);
 		}
-		if (redir->type == DOUBLE_LESSER)
-		{
-			if (unlink(redir->open_filepath) < 0)
-			{
-				ft_error_display("minishell", "unlink", 1);
-				return (FALSE);
-			}
-		}
+		//tmpファイルが複数ある場合の処理が実装できたらエラー判定する。
+	//	if (redir->type == DOUBLE_LESSER)
+	//	{
+	//		if (unlink(redir->open_filepath) < 0)
+	//		{
+	//			ft_error_display("minishell", "unlink", 1);
+	//			return (FALSE);
+	//		}
+	//	}
 	}
 	return (TRUE);
 }
