@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/10 14:09:05 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 20:10:36 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,23 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 	extern t_mshl_data	*g_mshl_data;
 	pid_t	pid;
 	int		new_pipe[2];
+	int	result;
 
 	// 新しいパイプを生成
 	if (pipe(new_pipe) < 0) {
 		ft_pipe_destroy(old_pipe); // 失敗した場合は、上で開いたパイプを閉じてから終了
 		ft_error("cannot create a pipe.", EXIT_FAILURE);
 	}
-
 	if (ft_setup_redirect(cmd) == TRUE)
 	{
-		//格納したredirect構造体の中から、一個ずつfdの情報を取得していく。errorチェックはしない。
-		ft_getfd_redirect(cmd);
-		//正常にopenできたか、不要なものfileはクローズできるかのエラーチェック
-		//if (ft_check_redirect(cmd) == FALSE)
-		//	return ;
-		//リダイレクトすべきfdだけdupする。
-		//if (ft_dup_redirect(cmd, 0) == FALSE)
-		//	return ;
+		result = ft_getfd_redirect(cmd);
+		result = ft_check_redirect(cmd);
+		if (result == FALSE)
+		{
+			ft_error_display("minishell", "system call error", 1);
+			return ;
+		}
 	}
-
 	// プロセスの生成
 	pid = fork();
 	if (pid < 0)
@@ -44,19 +42,17 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 		ft_pipe_destroy(new_pipe); // 失敗した場合は、上で開いたパイプを閉じてから終了
 	}
 	if (pid == 0) // 子プロセスの処理
-	{
 		ft_exec_child_process(new_pipe, old_pipe, cmd);
-	}
 	else // 親プロセスの処理
-	{
 		ft_exec_parent_process(new_pipe, old_pipe, cmd, pid);
-	}
 }
 
 static void	exec_command(t_cmd *cmd, int old_pipe[])
 {
 	extern t_mshl_data	*g_mshl_data;
+	int		result;
 
+	result = TRUE;
 	// コマンドの中身がなかった場合の例外処理
 	if (cmd->argc == 0 || !cmd->args || cmd->args->data == NULL)
 	{
@@ -66,30 +62,23 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 	// パイプがない → 場合
 	if (g_mshl_data->pipe_state == NO_PIPE && ft_is_builtin_command(cmd->args->data))
 	{
-		//cmd構造体内の全てのtoken構造体の中から、redirect情報の有無を調べ、redirect構造体に全て格納する。
 		if (ft_setup_redirect(cmd) == TRUE)
 		{
-			//格納したredirect構造体の中から、一個ずつfdの情報を取得していく。errorチェックはしない。
-			ft_getfd_redirect(cmd);
-			//正常にopenできたか、不要なものfileはクローズできるかのエラーチェック
-			if (ft_check_redirect(cmd) == FALSE)
+			result = ft_getfd_redirect(cmd);
+			result = ft_check_redirect(cmd);
+			result = ft_dup_redirect(cmd, 1);
+			if (result == FALSE)
+			{
+				ft_error_display("minishell", "system call error", 1);
 				return ;
-			//リダイレクトすべきfdだけdupする。
-			if (ft_dup_redirect(cmd, 1) == FALSE)
-				return ;
+			}
 		}
 		g_mshl_data->exit_status = ft_exec_builtin(cmd);
-		//利用したファイルをcloseする。
 		if (cmd->final_greater_fd != 0)
 			close(cmd->final_greater_fd);
 		if (cmd->final_lesser_fd != 0)
-		{
 			close(cmd->final_lesser_fd);
-			if (ft_delete_tmpfile(cmd, cmd->final_lesser_fd) == FALSE)
-				return ;
-		}
-		if (ft_backup_fd(cmd) == FALSE)
-			return ;
+		ft_backup_fd(cmd);
 		return ;
 	}
 	fork_process(cmd, old_pipe);
