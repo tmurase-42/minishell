@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/10 20:10:36 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 21:56:29 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	ft_exec_commands(t_cmd *cmd)
 	{
 		// トークンに環境変数展開をかける
 		// ft_token_print(cmd->args);
-		ft_expand(cmd);
+		ft_expand_cmd(cmd);
 		// トークンを一度文字列に戻す
 		// ft_token_print(cmd->args);
 		token_str = ft_token_str(cmd->args, 0, cmd->argc);
