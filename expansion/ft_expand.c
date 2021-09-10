@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/05 23:39:00 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/10 17:19:17 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static t_token	*get_first_token(t_token *tokens)
 	return (target);
 }
 
-static int	expand_str(t_token *t, int i, char **ret)
+static int	expand_str(t_token *t, int i, char **ret, t_bool flag)
 {
 	extern t_mshl_data	*g_mshl_data;
 	int		j;
@@ -63,12 +63,15 @@ static int	expand_str(t_token *t, int i, char **ret)
 	else if (t->type == CHAR_DQUOTE)
 	{
 		j = ft_strlen(key);
-		tmp = *ret;
-		*ret = ft_strjoin(*ret, "");
-		free(tmp);
-		t->type = CHAR_EMPTY;
+		if (t->data[i + j] == '\0' && flag)
+			t->type = CHAR_EMPTY;
+		//tmp = *ret;
+		//*ret = ft_strjoin(*ret, "");
+		//free(tmp);
+		//else
+			//t->type = CHAR_GENERAL;
 	}
-	// printf("ft_expand: expand_str: j: %d\n", j);
+	//printf("ft_expand: expand_str: j: %d\n", j);
 	return (j);
 }
 
@@ -122,9 +125,11 @@ static char *create_env_expanded_str(t_token *t)
 {
 	int		i;
 	char	*ret;
+	t_bool	first_str_in_quotes_flag;
 
 	i = 0;
 	// ret = NULL;
+	first_str_in_quotes_flag = TRUE;
 
 
 	ret = ft_calloc(sizeof(char*), 1);
@@ -149,7 +154,8 @@ static char *create_env_expanded_str(t_token *t)
 		else if (t->data[i] == '$' && t->data[i + 1] != '\0' && t->data[i + 1] != ' ')
 		{
 			i++;
-			i += expand_str(t, i, &ret);
+			i += expand_str(t, i, &ret, first_str_in_quotes_flag);
+			first_str_in_quotes_flag = FALSE;
 		}
 		else
 		{
@@ -184,8 +190,10 @@ void			ft_expand(t_cmd *cmd)
 			continue ;
 		}
 		new_str = create_env_expanded_str(token);
-		// printf("token->type: %d\n", token->type);
-		if (*new_str || token->type == CHAR_EMPTY)
+		//printf("token->type: %d\n", token->type);
+		//printf("new_str: %s\n", new_str);
+		//printf("token->data: %s\n", token->data);
+		if ((new_str && *new_str) || token->type == CHAR_EMPTY)
 		{
 			// printf("ft_expand: new_str: %s\n", new_str);
 			free(token->data);
@@ -197,8 +205,6 @@ void			ft_expand(t_cmd *cmd)
 			free(token->data);
 			token->data = new_str;
 			ft_token_destroy(token, &cmd->args);
-			// printf("ft_felkfae\n");
-			// ft_token_print(cmd->args);
 		}
 		token = token->next;
 	}
