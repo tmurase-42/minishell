@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 19:27:55 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/09 17:03:48 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 10:55:38 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,16 @@ void	ft_exec_child_process(int new_pipe[], int old_pipe[], t_cmd *cmd)
 	int	status;
 
 	ft_sigint_setter(SIG_DFL);
-	if (ft_setup_redirect(cmd) == TRUE)
-	{
-		//格納したredirect構造体の中から、一個ずつfdの情報を取得していく。errorチェックはしない。
-		ft_getfd_redirect(cmd);
-		//正常にopenできたか、不要なものfileはクローズできるかのエラーチェック
-		if (ft_check_redirect(cmd) == FALSE)
-			return ;
-		//リダイレクトすべきfdだけdupする。
-		if (ft_dup_redirect(cmd, 0) == FALSE)
-			return ;
-	}
 	ft_pipe_duplicate(g_mshl_data->pipe_state, old_pipe, new_pipe);
+	// リダイレクト分をdupする
+//	printf("old_pipe[0] = %d\n", old_pipe[0]);
+//	printf("old_pipe[1] = %d\n", old_pipe[1]);
+//	printf("new_pipe[0] = %d\n", new_pipe[0]);
+//	printf("new_pipe[1] = %d\n", new_pipe[1]);
+//	ft_test_print_redirect(cmd);
+	//dup2(cmd->final_lesser_fd, old_pipe[1]);
+	if (ft_dup_redirect(cmd, 0) == FALSE)
+		return ;
 	if (ft_is_builtin_command(cmd->args->data) == TRUE)
 	{
 		status = ft_exec_builtin(cmd);

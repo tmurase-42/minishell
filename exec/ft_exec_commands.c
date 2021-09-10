@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/09 17:02:23 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 10:32:45 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,18 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 	if (pipe(new_pipe) < 0) {
 		ft_pipe_destroy(old_pipe); // 失敗した場合は、上で開いたパイプを閉じてから終了
 		ft_error("cannot create a pipe.", EXIT_FAILURE);
+	}
+
+	if (ft_setup_redirect(cmd) == TRUE)
+	{
+		//格納したredirect構造体の中から、一個ずつfdの情報を取得していく。errorチェックはしない。
+		ft_getfd_redirect(cmd);
+		//正常にopenできたか、不要なものfileはクローズできるかのエラーチェック
+		if (ft_check_redirect(cmd) == FALSE)
+			return ;
+		//リダイレクトすべきfdだけdupする。
+		//if (ft_dup_redirect(cmd, 0) == FALSE)
+		//	return ;
 	}
 
 	// プロセスの生成
