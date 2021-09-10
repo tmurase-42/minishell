@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:05:32 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/10 10:53:05 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 14:13:08 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent)
 			return (FALSE);
 		}
 		close(cmd->final_greater_fd);
+		if (unlink("tmp.txt") == -1)
+			printf("unlink失敗\n");
 	}
 	if (cmd->final_lesser_fd != 0)
 	{

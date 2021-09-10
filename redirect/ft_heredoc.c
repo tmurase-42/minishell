@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 20:13:07 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/10 09:51:59 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 13:51:32 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,4 @@ void	ft_dup_heredoc(t_redirect *redir, t_cmd *cmd)
 		}
 	}
 	(void)cmd;
-	//ft_test_print_redirect(cmd);
 }
