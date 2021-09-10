@@ -1,18 +1,21 @@
-echo $SHLVL, export SHLVL=0
-echo $SHLVL, export SHLVL=998
-echo $SHLVL, export SHLVL=999
-echo $SHLVL, export SHLVL=1000
-echo $SHLVL, export SHLVL=+42
-echo $SHLVL, export SHLVL=-1
-echo $SHLVL, export SHLVL=4294967295
-echo $SHLVL, export SHLVL=4294967296
-echo $SHLVL, export SHLVL=-4294967296
-echo $SHLVL, export SHLVL=-4294967297
-echo $SHLVL, export SHLVL=a
-echo $SHLVL, export SHLVL=`printf "\t\n\v\f\r 42"`
-echo $SHLVL, export SHLVL=`printf " 42 "`
-echo $SHLVL, export SHLVL=`printf " 42\t"`
-echo $SHLVL, export SHLVL=`printf " 42\v"`
-echo $SHLVL, export SHLVL=`printf " 42\n"`
-echo $SHLVL, export SHLVL=`printf " 42\f"`
-echo $SHLVL, export SHLVL=`printf " 42\r"`
+export SHLVL=0, echo $SHLVL
+export SHLVL=998, echo $SHLVL
+export SHLVL=999, echo $SHLVL
+export SHLVL=1000, echo $SHLVL
+export SHLVL=+42, echo $SHLVL
+export SHLVL=-1, echo $SHLVL
+export SHLVL=4294967295, echo $SHLVL
+export SHLVL=4294967296, echo $SHLVL
+export SHLVL=-4294967296, echo $SHLVL
+export SHLVL=-4294967297, echo $SHLVL
+export SHLVL=a, echo $SHLVL
+export SHLVL=`printf "\t\n\v\f\r 42"`, echo $SHLVL
+export SHLVL=`printf " 42 "`, echo $SHLVL
+export SHLVL=`printf " 42\t"`, echo $SHLVL
+export SHLVL=`printf " 42\v"`, echo $SHLVL
+export SHLVL=`printf " 42\n"`, echo $SHLVL
+export SHLVL=`printf " 42\f"`, echo $SHLVL
+export SHLVL=`printf " 42\r"`, echo $SHLVL
+export PWD=, export OLDPWD=;, mkdir DIR, cd dir, rmdir ../DIR, cd ./, cd ../, pwd, echo $PWD, echo $OLDPWD
+export PWD=, export OLDPWD=;, mkdir dir, ln -s dir link, cd LINK, rmdir ../dir, cd ./, pwd, echo $PWD, echo $OLDPWD
+export PWD=, export OLDPWD=;, mkdir dir, ln -s dir link, cd LINK, rmdir ../dir, cd ./, cd ../, pwd, echo $PWD, echo $OLDPWD

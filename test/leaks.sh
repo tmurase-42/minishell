@@ -18,18 +18,22 @@ build_executable () {
 }
 
 execute_shell () {
-	exec_minishell "$1" > ${MINISHELL_STDOUT_FILE} 2> /dev/null
+	while IFS=',' read -ra ARR; do
+		for i in "${ARR[@]}"; do
+			exec_minishell "$i" > ${MINISHELL_STDOUT_FILE} 2> /dev/null
+		done
+	done <<< "$1"
 }
 
 assert () {
 	if is_ok ; then
 		printf "${COLOR_GREEN}"
-		print_case "$1" "$2"
+		print_case "$1"
 		printf " [ok]${COLOR_RESET}\n"
 		let result_ok++
 	else
 		printf "${COLOR_RED}"
-		print_case "$1" "$2"
+		print_case "$1"
 		printf " [ko]${COLOR_RESET}\n"
 		cat ${MINISHELL_STDOUT_FILE} | grep bytes
 		let result_ko++
@@ -48,7 +52,7 @@ output_log () {
 	else
 		echo -n "[KO] " >> ${LOG_FILE}
 	fi
-	echo $(print_case "$1" "$2") >> ${LOG_FILE}
+	echo $(print_case "$1") >> ${LOG_FILE}
 	echo "---------------------------------" >> ${LOG_FILE}
 	cat ${MINISHELL_STDOUT_FILE} | grep bytes >> ${LOG_FILE}
 }
