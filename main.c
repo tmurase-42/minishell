@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/09 19:24:01 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 16:36:41 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,9 @@ int	main(int argc, char *argv[], char **environ)
 
 	if (argc > 2 && ft_strncmp("-c", argv[1], 3) == 0)
 	{
-		run_commandline(&argv[2]);
+		add_history(argv[2]);
+		cmd = run_commandline(&argv[2]);
+		ft_wait_process(cmd);
 		return g_mshl_data->exit_status;
 	}
 	while (1)
@@ -116,5 +118,5 @@ int	main(int argc, char *argv[], char **environ)
 			ft_wait_process(cmd);
 		}
 	}
-	return (0);
+	return (g_mshl_data->exit_status);
 }
