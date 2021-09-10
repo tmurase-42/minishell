@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/08 16:52:55 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 19:55:01 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ t_redirect	*ft_create_redirect(void)
 	t_redirect *redirect;
 
 	redirect = ft_calloc(1, sizeof(t_redirect));
-	redirect->backup_fd = -1;
-	redirect->left_fd = -1;
-	redirect->right_fd = -1;
+	redirect->backup_fd = -2;
+	redirect->left_fd = -2;
+	redirect->right_fd = -2;
 	redirect->type = 0;
 	redirect->open_filepath = NULL;
 	redirect->next = NULL;
