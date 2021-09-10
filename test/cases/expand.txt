@@ -1,19 +1,21 @@
-export HELLO=hello, echo $HELLO
-export HELLO=hello, echo $hello
+echo $HELLO, export HELLO=hello
+echo $hello, export HELLO=hello
 echo $
 echo "$"
 echo  '$'
-export HELLO=hello, echo \$HELLO
-export HELLO=hello, echo \\$HELLO
-export HELLO=hello, echo "$HELLO"
-export HELLO=hello, echo "\$HELLO"
-export HELLO=hello, echo "\\$HELLO"
-export HELLO=hello, echo \\"$HELLO"
-export HELLO=hello, echo "\"\"$HELLO"
-export TEST=ech, "$TEST"o hello
-export TEST="echo hello", $TEST
-export TEST='echo hello', $TEST
-export TEST="\$\"echo hello\"", $TEST
-export TEST="echo hello", export TEST2="$TEST" | echo $TEST2
-export abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890=hello, echo $abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
-export TEST="export TEST=echo", $TEST hello
+echo \$
+echo "\$"
+echo \$HELLO, export HELLO=hello
+echo \\$HELLO, export HELLO=hello
+echo "$HELLO", export HELLO=hello
+echo "\$HELLO", export HELLO=hello
+echo "\\$HELLO", export HELLO=hello
+echo \\"$HELLO", export HELLO=hello
+echo "\"\"$HELLO", export HELLO=hello
+"$TEST"o hello, export TEST=ech
+$TEST, export TEST="echo hello"
+$TEST, export TEST='echo hello'
+$TEST, export TEST="\$\"echo hello\""
+$TEST2, export TEST="echo hello", export TEST2="\$TEST"
+echo $abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890, export abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890=hello
+$TEST hello, export TEST="export TEST=echo", $TEST hello

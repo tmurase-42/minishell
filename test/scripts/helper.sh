@@ -48,11 +48,9 @@ run_all_tests () {
 
 run_tests () {
 	while read -r line; do
-		test_cmd=$(echo "$line" | cut -d ',' -f 1)
-		setup_cmd=$(echo "$line" | cut -d ',' -f 2- -s)
-		execute_shell "$test_cmd" "$setup_cmd"
-		assert "$test_cmd" "$setup_cmd"
-		output_log "$test_cmd" "$setup_cmd"
+		execute_shell "$line"
+		assert "$line"
+		output_log "$line"
 	done < "${CASE_DIR}/$1.txt"
 	cleanup
 }
@@ -102,9 +100,6 @@ set_minishell_path () {
 
 print_case () {
 	echo  -n "case: $1"
-	if [ -n "$2" ]; then
-		echo -n " [setup: $(echo $2)]"
-	fi
 }
 
 show_results () {
