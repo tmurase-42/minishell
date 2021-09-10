@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:05:32 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/10 14:13:08 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 20:08:53 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent)
 			return (FALSE);
 		}
 		close(cmd->final_greater_fd);
-		if (unlink("tmp.txt") == -1)
-			printf("unlink失敗\n");
 	}
 	if (cmd->final_lesser_fd != 0)
 	{
@@ -91,7 +89,7 @@ t_bool	ft_backup_fd(t_cmd *cmd)
 		}
 		if (dup2(greater_redir->backup_fd, 1) < 0)
 		{
-			ft_error_display("minishell", "dup2", 1);
+			ft_error_display("minishell", "system call error", 1);
 			return (FALSE);
 		}
 	}
@@ -105,7 +103,7 @@ t_bool	ft_backup_fd(t_cmd *cmd)
 		}
 		if (dup2(lesser_redir->backup_fd, 0) < 0)
 		{
-			ft_error_display("minishell", "dup2", 1);
+			ft_error_display("minishell", "system call error", 1);
 			return (FALSE);
 		}
 	}
@@ -131,7 +129,7 @@ t_bool	ft_delete_tmpfile(t_cmd *cmd, int final_lesser_fd)
 	{
 		if (unlink("tmp.txt") < 0)
 		{
-			ft_error_display("minishell", "dup2", 1);
+			ft_error_display("minishell", "system call error", 1);
 			return (FALSE);
 		}
 	}

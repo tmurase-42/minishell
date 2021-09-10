@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/09 14:03:30 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/10 17:38:26 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,15 @@
 
 static void	check_redirect(t_cmd *cmd)
 {
-	t_token *token;
-	t_redirect	*tmp;
+	t_token	*token;
 
 	token = cmd->args;
 	while (token)
 	{
 		if (token->type == CHAR_GREATER || token->type == DOUBLE_GREATER)
-		{
-			if (cmd->redirect->open_filepath != NULL)
-			{
-				tmp = cmd->redirect;
-				cmd->redirect->next = ft_create_redirect();
-				cmd->redirect = cmd->redirect->next;
-				cmd->redirect->prev = tmp;
-			}
 			ft_import_redirect_information(cmd, token, 1);
-		}
 		if (token->type == CHAR_LESSER || token->type == DOUBLE_LESSER)
-		{
-			if (cmd->redirect->open_filepath != NULL)
-			{
-				tmp = cmd->redirect;
-				cmd->redirect->next = ft_create_redirect();
-				cmd->redirect = cmd->redirect->next;
-				cmd->redirect->prev = tmp;
-			}
 			ft_import_redirect_information(cmd, token, 0);
-		}
 		token = token->next;
 	}
 }
@@ -64,13 +45,23 @@ void ft_test_print_redirect(t_cmd *cmd)
 
 void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int default_fd)
 {
+	t_redirect	*tmp;
 
+	if (cmd->redirect->open_filepath != NULL)
+	{
+		tmp = cmd->redirect;
+		cmd->redirect->next = ft_create_redirect();
+		cmd->redirect = cmd->redirect->next;
+		cmd->redirect->prev = tmp;
+	}
 	cmd->redirect->type = redirect_token->type;
 	if (redirect_token->prev->type == IO_NUMBER)
 		cmd->redirect->left_fd = ft_atoi(redirect_token->prev->data);
 	else
 		cmd->redirect->left_fd = default_fd;
 	cmd->redirect->open_filepath = ft_strdup(redirect_token->next->data);
+	if (cmd->redirect->open_filepath == NULL)
+		ft_error_display("minishell", "ft_strdup: malloc error", 1);
 	if (redirect_token->prev->type == IO_NUMBER)
 		ft_token_destroy(redirect_token->prev, &cmd->args);
 	ft_token_destroy(redirect_token, &cmd->args);
@@ -80,14 +71,12 @@ void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int def
 t_bool	ft_setup_redirect(t_cmd	*cmd)
 {
 	t_cmd	*tmp;
-	// cmd構造体にリダイレクトの有無をチェック
+
 	tmp = cmd;
 	if (cmd == NULL)
 		return (FALSE) ;
 	check_redirect(tmp);
 	while (cmd->redirect->prev != NULL)
 		cmd->redirect = cmd->redirect->prev;
-	//ft_test_print_redirect(cmd);
-	//ft_token_print(cmd->args);
 	return (TRUE);
 }
