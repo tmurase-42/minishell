@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 12:24:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/05 16:16:59 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/11 17:10:22 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,5 @@ int	ft_echo(t_cmd *cmd)
 	}
 	if (option != TRUE)
 		write(1, "\n", 1);
-	return (EXIT_SUCCESS);
+	return (g_mshl_data->exit_status);
 }

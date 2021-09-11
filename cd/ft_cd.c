@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 16:52:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/07 16:20:23 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/11 16:46:32 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*ft_get_dir_path_relative(char *current_dir, char *second_argv)
 	return (path);
 }
 
-t_bool	ft_cd(t_cmd *cmd)
+int	ft_cd(t_cmd *cmd)
 {
 	extern t_mshl_data	*g_mshl_data;
 	char				current_dir[PATH_MAX];
@@ -84,7 +84,11 @@ t_bool	ft_cd(t_cmd *cmd)
 		return (ft_isnot_path(g_mshl_data, current_dir));
 	second_argv = cmd->args->next->data;
 	if (chdir(second_argv) != 0)
-		return (ft_error_cd(second_argv));
+	{
+		ft_error_display("cd",NULL,1);
+		return (g_mshl_data->exit_status);
+	}
+		//return (ft_error_cd(second_argv));
 	if (ft_strncmp("/", &second_argv[0], 1) == 0)
 		path = ft_get_dir_path_absolute(second_argv);
 	else
@@ -93,5 +97,5 @@ t_bool	ft_cd(t_cmd *cmd)
 		return (ft_error_cd(path));
 	ft_env_update("PWD", path);
 	ft_env_update("OLDPWD", current_dir);
-	return (TRUE);
+	return (g_mshl_data->exit_status);
 }
