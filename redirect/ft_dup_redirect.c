@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:05:32 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/10 20:08:53 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/11 14:19:57 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent)
 				return (FALSE);
 			}
 		}
+		//printf("----------------------\n");
+		//ft_test_print_redirect(cmd);
 		if (dup2(cmd->final_lesser_fd, lesser_redir->left_fd) < 0)
 		{
 			ft_error_display("minishell", "dup2", 1);
