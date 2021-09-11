@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 18:31:33 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 18:36:21 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/10 23:07:19 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_env	**ft_env_array(t_env *envs)
 
 	env_size = get_environ_size(envs);
 	if (!(environ = (t_env **)malloc(sizeof(t_env *) * (env_size + 1))))
-		ft_error(NULL, EXIT_FAILURE);
+		ft_error(NULL, "Memory cound not be allocated.", EXIT_FAILURE);
 	i = 0;
 	while (i < env_size)
 	{

@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 20:26:21 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 19:06:13 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/10 23:07:34 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,17 @@ char	**ft_env_str_array(t_env *envs)
 
 	env_size = get_environ_size(envs);
 	if (!(environ = (char **)malloc(sizeof(char *) * (env_size + 1))))
-		ft_error(NULL, EXIT_FAILURE);
+		ft_error(NULL, "Memory cound not be allocated.", EXIT_FAILURE);
 	i = 0;
 	while (i < env_size)
 	{
 		if (can_generate_environ(envs))
 		{
 			if (!(environ[i] = ft_strjoin(envs->key, "=")))
-				ft_error(NULL, EXIT_FAILURE);
+				ft_error(NULL, NULL, EXIT_FAILURE);
 			tmp = environ[i];
 			if (!(environ[i] = ft_strjoin(environ[i], envs->value)))
-				ft_error(NULL, EXIT_FAILURE);
+				ft_error(NULL, NULL, EXIT_FAILURE);
 			free(tmp);
 			i++;
 		}

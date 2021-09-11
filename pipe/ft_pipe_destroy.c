@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 18:35:39 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/01 23:03:54 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/10 22:48:11 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ void	ft_pipe_destroy(int pipes[])
 
 	g_mshl_data->pipe_state = NO_PIPE;
 	if (close(pipes[OUT]) < 0 || close(pipes[IN]) < 0)
-		ft_error("a pipe cannot be closed.", STDERR_FILENO);
+		ft_error(NULL, "a pipe cannot be closed.", STDERR_FILENO);
 }

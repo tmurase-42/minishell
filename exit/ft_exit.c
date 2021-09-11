@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 17:54:57 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/03 12:35:36 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/10 22:48:11 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int ft_exit(t_cmd *cmd)
 	}
 	if (cmd->argc == 2 && ft_is_strdigit(cmd->args->next->data) == FALSE)
 	{
-		ft_error("numeric number is required", 255);
+		ft_error(NULL, "numeric number is required", 255);
 	}
 	ft_putstr_fd("exit\n", 2);
 	exit(EXIT_SUCCESS);
