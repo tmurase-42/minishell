@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 14:47:16 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/11 14:54:16 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/11 16:14:13 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ t_bool	ft_getfd_redirect(t_cmd *cmd)
 			cmd->final_lesser_fd = redir->right_fd;
 		redir = redir->next;
 	}
-	//ft_test_print_redirect(cmd);
 	return (TRUE);
 }
 
