@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_utils_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 16:52:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/07 16:19:59 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/11 16:56:20 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_bool	ft_is_tilde(t_cmd *cmd)
 	return (FALSE);
 }
 
-t_bool	ft_isnot_path(t_mshl_data *g_mshl_data, char *pwd)
+int	ft_isnot_path(t_mshl_data *g_mshl_data, char *pwd)
 {
 	t_env	*dir;
 
@@ -35,11 +35,7 @@ t_bool	ft_isnot_path(t_mshl_data *g_mshl_data, char *pwd)
 	ft_env_update("OLDPWD", pwd);
 	if (chdir(dir->value) != 0)
 		ft_error_display("minishell", "chdir: unexpected error", 1);
-	else
-	{
-		return (TRUE);
-	}
-	return (FALSE);
+	return (g_mshl_data->exit_status);
 }
 
 t_bool	ft_error_cd(char *file)

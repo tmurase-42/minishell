@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/11 01:29:28 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/11 16:56:43 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,9 +229,9 @@ int		ft_export(t_cmd *cmd);
 int		ft_exit(t_cmd *cmd);
 
 /* cd function */
-t_bool	ft_cd(t_cmd *cmd);
+int	ft_cd(t_cmd *cmd);
 t_bool	ft_is_tilde(t_cmd *cmd);
-t_bool	ft_isnot_path(t_mshl_data *g_mshl_data, char *pwd);
+int	ft_isnot_path(t_mshl_data *g_mshl_data, char *pwd);
 t_bool	ft_error_cd(char *file);
 void	ft_check_dup_str(char **split_path);
 void	ft_skip_dot(char **split_path, size_t i, size_t *dot_count, int flag);
@@ -240,7 +240,7 @@ char	**ft_skip_and_count_dot(char **split_path, size_t *dot_count,
 char	*ft_convert_path(char **split_path);
 
 /* pwd function */
-t_bool 	ft_pwd();
+int 	ft_pwd();
 
 /* echo function */
 int		ft_echo(t_cmd *cmd);
