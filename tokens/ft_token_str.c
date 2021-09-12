@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/10 20:56:26 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/12 18:30:10 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char			*ft_token_str(t_token *tokens, int start, int len)
 		current_token = current_token->next;
 		i++;
 	}
-	str = current_token->data;
+	str = ft_strdup(current_token->data);
 	current_token = current_token->next;
 	i = 1;
 	// printf("str: len:%d\n", len);
@@ -47,7 +47,7 @@ char			*ft_token_str(t_token *tokens, int start, int len)
 				free(tmp);
 			}
 		}
-		else
+		else if (current_token->data != NULL)
 		{
 			// tmp = str;
 			// str = ft_strjoin(str, " '");
