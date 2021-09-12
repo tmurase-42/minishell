@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 17:54:57 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/12 17:01:52 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/12 19:52:39 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,17 +92,11 @@ int ft_exit(t_cmd *cmd)
 		}
 	if (cmd->argc > 1)
 	{
-		status = ft_atoi(cmd->args->next->data);
-		//if ((ft_is_strdigit(cmd->args->next->data) == FALSE))
-		//{
-			//ft_error_num(cmd);
-		//}
-		//printf("saaa\n");
-		if ((ft_is_strdigit(cmd->args->next->data) == FALSE && status == 0) || ft_strcmp(cmd->args->next->data, "-") == 0)
-		{
-			//printf("dfsafasfdasf\n");
+		if (ft_atoi(cmd->args->next->data) != 0 )
+			cmd->args->next->data = ft_strtrim(cmd->args->next->data, " ");
+		if ((ft_is_strdigit(cmd->args->next->data) == FALSE) || ft_strcmp(cmd->args->next->data, "-") == 0)
 			ft_error_num(cmd);
-		}
+		status = ft_atoi(cmd->args->next->data);
 	}
 	ft_putstr_fd("exit\n", 2);
 	if (cmd->argc < 2)
