@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 12:24:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/12 12:05:43 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/12 12:21:53 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static int option_check(t_token *token)
 	int count;
 
 	count = 1;
+	if (ft_strncmp(token->next->data, "-n", 2) != 0)
+		return (count);
 	while (token)
 	{
 		if (ft_strncmp(token->data, "-n", 2) == 0 && strchr_n(token->data))
@@ -64,12 +66,10 @@ int	ft_echo(t_cmd *cmd)
 	t_token *tmp_token;
 	extern t_mshl_data	*g_mshl_data;
 
-	option = 1;
 	tmp_token = cmd->args;
 	if (cmd->argc < 2)
 		return (g_mshl_data->exit_status);
-	if (ft_strncmp(tmp_token->next->data, "-n", 2) == 0)
-		option = option_check(tmp_token);
+	option = option_check(tmp_token);
 	tmp_token = delete_token(tmp_token, option);
 	while (tmp_token)
 	{
