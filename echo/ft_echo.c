@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 12:24:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/12 17:45:53 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/12 21:16:45 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,11 @@ static int option_check(t_token *token)
 	int count;
 
 	count = 1;
-	if (token->next == NULL)
-		return count;
-	if (token->next->data != NULL
-		&& ft_strncmp(token->next->data, "-n", 2) != 0)
+	if (ft_strncmp(token->next->data, "-n", 2) != 0)
 		return (count);
 	while (token)
 	{
-		if (token->data != NULL
-			&& ft_strncmp(token->data, "-n", 2) == 0 && strchr_n(token->data))
+		if (ft_strncmp(token->data, "-n", 2) == 0 && strchr_n(token->data))
 			count++;
 		token = token->next;
 	}
@@ -68,11 +64,11 @@ int	ft_echo(t_cmd *cmd)
 {
 	int		option;
 	t_token *tmp_token;
-	//extern t_mshl_data	*g_mshl_data;
+	extern t_mshl_data	*g_mshl_data;
 
 	tmp_token = cmd->args;
 	if (cmd->argc < 2)
-		return (EXIT_SUCCESS);
+		return (g_mshl_data->exit_status);
 	option = option_check(tmp_token);
 	tmp_token = delete_token(tmp_token, option);
 	while (tmp_token)
@@ -84,5 +80,5 @@ int	ft_echo(t_cmd *cmd)
 	}
 	if (option == 1)
 		write(1, "\n", 1);
-	return (EXIT_SUCCESS);
+	return (g_mshl_data->exit_status);
 }

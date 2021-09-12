@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_builtin_command.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 19:36:17 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 16:21:56 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/12 20:28:41 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_bool	ft_is_builtin_command(char *str)
 {
-	const char *commands[] = {"exit", "cd", "env", "unset", "export", "echo", "pwd", NULL};
+	const char *commands[] = {"exit", "cd", "env", "unset", "export", "echo", "pwd", "<", "<<", ">", ">>", NULL};
 	int		i;
 
 	i = 0;
@@ -22,7 +22,7 @@ t_bool	ft_is_builtin_command(char *str)
 		return (FALSE);
 	while (commands[i])
 	{
-		if (ft_strncmp(str, commands[i], ft_strlen(str)) == 0)
+		if (ft_strncmp(str, commands[i], ft_strlen(commands[i])) == 0)
 			return (TRUE);
 		i++;
 	}
