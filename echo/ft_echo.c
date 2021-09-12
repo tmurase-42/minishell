@@ -6,26 +6,50 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 12:24:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/11 17:10:22 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/12 12:05:43 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-static t_bool option_check(t_token *token)
+static t_bool strchr_n(char *str)
 {
-	if (token->next != NULL)
-		if (ft_strncmp(token->next->data, "-n", 2) == 0)
-			return (TRUE);
-	return (FALSE);
+	int i;
+
+	i = 0;
+	str += 2;
+	if (str == NULL)
+		return (TRUE);
+	while(str[i])
+	{
+		if (str[i] == 'n')
+			i++;
+		else
+			return (FALSE);
+	}
+	return (TRUE);
+}
+
+static int option_check(t_token *token)
+{
+	int count;
+
+	count = 1;
+	while (token)
+	{
+		if (ft_strncmp(token->data, "-n", 2) == 0 && strchr_n(token->data))
+			count++;
+		token = token->next;
+	}
+	return (count);
 }
 
 static t_token *delete_token(t_token *token, int n)
 {
 	int	i;
-
 	i = 0;
+	if (n == 0)
+		return (token->next);
 	while (token && i < n)
 	{
 		token = token->next;
@@ -40,13 +64,13 @@ int	ft_echo(t_cmd *cmd)
 	t_token *tmp_token;
 	extern t_mshl_data	*g_mshl_data;
 
-	option = 0;
+	option = 1;
 	tmp_token = cmd->args;
-	option = option_check(tmp_token);
-	if (option == TRUE)
-		tmp_token = delete_token(tmp_token, 2);
-	else
-		tmp_token = delete_token(tmp_token, 1);
+	if (cmd->argc < 2)
+		return (g_mshl_data->exit_status);
+	if (ft_strncmp(tmp_token->next->data, "-n", 2) == 0)
+		option = option_check(tmp_token);
+	tmp_token = delete_token(tmp_token, option);
 	while (tmp_token)
 	{
 		ft_putstr_fd(tmp_token->data, STDOUT_FILENO);
@@ -54,7 +78,7 @@ int	ft_echo(t_cmd *cmd)
 			ft_putchar_fd(' ', STDOUT_FILENO);
 		tmp_token = tmp_token->next;
 	}
-	if (option != TRUE)
+	if (option == 1)
 		write(1, "\n", 1);
 	return (g_mshl_data->exit_status);
 }
