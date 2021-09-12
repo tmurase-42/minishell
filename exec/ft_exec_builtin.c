@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 19:34:08 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 16:21:35 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/12 20:38:47 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,9 @@ int	ft_exec_builtin(t_cmd *cmd)
 		return (ft_pwd());
 	if (ft_strncmp(cmd->args->data, "cd", ft_strlen(cmd->args->data)) == 0)
 		return (ft_cd(cmd));
+	if (ft_strncmp(cmd->args->data, ">", ft_strlen(cmd->args->data)) == 0)
+		return (EXIT_SUCCESS);
+	if (ft_strncmp(cmd->args->data, "<", ft_strlen(cmd->args->data)) == 0)
+		return (EXIT_SUCCESS);
 	return (EXIT_FAILURE);
 }
