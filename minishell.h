@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/11 16:56:43 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/11 18:08:33 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@
 # define OUT 0
 # define MIN(x,y) (x < y ? x : y)
 # define MAX(x,y) (x > y ? x : y)
+# define NO_QUOT 0
+# define IS_QUOT 1
+# define DEFECTIVE_QUOT 2
 
 
 typedef enum				e_cmd_type
