@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 20:13:07 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/13 17:40:53 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/13 18:28:01 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ t_bool	ft_dup_heredoc(t_redirect *redir, t_cmd *cmd)
 	{
 		ft_sigint_setter(ft_sigint_handler);
 		if (g_mshl_data->interrupted == TRUE)
-		{
-			g_mshl_data->interrupted = FALSE;
 			return (FALSE);
-		}
 		string = readline("\e[36m>\e[0m");
 		if (cmd->redirect->is_quot != SINGLE_QUOT && cmd->redirect->is_quot != DOUBLE_QUOT)
 			ft_expand_str(&string);
