@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_error.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 22:09:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/10 22:56:19 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/13 16:03:06 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ static t_bool	ft_check_pipe_error(t_token *tokens)
 	tmp = tokens;
 	if (ft_strchr(tmp->data, '|') != NULL)
 	{
-		ft_error_display("token_checker", "Syntax near unexpected token '|'", EXIT_FAILURE);
+		ft_error_display(NULL, "syntax error near unexpected token `|'", 2);
 		return (FALSE);
 	}
 	while (tmp->next != NULL)
 	{
 		if (ft_strchr(tmp->data, '|') != NULL && ft_strchr(tmp->next->data, '|') != NULL)
 		{
-			ft_error_display("token_checker", "Syntax near unexpected token '|'", EXIT_FAILURE);
+			ft_error_display(NULL, "syntax error near unexpected token `|'", 2);
 			return (FALSE);
 		}
 		tmp = tmp->next;
@@ -41,11 +41,11 @@ static t_bool	ft_check_redirect_error(t_token *tokens)
 	tmp = tokens;
 	while (tmp->next != NULL)
 	{
-		if (tmp->type != CHAR_GENERAL && tmp->next->type != CHAR_GENERAL)
-		{
-			ft_error_display("token_checker", "Unexpected tokne type is detected.", 1);
-			return (FALSE);
-		}
+	//	if (tmp->type != CHAR_GENERAL && tmp->next->type != CHAR_GENERAL)
+	//	{
+	//		ft_error_display(NULL, "3syntax error near unexpected token `newline'", 2);
+	//		return (FALSE);
+	//	}
 		tmp = tmp->next;
 	}
 	return (TRUE);
@@ -57,7 +57,7 @@ static t_bool	ft_check_expect_let(t_token *tokens)
 	{
 		if (ft_isalnum_str(tokens->data) != TRUE)
 		{
-			ft_error_display("token_checker", "Unexpected token data is detected.", EXIT_FAILURE);
+			ft_error_display(NULL, "syntax error near unexpected token `newline'", 2);
 			return (FALSE);
 		}
 		tokens = tokens->next;
@@ -69,9 +69,9 @@ static t_bool	ft_check_unexpect_error(t_token *tokens)
 {
 	while (tokens->next != NULL)
 		tokens = tokens->next;
-	if (tokens->type != CHAR_GENERAL)
+	if (tokens->type != CHAR_GENERAL && tokens->type != DOUBLE_QUOT && tokens->type != SINGLE_QUOT)
 	{
-		ft_error_display("token_checker", "Unexpected token type is detected.", EXIT_FAILURE);
+		ft_error_display(NULL, "syntax error near unexpected token `newline'", 2);
 		return (FALSE);
 	}
 	return (TRUE);

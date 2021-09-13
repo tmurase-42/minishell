@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/10 21:47:03 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/13 15:08:49 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ static t_cmd	*run_commandline(char **command)
 	tokens = ft_lexer(*command);
 
 	// 異常なトークンの検知とエラー吐き出し
-	//if (ft_check_token_error(tokens) != TRUE)
-	//	return NULL;
+	if (ft_check_token_error(tokens) != TRUE)
+		return NULL;
 
 	// トークンをパースする
 	cmd = ft_cmd_lstnew();
