@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/13 18:22:42 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/13 20:55:16 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 		ft_pipe_destroy(old_pipe); // 失敗した場合は、上で開いたパイプを閉じてから終了
 		ft_pipe_destroy(new_pipe); // 失敗した場合は、上で開いたパイプを閉じてから終了
 	}
+	//ft_token_print(cmd->args);
 	if (pid == 0) // 子プロセスの処理
 		ft_exec_child_process(new_pipe, old_pipe, cmd);
 	else // 親プロセスの処理
