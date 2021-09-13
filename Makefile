@@ -15,7 +15,7 @@ FILES           = main.c ft_lexer.c exec/ft_exec_commands.c exec/ft_wait_process
 									pwd/ft_pwd.c \
 									parser/parser.c \
 									echo/ft_echo.c \
-									tokens/ft_token_error.c tokens/ft_token_error_2.c \
+									validates/ft_validate_token.c validates/ft_validate_token_2.c validates/ft_validate_str.c \
 									tokens/ft_token_add.c tokens/ft_token_create.c  tokens/ft_token_print.c tokens/ft_token_length.c \
 									tokens/ft_token_array.c tokens/ft_token_free.c tokens/ft_token_str.c tokens/ft_token_destroy.c \
 									tokens/ft_token_get_first.c tokens/ft_token_get_last.c \

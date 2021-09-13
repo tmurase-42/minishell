@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/13 15:08:49 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/13 23:37:08 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,22 @@ static t_cmd	*run_commandline(char **command)
 
 	tokens = NULL;
 
+	// 以上な文字列の検知とエラー吐き出し
+	if (ft_validate_str(*command) == FALSE)
+	{
+		ft_error_display(NULL, "syntax error near unexpected token.", EXIT_FAILURE);
+		return NULL;
+	}
+
 	// 文字列をトークンに分離する
 	tokens = ft_lexer(*command);
 
 	// 異常なトークンの検知とエラー吐き出し
-	if (ft_check_token_error(tokens) != TRUE)
+	if (ft_validate_token(tokens) == FALSE)
+	{
+		ft_error_display(NULL, "syntax error near unexpected token.", EXIT_FAILURE);
 		return NULL;
+	}
 
 	// トークンをパースする
 	cmd = ft_cmd_lstnew();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/13 20:45:28 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/13 23:32:14 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,8 +190,6 @@ char	**ft_token_array(t_token *tokens, int start, int len);
 char	*ft_token_str(t_token *tokens, int start, int len);
 void	ft_token_destroy(t_token *token, t_token **tokens);
 void	ft_token_free(t_token *tokens);
-t_bool	ft_isalnum_str(char *str);
-t_bool	ft_check_quot(char *str);
 t_token	*ft_token_get_first(t_token *tokens);
 t_token	*ft_token_get_last(t_token *tokens);
 
@@ -257,7 +255,10 @@ t_cmd	*ft_parser(t_token *token, t_cmd *cmd);
 t_cmd	*ft_cmd_lstnew(void);
 
 /* error function */
-t_bool	ft_check_token_error(t_token *tokens);
+t_bool	ft_validate_str(char *str);
+t_bool	ft_isalnum_str(char *str);
+t_bool	ft_check_quot(char *str);
+t_bool	ft_validate_token(t_token *tokens);
 
 /* get command path function */
 char	*ft_cmd_path_search_binary(const char *cmd);
