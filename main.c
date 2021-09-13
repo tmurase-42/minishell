@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/13 23:37:08 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/14 02:07:53 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,15 @@ int	main(int argc, char *argv[], char **environ)
 	}
 	while (1)
 	{
-		//g_mshl_data->interrupted = FALSE;
-		//g_mshl_data->exit_status = 0;
+		g_mshl_data->interrupted = FALSE;
+		g_mshl_data->exit_status = EXIT_SUCCESS;
 		ft_sigint_setter(ft_sigint_handler);
 		command = readline("\e[36mminishell>\e[0m");
 		if (command == NULL)
+		{
+			ft_putstr_fd("exit\n", STDERR_FILENO);
 			exit(EXIT_FAILURE);
+		}
 		else if (ft_strlen(command) > 0)
 		{
 			add_history(command);
