@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 00:16:10 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/14 01:26:23 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 		if (g_mshl_data->interrupted == TRUE)
 		{
 				g_mshl_data->interrupted = FALSE;
-				return ;
+				// return ;
 		}
 	}
 	// プロセスの生成
