@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/12 21:14:59 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/13 14:58:44 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 		result = ft_check_redirect(cmd);
 		if (result == FALSE)
 		{
-			ft_error_display("minishell", "system call error", 1);
+			ft_error_display(cmd->redirect->open_filepath, "system call error", 1);
 			return ;
 		}
 	}
