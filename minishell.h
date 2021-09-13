@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/13 17:41:12 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/13 20:45:28 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,6 +232,8 @@ int		ft_export(t_cmd *cmd);
 int		ft_exit(t_cmd *cmd);
 t_bool	ft_is_strdigit(char *str);
 int ft_strcmp(const char *s1, const char *s2);
+t_bool	ft_error_exit(char *massage);
+void ft_error_num(t_cmd *cmd);
 
 /* cd function */
 int	ft_cd(t_cmd *cmd);
