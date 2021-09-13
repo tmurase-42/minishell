@@ -6,21 +6,21 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 16:34:23 by tmurase           #+#    #+#             */
-/*   Updated: 2020/07/09 00:30:07 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/13 22:52:24 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #	ifndef LIBFT_H
-#	define LIBFT_H
-#include <stdlib.h>
-#include <stddef.h>
-#include <unistd.h>
+# define LIBFT_H
+# include	<stdlib.h>
+# include	<stddef.h>
+# include	<unistd.h>
 
-typedef	struct	s_list
+typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-}				t_list;
+}								t_list;
 
 void			*ft_memset(void *buf, int val, size_t len);
 void			ft_bzero(void *str, size_t n);
@@ -64,6 +64,6 @@ void			ft_lstadd_back(t_list **lst, t_list *new);
 void			ft_lstdelone(t_list *lst, void (*del)(void *));
 void			ft_lstclear(t_list **lst, void (*del)(void *));
 void			ft_lstiter(t_list *lst, void (*f)(void *));
-t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
-				void (*del)(void *));
+t_list			*ft_lstmap(t_list *lst,
+					void *(*f)(void *), void (*del)(void *));
 #	endif
