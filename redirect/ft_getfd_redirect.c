@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 14:47:16 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/11 16:14:13 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/13 17:44:23 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,14 @@ int	create_tmpfile(t_cmd *cmd, t_redirect *redir, int result, int num)
 	numstr = ft_itoa(num);
 	ft_strlcpy(tmp, numstr, 2);
 	redir->right_fd = open(tmpfilename, O_RDWR | O_CREAT , 0777);
-	ft_dup_heredoc(redir, cmd);
-	result = close(redir->right_fd);
-	redir->right_fd = open(tmpfilename, O_RDWR ,0777);
-	result = unlink(tmpfilename);
+	if (ft_dup_heredoc(redir, cmd) == TRUE)
+	{
+		result = close(redir->right_fd);
+		redir->right_fd = open(tmpfilename, O_RDWR ,0777);
+		result = unlink(tmpfilename);
+	}
+	else
+		result = unlink(tmpfilename);
 	free(tmpfilename);
 	return (result);
 }
