@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/13 14:41:20 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/13 17:41:12 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,7 +277,7 @@ t_bool	ft_setup_redirect(t_cmd	*cmd);
 void ft_test_print_redirect(t_cmd *cmd);
 t_redirect	*ft_create_redirect(void);
 void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int default_fd);
-void	ft_dup_heredoc(t_redirect *redir, t_cmd *cmd);
+t_bool	ft_dup_heredoc(t_redirect *redir, t_cmd *cmd);
 t_bool	ft_getfd_redirect(t_cmd *cmd);
 t_bool	ft_check_redirect(t_cmd *cmd);
 t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent);
