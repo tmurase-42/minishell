@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/10 23:08:03 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/13 14:41:37 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_redirect	*ft_create_redirect(void)
 	redirect->left_fd = -2;
 	redirect->right_fd = -2;
 	redirect->type = 0;
+	redirect->is_quot = 0;
 	redirect->open_filepath = NULL;
 	redirect->next = NULL;
 	redirect->prev = NULL;

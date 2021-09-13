@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/12 21:18:42 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/13 14:52:29 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void ft_test_print_redirect(t_cmd *cmd)
 		printf("open_filepath:%s\n", redirect->open_filepath);
 		printf("cmd->final_grater_fd:%d\n", cmd->final_greater_fd);
 		printf("cmd->final_lesser_fd:%d\n", cmd->final_lesser_fd);
+		printf("cmd->is_quot:%d\n", redirect->is_quot);
 		printf("---------------\n");
 		redirect = redirect->next;
 	}
@@ -63,6 +64,7 @@ void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int def
 		cmd->redirect->left_fd = default_fd;
 	if (redirect_token->next != NULL)
 		cmd->redirect->open_filepath = ft_strdup(redirect_token->next->data);
+	cmd->redirect->is_quot = redirect_token->next->type;
 	if (cmd->redirect->open_filepath == NULL)
 		ft_error_display("ft_strdup", "failed to get open_filepath", 1);
 	if (redirect_token->prev != NULL)
