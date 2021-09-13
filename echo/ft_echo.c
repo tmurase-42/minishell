@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 12:24:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/12 21:36:56 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/14 00:20:09 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,36 @@ static t_token *delete_token(t_token *token, int n)
 	return (token);
 }
 
+static void	print_token_data(t_token *token)
+{
+
+	if (token->next != NULL)
+		if (token->next->type == CHAR_DQUOTE
+			|| token->next->type == CHAR_QUOTE)
+			if (token->data[0] == '$' && ft_strlen(token->data) == 1)
+				if (token->type == CHAR_GENERAL)
+					return ;
+	ft_putstr_fd(token->data, STDOUT_FILENO);
+	if (token->next != NULL && token->next->space_len != 0)
+		ft_putchar_fd(' ', STDOUT_FILENO);
+}
+
 int	ft_echo(t_cmd *cmd)
 {
 	int		option;
 	t_token *tmp_token;
-	//extern t_mshl_data	*g_mshl_data;
 
 	tmp_token = cmd->args;
 	if (cmd->argc < 2)
+	{
+		ft_putendl_fd("", STDOUT_FILENO);
 		return (EXIT_SUCCESS);
+	}
 	option = option_check(tmp_token);
 	tmp_token = delete_token(tmp_token, option);
 	while (tmp_token)
 	{
-		ft_putstr_fd(tmp_token->data, STDOUT_FILENO);
-		if (tmp_token->next != NULL)
-			ft_putchar_fd(' ', STDOUT_FILENO);
+		print_token_data(tmp_token);
 		tmp_token = tmp_token->next;
 	}
 	if (option == 1)

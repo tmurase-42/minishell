@@ -45,3 +45,12 @@ echo \$USER
 echo \\$USER
 echo \\\$USER
 echo \\\\$USER
+echo $"HOME"
+echo "$""HOME"
+echo "AB""CD""EF"
+echo "AB" "CD" "EF"
+echo $'HOME'
+echo '$''HOME'
+echo 'AB''CD''EF'
+echo 'AB' 'CD' 'EF'
+echo "$"'HOME'
