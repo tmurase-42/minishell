@@ -32,12 +32,12 @@ CPPFLAGS	= -I $(shell brew --prefix readline)/include
 LDFLAGS 	= -lreadline -L $(shell brew --prefix readline)/lib
 RM			= rm -f
 
-
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(MAKE) -C ./libft
 	$(CC) $(OBJS) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) ./libft/libft.a -o $(NAME)
+	echo > ~/.inputrc set echo-control-characters off
 
 clean:
 	$(MAKE) -C ./libft clean
