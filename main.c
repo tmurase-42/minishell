@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/14 15:03:01 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 20:44:27 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static t_mshl_data	*mshl_data_init(t_env *envs, char *argv[])
 	mshl_data->exit_status = 0;
 	mshl_data->pipe_state = WRITE_ONLY;
 	mshl_data->interrupted = FALSE;
+	mshl_data->command = NULL;
 	return (mshl_data);
 }
 
@@ -37,6 +38,7 @@ static t_cmd	*run_commandline(char **command)
 	t_token		*tokens;
 
 	tokens = NULL;
+
 
 	// 以上な文字列の検知とエラー吐き出し
 	if (ft_validate_str(*command) == FALSE)
@@ -99,9 +101,9 @@ int	main(int argc, char *argv[], char **environ)
 
 
 	(void)argc;
-	command = NULL;
 	envs = ft_env_init(environ);
 	g_mshl_data = mshl_data_init(envs, argv);
+	command = NULL;
 	update_shlvl();
 	//ft_env_destroy("OLDPWD");
 
@@ -117,7 +119,12 @@ int	main(int argc, char *argv[], char **environ)
 		g_mshl_data->interrupted = FALSE;
 		g_mshl_data->exit_status = EXIT_SUCCESS;
 		ft_sigint_setter(ft_sigint_handler);
-		command = readline("\e[36mminishell>\e[0m");
+		if (g_mshl_data->command == NULL)
+			command = readline("\e[36mminishell>\e[0m");
+		else
+			command = ft_strdup(g_mshl_data->command);
+		g_mshl_data->command = NULL;
+
 		if (command == NULL)
 		{
 			ft_putstr_fd("exit\n", STDERR_FILENO);
@@ -129,6 +136,8 @@ int	main(int argc, char *argv[], char **environ)
 			cmd = run_commandline(&command);
 			ft_wait_process(cmd);
 		}
+		//free(g_mshl_data->command);
+		//g_mshl_data->command = NULL;
 	}
 	return (g_mshl_data->exit_status);
 }
