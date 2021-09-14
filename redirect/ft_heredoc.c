@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 20:13:07 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 20:53:58 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 21:12:47 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ t_bool	ft_dup_heredoc(t_redirect *redir, t_cmd *cmd)
 		if (cmd->redirect->is_quot != SINGLE_QUOT && cmd->redirect->is_quot != DOUBLE_QUOT)
 			ft_expand_str(&string);
 		if (string == NULL)
-		{
-			g_mshl_data->interrupted = TRUE;
-			return (FALSE) ;
-		}
+			break;
 		if (ft_strcmp(string, redir->open_filepath) == 0)
 			break;
 		else
