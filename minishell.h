@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 20:17:04 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 22:43:46 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,10 @@ int		ft_echo(t_cmd *cmd);
 /* parser function */
 t_cmd	*ft_parser(t_token *token, t_cmd *cmd);
 t_cmd	*ft_cmd_lstnew(void);
+t_token *create_token(void);
+t_redirect	*ft_create_redirect(void);
+t_token *last_token(t_token *token);
+void add_token(t_token *copy);
 
 /* error function */
 t_bool	ft_validate_str(char *str);
