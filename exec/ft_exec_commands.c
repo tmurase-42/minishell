@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 11:43:27 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 14:27:10 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 			result = ft_getfd_redirect(cmd);
 			result = ft_check_redirect(cmd);
 			result = ft_dup_redirect(cmd, 1);
+			printf("check\n");
 			if (result == FALSE)
 			{
 				ft_error_display("minishell", "system call error", 1);

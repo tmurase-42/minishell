@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 14:47:16 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/13 17:44:23 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 14:25:09 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_bool	ft_getfd_redirect(t_cmd *cmd)
 			result = create_tmpfile(cmd, redir, result, num);
 			num++;
 		}
-		if (result == -1 || redir->right_fd == -1)
+		if ((result == -1) || (redir->right_fd == -1 && redir->type != CHAR_LESSER))
 			return (FALSE);
 		if (redir->type == CHAR_GREATER || redir->type == DOUBLE_GREATER)
 			cmd->final_greater_fd = redir->right_fd;
@@ -88,7 +88,7 @@ t_bool	ft_check_redirect(t_cmd *cmd)
 		if (redir->type == CHAR_GENERAL || redir->type == DOUBLE_GREATER)
 			if (check_error_open_close(redir, cmd->final_greater_fd) == FALSE)
 				return (FALSE);
-		if (redir->type == CHAR_LESSER || redir->type == DOUBLE_LESSER)
+		if (redir->type == DOUBLE_LESSER)
 			if (check_error_open_close(redir, cmd->final_lesser_fd) == FALSE)
 				return (FALSE);
 		redir = redir->next;
