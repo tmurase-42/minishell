@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_validate_token.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 22:09:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/13 23:35:29 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/14 14:53:55 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_bool	ft_check_unexpect_error(t_token *tokens)
 {
 	while (tokens->next != NULL)
 		tokens = tokens->next;
-	if (tokens->type != CHAR_GENERAL && tokens->type != DOUBLE_QUOT && tokens->type != SINGLE_QUOT)
+	if (tokens->type != CHAR_GENERAL && tokens->type != DOUBLE_QUOT && tokens->type != SINGLE_QUOT && tokens->type != CHAR_EMPTY)
 	{
 		return (FALSE);
 	}
