@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 20:13:07 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/13 18:28:01 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 14:39:36 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_bool	ft_dup_heredoc(t_redirect *redir, t_cmd *cmd)
 			ft_expand_str(&string);
 		if (string == NULL)
 			write(1, "\n", 1);
-		else if (ft_strncmp(string, redir->open_filepath, ft_strlen(redir->open_filepath)) == 0)
+		else if (ft_strcmp(string, redir->open_filepath) == 0)
 			break;
 		else
 		{
