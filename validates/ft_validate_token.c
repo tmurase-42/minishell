@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 22:09:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 14:53:55 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 15:25:55 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,10 @@ static t_bool	ft_check_redirect_error(t_token *tokens)
 	tmp = tokens;
 	while (tmp->next != NULL)
 	{
-	//	if (tmp->type != CHAR_GENERAL && tmp->next->type != CHAR_GENERAL)
-	//	{
-	//		ft_error_display(NULL, "3syntax error near unexpected token `newline'", 2);
-	//		return (FALSE);
-	//	}
+		if (tmp->type != CHAR_GENERAL && tmp->next->type == CHAR_PIPE)
+		{
+			return (FALSE);
+		}
 		tmp = tmp->next;
 	}
 	return (TRUE);

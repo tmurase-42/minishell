@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 14:45:51 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 15:40:36 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 		if (g_mshl_data->interrupted == TRUE)
 		{
 				g_mshl_data->interrupted = FALSE;
-				// return ;
+				//return ;
 		}
 	}
 	// プロセスの生成
@@ -81,10 +81,6 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 			}
 		}
 		g_mshl_data->exit_status = ft_exec_builtin(cmd);
-		if (cmd->final_greater_fd != 0)
-			close(cmd->final_greater_fd);
-		if (cmd->final_lesser_fd != 0)
-			close(cmd->final_lesser_fd);
 		ft_backup_fd(cmd);
 		return ;
 	}
@@ -118,7 +114,7 @@ void	ft_exec_commands(t_cmd *cmd)
 		// ft_token_print(cmd->args);
 		ft_expand_cmd(cmd);
 		// トークンを一度文字列に戻す
-		// ft_token_print(cmd->args);
+		//ft_token_print(cmd->args);
 		token_str = ft_token_str(cmd->args, 0, cmd->argc);
 		//printf("token_str: %s\n", token_str);
 		// 再度トークンに分離する（それをcmd構造体に入れる）
