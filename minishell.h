@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 13:23:30 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 20:17:04 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ typedef struct	s_mshl_data
 	t_pipe_state	pipe_state;
 	int				pipe[2];
 	t_bool			interrupted;
+	char			*command;
 }				t_mshl_data;
 
 /* exec functions */
