@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 11:42:30 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 13:21:44 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static t_bool	check_redirect(t_cmd *cmd)
 		if (token->type == CHAR_GREATER || token->type == DOUBLE_GREATER)
 		{
 			status = TRUE;
-			ft_import_redirect_information(cmd, token, 1);
+			ft_import_redirect_information(cmd, token, 1, status);
 		}
 		if (token->type == CHAR_LESSER || token->type == DOUBLE_LESSER)
 		{
 			status = TRUE;
-			ft_import_redirect_information(cmd, token, 0);
+			ft_import_redirect_information(cmd, token, 0, status);
 		}
 		token = token->next;
 	}
