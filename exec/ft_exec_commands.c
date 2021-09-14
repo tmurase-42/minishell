@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 16:28:30 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 21:48:18 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static t_bool	fork_process(t_cmd *cmd, int old_pipe[])
 	}
 	if (ft_setup_redirect(cmd) == TRUE)
 	{
+		g_mshl_data->interrupted = FALSE;
 		result = ft_getfd_redirect(cmd);
 		result = ft_check_redirect(cmd);
 		if (result == FALSE)

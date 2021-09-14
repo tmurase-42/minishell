@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/14 20:44:27 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 21:40:12 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ int	main(int argc, char *argv[], char **environ)
 		else
 			command = ft_strdup(g_mshl_data->command);
 		g_mshl_data->command = NULL;
-
 		if (command == NULL)
 		{
 			ft_putstr_fd("exit\n", STDERR_FILENO);
@@ -136,8 +135,6 @@ int	main(int argc, char *argv[], char **environ)
 			cmd = run_commandline(&command);
 			ft_wait_process(cmd);
 		}
-		//free(g_mshl_data->command);
-		//g_mshl_data->command = NULL;
 	}
 	return (g_mshl_data->exit_status);
 }
