@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 13:31:22 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 13:37:47 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,6 @@ t_bool check_is_tokenfirst(t_token *redirect_token)
 		return (FALSE);
 	}
 	return (FALSE);
-}
-
-void ft_redirect_token_destory(t_cmd *cmd, t_token *redirect_token)
-{
-	t_bool status;
-
-	status = check_is_tokenfirst(redirect_token);
-	//リダイレクトが先頭にある場合の処理が必要
-	if (status == TRUE && cmd->argc > 2)
-	{
-		free(redirect_token);
-		redirect_token = redirect_token->next;
-		redirect_token->prev = NULL;
-		free(redirect_token);
-		redirect_token = redirect_token->next;
-		redirect_token->prev = NULL;
-		ft_token_print(redirect_token);
-	}
-	else if (status == FALSE)
-	{
-		if (redirect_token->prev != NULL)
-			if (redirect_token->prev->type == IO_NUMBER)
-				ft_token_destroy(redirect_token->prev, &cmd->args);
-		ft_token_destroy(redirect_token, &cmd->args);
-		ft_token_destroy(redirect_token->next, &cmd->args);
-	}
 }
 
 void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int default_fd, t_bool status)
