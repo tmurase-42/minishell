@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 16:07:32 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 16:28:30 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	ft_exec_commands(t_cmd *cmd)
 	while (cmd)
 	{
 		// トークンに環境変数展開をかける
-		// ft_token_print(cmd->args);
+		//ft_token_print(cmd->args);
 		ft_expand_cmd(cmd);
 		// トークンを一度文字列に戻す
 		//ft_token_print(cmd->args);
