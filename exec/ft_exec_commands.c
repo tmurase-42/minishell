@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 11:25:45 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 11:43:27 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 	{
 		if (ft_setup_redirect(cmd) == TRUE)
 		{
-			printf("check\n");
 			result = ft_getfd_redirect(cmd);
 			result = ft_check_redirect(cmd);
 			result = ft_dup_redirect(cmd, 1);

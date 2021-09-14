@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 11:26:22 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 11:42:30 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,36 +52,6 @@ void ft_test_print_redirect(t_cmd *cmd)
 		printf("---------------\n");
 		redirect = redirect->next;
 	}
-}
-
-void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int default_fd)
-{
-	t_redirect	*tmp;
-
-	if (cmd->redirect->open_filepath != NULL)
-	{
-		tmp = cmd->redirect;
-		cmd->redirect->next = ft_create_redirect();
-		cmd->redirect = cmd->redirect->next;
-		cmd->redirect->prev = tmp;
-	}
-	cmd->redirect->type = redirect_token->type;
-	if (redirect_token->prev == NULL)
-		cmd->redirect->left_fd = default_fd;
-	else if (redirect_token->prev->type == IO_NUMBER)
-		cmd->redirect->left_fd = ft_atoi(redirect_token->prev->data);
-	else
-		cmd->redirect->left_fd = default_fd;
-	if (redirect_token->next != NULL)
-		cmd->redirect->open_filepath = ft_strdup(redirect_token->next->data);
-	cmd->redirect->is_quot = redirect_token->next->type;
-	if (cmd->redirect->open_filepath == NULL)
-		ft_error_display("ft_strdup", "failed to get open_filepath", 1);
-	if (redirect_token->prev != NULL)
-		if (redirect_token->prev->type == IO_NUMBER)
-			ft_token_destroy(redirect_token->prev, &cmd->args);
-	ft_token_destroy(redirect_token, &cmd->args);
-	ft_token_destroy(redirect_token->next, &cmd->args);
 }
 
 t_bool	ft_setup_redirect(t_cmd	*cmd)
