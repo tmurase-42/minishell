@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 13:37:47 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 16:32:24 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,13 @@ void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int def
 		cmd->redirect->prev = tmp;
 	}
 	cmd->redirect->type = redirect_token->type;
-	cmd->redirect->is_quot = redirect_token->next->type;
+	if (redirect_token->next != NULL)
+		cmd->redirect->is_quot = redirect_token->next->type;
 	cmd->redirect->left_fd = import_left_fd(redirect_token, default_fd);
-	cmd->redirect->open_filepath = ft_strdup(redirect_token->next->data);
+	if (redirect_token->next != NULL)
+		cmd->redirect->open_filepath = ft_strdup(redirect_token->next->data);
+	else
+		cmd->redirect->open_filepath = ft_strdup("");
 	if (cmd->redirect->open_filepath == NULL)
 		ft_error_display("ft_strdup", "failed to get open_filepath", 1);
 	is_first = check_is_tokenfirst(redirect_token);
