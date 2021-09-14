@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:05:32 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 14:26:00 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 15:48:46 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,10 @@ t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent)
 		{
 			greater_redir->backup_fd = dup(1);
 			if (greater_redir->backup_fd < 0)
-			{
-				//ft_error_display("minishell", "dup2", 1);
 				return (FALSE);
-			}
 		}
 		if (dup2(cmd->final_greater_fd, greater_redir->left_fd) < 0)
-		{
-			//ft_error_display("minishell", "dup2", 1);
 			return (FALSE);
-		}
 		close(cmd->final_greater_fd);
 	}
 	if (cmd->final_lesser_fd != 0)
@@ -55,21 +49,12 @@ t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent)
 		{
 			lesser_redir->backup_fd = dup(0);
 			if (lesser_redir->backup_fd < 0)
-			{
-				//ft_error_display("minishell", "dup", 1);
 				return (FALSE);
-			}
 		}
-		//printf("----------------------\n");
-		//ft_test_print_redirect(cmd);
 		if (dup2(cmd->final_lesser_fd, lesser_redir->left_fd) < 0)
-		{
-			//ft_error_display("minishell", "dup2", 1);
 			return (FALSE);
-		}
 		close(cmd->final_lesser_fd);
 	}
-	//ft_test_print_redirect(cmd);
 	return (TRUE);
 }
 
@@ -90,10 +75,7 @@ t_bool	ft_backup_fd(t_cmd *cmd)
 			greater_redir = greater_redir->next;
 		}
 		if (dup2(greater_redir->backup_fd, 1) < 0)
-		{
-			ft_error_display("minishell", "system call error", 1);
 			return (FALSE);
-		}
 	}
 	if (cmd->final_lesser_fd != 0)
 	{
@@ -104,10 +86,7 @@ t_bool	ft_backup_fd(t_cmd *cmd)
 			lesser_redir = lesser_redir->next;
 		}
 		if (dup2(lesser_redir->backup_fd, 0) < 0)
-		{
-			ft_error_display("minishell", "system call error", 1);
 			return (FALSE);
-		}
 	}
 	return (TRUE);
 }
@@ -130,10 +109,7 @@ t_bool	ft_delete_tmpfile(t_cmd *cmd, int final_lesser_fd)
 	if (lesser_redir->type == DOUBLE_LESSER)
 	{
 		if (unlink("tmp.txt") < 0)
-		{
-			ft_error_display("minishell", "system call error", 1);
 			return (FALSE);
-		}
 	}
 	return (TRUE);
 }

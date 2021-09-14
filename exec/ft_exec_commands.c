@@ -6,13 +6,13 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 15:40:36 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 16:07:32 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	fork_process(t_cmd *cmd, int old_pipe[])
+static t_bool	fork_process(t_cmd *cmd, int old_pipe[])
 {
 	extern t_mshl_data	*g_mshl_data;
 	pid_t	pid;
@@ -31,12 +31,12 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 		if (result == FALSE)
 		{
 			ft_error_display(cmd->redirect->open_filepath, "system call error", 1);
-			return ;
+			return (FALSE);
 		}
 		if (g_mshl_data->interrupted == TRUE)
 		{
 				g_mshl_data->interrupted = FALSE;
-				//return ;
+				return (FALSE);
 		}
 	}
 	// プロセスの生成
@@ -51,9 +51,10 @@ static void	fork_process(t_cmd *cmd, int old_pipe[])
 		ft_exec_child_process(new_pipe, old_pipe, cmd);
 	else // 親プロセスの処理
 		ft_exec_parent_process(new_pipe, old_pipe, cmd, pid);
+	return (TRUE);
 }
 
-static void	exec_command(t_cmd *cmd, int old_pipe[])
+static t_bool	exec_command(t_cmd *cmd, int old_pipe[])
 {
 	extern t_mshl_data	*g_mshl_data;
 	int		result;
@@ -64,7 +65,7 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 	if (cmd->argc == 0 || !cmd->args || cmd->args->data == NULL)
 	{
 		g_mshl_data->exit_status = EXIT_FAILURE;
-		return ;
+		return (FALSE);
 	}
 	// パイプがない → 場合
 	if (g_mshl_data->pipe_state == NO_PIPE && ft_is_builtin_command(cmd->args->data))
@@ -77,14 +78,16 @@ static void	exec_command(t_cmd *cmd, int old_pipe[])
 			if (result == FALSE)
 			{
 				ft_error_display("minishell", "system call error", 1);
-				return ;
+				return (FALSE);
 			}
 		}
 		g_mshl_data->exit_status = ft_exec_builtin(cmd);
 		ft_backup_fd(cmd);
-		return ;
+		return (TRUE);
 	}
-	fork_process(cmd, old_pipe);
+	if (fork_process(cmd, old_pipe) == FALSE)
+		return (FALSE);
+	return (TRUE);
 }
 
 void	ft_exec_commands(t_cmd *cmd)
@@ -124,7 +127,8 @@ void	ft_exec_commands(t_cmd *cmd)
 		ft_token_free(cmd->args);
 		cmd->args = tokens;
 		// コマンドを実行する
-		exec_command(cmd, old_pipe);
+		if (exec_command(cmd, old_pipe) == FALSE)
+			break;
 		// 次のコマンドへ
 		cmd = cmd->next;
 	}
