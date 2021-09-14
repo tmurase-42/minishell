@@ -13,7 +13,7 @@ FILES           = main.c ft_lexer.c exec/ft_exec_commands.c exec/ft_wait_process
 									cd/ft_cd.c  cd/ft_cd_utils.c cd/ft_cd_utils_2.c \
 									expansion/ft_expand_cmd.c expansion/ft_expand_str.c \
 									pwd/ft_pwd.c \
-									parser/parser.c \
+									parser/parser.c parser/parser_utils.c\
 									echo/ft_echo.c \
 									validates/ft_validate_token.c validates/ft_validate_token_2.c validates/ft_validate_str.c \
 									tokens/ft_token_add.c tokens/ft_token_create.c  tokens/ft_token_print.c tokens/ft_token_length.c \
