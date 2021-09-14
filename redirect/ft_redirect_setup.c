@@ -6,25 +6,35 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/13 14:52:29 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/14 11:26:22 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	check_redirect(t_cmd *cmd)
+static t_bool	check_redirect(t_cmd *cmd)
 {
 	t_token	*token;
+	t_bool status;
 
+	status = FALSE;
 	token = cmd->args;
+
 	while (token)
 	{
 		if (token->type == CHAR_GREATER || token->type == DOUBLE_GREATER)
+		{
+			status = TRUE;
 			ft_import_redirect_information(cmd, token, 1);
+		}
 		if (token->type == CHAR_LESSER || token->type == DOUBLE_LESSER)
+		{
+			status = TRUE;
 			ft_import_redirect_information(cmd, token, 0);
+		}
 		token = token->next;
 	}
+	return (status);
 }
 
 void ft_test_print_redirect(t_cmd *cmd)
@@ -77,12 +87,13 @@ void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int def
 t_bool	ft_setup_redirect(t_cmd	*cmd)
 {
 	t_cmd	*tmp;
+	t_bool	status;
 
 	tmp = cmd;
 	if (cmd == NULL)
 		return (FALSE) ;
-	check_redirect(tmp);
+	status = check_redirect(tmp);
 	while (cmd->redirect->prev != NULL)
 		cmd->redirect = cmd->redirect->prev;
-	return (TRUE);
+	return (status);
 }
