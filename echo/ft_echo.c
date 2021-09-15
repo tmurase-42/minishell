@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 12:24:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 00:20:09 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/15 16:55:37 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_bool strchr_n(char *str)
+static t_bool	strchr_n(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	str += 2;
 	if (str == NULL)
 		return (TRUE);
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] == 'n')
 			i++;
@@ -30,13 +30,13 @@ static t_bool strchr_n(char *str)
 	return (TRUE);
 }
 
-static int option_check(t_token *token)
+static int	option_check(t_token *token)
 {
-	int count;
+	int	count;
 
 	count = 1;
 	if (token->next == NULL)
-		return count;
+		return (count);
 	if (token->next->data != NULL
 		&& ft_strncmp(token->next->data, "-n", 2) != 0)
 		return (count);
@@ -50,9 +50,10 @@ static int option_check(t_token *token)
 	return (count);
 }
 
-static t_token *delete_token(t_token *token, int n)
+static t_token	*delete_token(t_token *token, int n)
 {
 	int	i;
+
 	i = 0;
 	if (n == 0)
 		return (token->next);
@@ -66,7 +67,6 @@ static t_token *delete_token(t_token *token, int n)
 
 static void	print_token_data(t_token *token)
 {
-
 	if (token->next != NULL)
 		if (token->next->type == CHAR_DQUOTE
 			|| token->next->type == CHAR_QUOTE)
@@ -81,7 +81,7 @@ static void	print_token_data(t_token *token)
 int	ft_echo(t_cmd *cmd)
 {
 	int		option;
-	t_token *tmp_token;
+	t_token	*tmp_token;
 
 	tmp_token = cmd->args;
 	if (cmd->argc < 2)
