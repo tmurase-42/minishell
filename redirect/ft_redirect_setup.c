@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 16:25:58 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/15 15:25:03 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 static t_bool	check_redirect(t_cmd *cmd)
 {
 	t_token	*token;
-	t_bool status;
+	t_bool	status;
 
 	status = FALSE;
 	token = cmd->args;
-
 	while (token)
 	{
 		if (token->type == CHAR_GREATER || token->type == DOUBLE_GREATER)
@@ -37,13 +36,15 @@ static t_bool	check_redirect(t_cmd *cmd)
 	return (status);
 }
 
-void ft_test_print_redirect(t_cmd *cmd)
+void	ft_test_print_redirect(t_cmd *cmd)
 {
-	t_redirect *redirect = cmd->redirect;
+	t_redirect	*redirect;
+
+	redirect = cmd->redirect;
 	while (redirect)
 	{
-		printf("redirect->left_id: %d\n" ,redirect->left_fd);
-		printf("redirect->right_id: %d\n" ,redirect->right_fd);
+		printf("redirect->left_id: %d\n", redirect->left_fd);
+		printf("redirect->right_id: %d\n", redirect->right_fd);
 		printf("redirect->type: %d\n", redirect->type);
 		printf("open_filepath:%s\n", redirect->open_filepath);
 		printf("cmd->final_grater_fd:%d\n", cmd->final_greater_fd);
@@ -61,7 +62,7 @@ t_bool	ft_setup_redirect(t_cmd	*cmd)
 
 	tmp = cmd;
 	if (cmd == NULL)
-		return (FALSE) ;
+		return (FALSE);
 	status = check_redirect(tmp);
 	while (cmd->redirect->prev != NULL)
 		cmd->redirect = cmd->redirect->prev;
