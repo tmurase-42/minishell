@@ -6,11 +6,34 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:05:32 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 15:48:46 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/15 16:22:52 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_bool	select_dup2(t_redirect *redir, int num, int final_fd, int is_parent)
+{
+	if (final_fd != 0)
+	{
+		while (redir)
+		{
+			if (redir->right_fd == final_fd)
+				break ;
+			redir = redir->next;
+		}
+		if (is_parent == TRUE)
+		{
+			redir->backup_fd = dup(num);
+			if (redir->backup_fd < 0)
+				return (FALSE);
+		}
+		if (dup2(final_fd, redir->left_fd) < 0)
+			return (FALSE);
+		close(final_fd);
+	}
+	return (TRUE);
+}
 
 t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent)
 {
@@ -19,41 +42,26 @@ t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent)
 
 	greater_redir = cmd->redirect;
 	lesser_redir = cmd->redirect;
-	if (cmd->final_greater_fd != 0)
+	if (select_dup2(greater_redir, 1,
+			cmd->final_greater_fd, is_parent) == FALSE)
+		return (FALSE);
+	if (select_dup2(lesser_redir, 0, cmd->final_lesser_fd, is_parent) == FALSE)
+		return (FALSE);
+	return (TRUE);
+}
+
+t_bool	select_backup(t_redirect *redir, int fd, int final_fd)
+{
+	if (final_fd != 0)
 	{
-		while(greater_redir)
+		while (redir)
 		{
-			if (greater_redir->right_fd == cmd->final_greater_fd)
-				break;
-			greater_redir = greater_redir->next;
-		}
-		if (is_parent == TRUE)
-		{
-			greater_redir->backup_fd = dup(1);
-			if (greater_redir->backup_fd < 0)
-				return (FALSE);
-		}
-		if (dup2(cmd->final_greater_fd, greater_redir->left_fd) < 0)
-			return (FALSE);
-		close(cmd->final_greater_fd);
-	}
-	if (cmd->final_lesser_fd != 0)
-	{
-		while(lesser_redir)
-		{
-			if (lesser_redir->right_fd == cmd->final_lesser_fd)
+			if (redir->right_fd == final_fd)
 				break ;
-			lesser_redir = lesser_redir->next;
+			redir = redir->next;
 		}
-		if (is_parent == TRUE)
-		{
-			lesser_redir->backup_fd = dup(0);
-			if (lesser_redir->backup_fd < 0)
-				return (FALSE);
-		}
-		if (dup2(cmd->final_lesser_fd, lesser_redir->left_fd) < 0)
+		if (dup2(redir->backup_fd, fd) < 0)
 			return (FALSE);
-		close(cmd->final_lesser_fd);
 	}
 	return (TRUE);
 }
@@ -65,51 +73,9 @@ t_bool	ft_backup_fd(t_cmd *cmd)
 
 	greater_redir = cmd->redirect;
 	lesser_redir = cmd->redirect;
-
-	if (cmd->final_greater_fd != 0)
-	{
-		while(greater_redir)
-		{
-			if (greater_redir->right_fd == cmd->final_greater_fd)
-				break;
-			greater_redir = greater_redir->next;
-		}
-		if (dup2(greater_redir->backup_fd, 1) < 0)
-			return (FALSE);
-	}
-	if (cmd->final_lesser_fd != 0)
-	{
-		while(lesser_redir)
-		{
-			if (lesser_redir->right_fd == cmd->final_lesser_fd)
-				break ;
-			lesser_redir = lesser_redir->next;
-		}
-		if (dup2(lesser_redir->backup_fd, 0) < 0)
-			return (FALSE);
-	}
-	return (TRUE);
-}
-
-
-t_bool	ft_delete_tmpfile(t_cmd *cmd, int final_lesser_fd)
-{
-	t_redirect	*lesser_redir;
-
-	lesser_redir = cmd->redirect;
-	if (final_lesser_fd != 0)
-	{
-		while(lesser_redir)
-		{
-			if (lesser_redir->right_fd == final_lesser_fd)
-				break ;
-			lesser_redir = lesser_redir->next;
-		}
-	}
-	if (lesser_redir->type == DOUBLE_LESSER)
-	{
-		if (unlink("tmp.txt") < 0)
-			return (FALSE);
-	}
+	if (select_backup(greater_redir, 1, cmd->final_greater_fd) == FALSE)
+		return (FALSE);
+	if (select_backup(lesser_redir, 0, cmd->final_lesser_fd) == FALSE)
+		return (FALSE);
 	return (TRUE);
 }

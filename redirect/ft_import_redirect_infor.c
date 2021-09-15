@@ -6,13 +6,13 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 16:32:24 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/15 15:22:20 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int import_left_fd(t_token *redirect_token, int default_fd)
+static int	import_left_fd(t_token *redirect_token, int default_fd)
 {
 	if (redirect_token->prev == NULL)
 		return (default_fd);
@@ -22,9 +22,9 @@ static int import_left_fd(t_token *redirect_token, int default_fd)
 		return (default_fd);
 }
 
-t_bool check_is_tokenfirst(t_token *redirect_token)
+t_bool	check_is_tokenfirst(t_token *redirect_token)
 {
-	t_token *first_token;
+	t_token	*first_token;
 
 	first_token = ft_token_get_first(redirect_token);
 	if (first_token == redirect_token)
@@ -36,7 +36,28 @@ t_bool check_is_tokenfirst(t_token *redirect_token)
 	return (FALSE);
 }
 
-void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int default_fd, t_bool status)
+static void	destory_redirect_token(t_cmd *cmd,
+				t_token *redirect_token, t_bool is_first)
+{
+	if (is_first == TRUE && cmd->argc > 2)
+	{
+		cmd->args = cmd->args->next;
+		cmd->args->prev = NULL;
+		cmd->args = cmd->args->next;
+		cmd->args->prev = NULL;
+	}
+	else if (is_first == FALSE)
+	{
+		if (redirect_token->prev != NULL)
+			if (redirect_token->prev->type == IO_NUMBER)
+				ft_token_destroy(redirect_token->prev, &cmd->args);
+		ft_token_destroy(redirect_token, &cmd->args);
+		ft_token_destroy(redirect_token->next, &cmd->args);
+	}
+}
+
+void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token,
+			int default_fd, t_bool status)
 {
 	t_redirect	*tmp;
 	t_bool		is_first;
@@ -59,19 +80,5 @@ void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int def
 	if (cmd->redirect->open_filepath == NULL)
 		ft_error_display("ft_strdup", "failed to get open_filepath", 1);
 	is_first = check_is_tokenfirst(redirect_token);
-	if (is_first == TRUE && cmd->argc > 2)
-	{
-		cmd->args = cmd->args->next;
-		cmd->args->prev = NULL;
-		cmd->args = cmd->args->next;
-		cmd->args->prev = NULL;
-	}
-	else if (is_first == FALSE)
-	{
-		if (redirect_token->prev != NULL)
-			if (redirect_token->prev->type == IO_NUMBER)
-				ft_token_destroy(redirect_token->prev, &cmd->args);
-		ft_token_destroy(redirect_token, &cmd->args);
-		ft_token_destroy(redirect_token->next, &cmd->args);
-	}
+	destory_redirect_token(cmd, redirect_token, is_first);
 }

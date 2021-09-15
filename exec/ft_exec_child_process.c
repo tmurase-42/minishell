@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 19:27:55 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/13 20:15:59 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/15 16:24:03 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,7 @@ void	ft_exec_child_process(int new_pipe[], int old_pipe[], t_cmd *cmd)
 		if (cmd->final_greater_fd != 0)
 			close(cmd->final_greater_fd);
 		if (cmd->final_lesser_fd != 0)
-		{
 			close(cmd->final_lesser_fd);
-			if (ft_delete_tmpfile(cmd, cmd->final_lesser_fd) == FALSE)
-				return ;
-		}
 		exit(status);
 	}
 	else
