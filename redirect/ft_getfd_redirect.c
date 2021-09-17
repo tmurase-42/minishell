@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getfd_redirect.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 14:47:16 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 23:32:17 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 03:04:37 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	create_tmpfile(t_cmd *cmd, t_redirect *redir, int result, int num)
+int	create_tmpfile(t_cmd *cmd, t_redir *redir, int result, int num)
 {
 	char	*tmpfilename;
 	char	*tmp;
@@ -35,7 +35,7 @@ int	create_tmpfile(t_cmd *cmd, t_redirect *redir, int result, int num)
 	return (result);
 }
 
-static	t_bool	create_files(t_cmd *cmd, t_redirect *redir, int result, int num)
+static	t_bool	create_files(t_cmd *cmd, t_redir *redir, int result, int num)
 {
 	if (redir->type == CHAR_GREATER)
 		redir->right_fd = open(redir->open_filepath,
@@ -58,9 +58,9 @@ static	t_bool	create_files(t_cmd *cmd, t_redirect *redir, int result, int num)
 
 t_bool	ft_getfd_redirect(t_cmd *cmd)
 {
-	t_redirect	*redir;
-	int			result;
-	int			num;
+	t_redir	*redir;
+	int		result;
+	int		num;
 
 	result = 0;
 	num = 1;

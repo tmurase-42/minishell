@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:35:04 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 02:37:05 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 02:54:07 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	bubble_array(t_env **array)
 	{
 		if (array[i] && array[i + 1]
 			&& ft_strncmp(array[i]->key, array[i + 1]->key,
-				MAX(ft_strlen(array[i]->key),
+				ft_max(ft_strlen(array[i]->key),
 					ft_strlen(array[i + 1]->key))) > 0)
 		{
 			tmp = array[i];

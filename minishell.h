@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 02:15:55 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 03:05:09 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,11 @@
 # define STATUS_CMD_NOT_EXECUTABLE 126
 # define IN 1
 # define OUT 0
-# define MIN(x,y) (x < y ? x : y)
-# define MAX(x,y) (x > y ? x : y)
 
-typedef struct stat				t_stat;
-typedef struct s_token			t_token;
-typedef struct s_redirect		t_redirect;
-typedef struct s_cmd			t_cmd;
+typedef struct stat			t_stat;
+typedef struct s_token		t_token;
+typedef struct s_redir		t_redir;
+typedef struct s_cmd		t_cmd;
 
 typedef enum e_cmd_type
 {
@@ -95,8 +93,7 @@ typedef struct s_lexer
 	t_token_type	token_type;
 }				t_lexer;
 
-
-struct		s_redirect
+struct		s_redir
 {
 	int			backup_fd;
 	int			left_fd;
@@ -104,19 +101,19 @@ struct		s_redirect
 	int			type;
 	int			is_quot;
 	char		*open_filepath;
-	t_redirect	*next;
-	t_redirect	*prev;
+	t_redir		*next;
+	t_redir		*prev;
 };
 
 struct			s_cmd
 {
-	t_token				*args;
-	int					argc;
-	struct s_cmd		*next;
-	struct s_redirect	*redirect;
-	int					final_greater_fd;
-	int					final_lesser_fd;
-	pid_t				pid;
+	t_token			*args;
+	int				argc;
+	struct s_cmd	*next;
+	struct s_redir	*redirect;
+	int				final_greater_fd;
+	int				final_lesser_fd;
+	pid_t			pid;
 };
 
 typedef enum e_token_state
@@ -177,6 +174,8 @@ void	ft_free_char(char **target);
 void	ft_safe_free_split(char ***target);
 void	ft_error_display(char *command, char *message, int exit_status);
 char	*ft_join_path(const char *prev, const char *next);
+t_bool	ft_min(int x, int y);
+t_bool	ft_max(int x, int y);
 
 /* Token functions */
 t_token	*ft_token_create(char *data, t_token_type type);
@@ -274,12 +273,12 @@ void	ft_sigint_handler(int sig);
 void	ft_sigint_setter(void (*func)(int));
 
 /* redirect functions */
-t_redirect			*ft_create_redirect(void);
+t_redir	*ft_create_redirect(void);
 t_bool	ft_setup_redirect(t_cmd	*cmd);
 void	ft_test_print_redirect(t_cmd *cmd);
 void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token,
 			int default_fd, t_bool status);
-t_bool	ft_dup_heredoc(t_redirect *redir, t_cmd *cmd);
+t_bool	ft_dup_heredoc(t_redir *redir, t_cmd *cmd);
 t_bool	ft_getfd_redirect(t_cmd *cmd);
 t_bool	ft_check_redirect(t_cmd *cmd);
 t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent);

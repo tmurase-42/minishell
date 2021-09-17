@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_redirect.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 14:47:16 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 23:03:39 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 03:02:07 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static	t_bool	check_error_open_close(t_redirect *redir, int final_fd)
+static	t_bool	check_error_open_close(t_redir *redir, int final_fd)
 {
 	if (redir->right_fd < 0)
 		return (FALSE);
@@ -24,7 +24,7 @@ static	t_bool	check_error_open_close(t_redirect *redir, int final_fd)
 
 t_bool	ft_check_redirect(t_cmd *cmd)
 {
-	t_redirect	*redir;
+	t_redir	*redir;
 
 	redir = cmd->redirect;
 	while (redir)

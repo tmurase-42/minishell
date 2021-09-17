@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dup_redirect.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:05:32 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/15 16:22:52 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 03:04:16 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_bool	select_dup2(t_redirect *redir, int num, int final_fd, int is_parent)
+t_bool	select_dup2(t_redir *redir, int num, int final_fd, int is_parent)
 {
 	if (final_fd != 0)
 	{
@@ -37,8 +37,8 @@ t_bool	select_dup2(t_redirect *redir, int num, int final_fd, int is_parent)
 
 t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent)
 {
-	t_redirect	*greater_redir;
-	t_redirect	*lesser_redir;
+	t_redir	*greater_redir;
+	t_redir	*lesser_redir;
 
 	greater_redir = cmd->redirect;
 	lesser_redir = cmd->redirect;
@@ -50,7 +50,7 @@ t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent)
 	return (TRUE);
 }
 
-t_bool	select_backup(t_redirect *redir, int fd, int final_fd)
+t_bool	select_backup(t_redir *redir, int fd, int final_fd)
 {
 	if (final_fd != 0)
 	{
@@ -68,8 +68,8 @@ t_bool	select_backup(t_redirect *redir, int fd, int final_fd)
 
 t_bool	ft_backup_fd(t_cmd *cmd)
 {
-	t_redirect	*greater_redir;
-	t_redirect	*lesser_redir;
+	t_redir	*greater_redir;
+	t_redir	*lesser_redir;
 
 	greater_redir = cmd->redirect;
 	lesser_redir = cmd->redirect;
