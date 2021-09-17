@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/14 21:40:12 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 03:45:24 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,50 +33,34 @@ static t_mshl_data	*mshl_data_init(t_env *envs, char *argv[])
 
 static t_cmd	*run_commandline(char **command)
 {
-	extern t_mshl_data *g_mshl_data;
-	t_cmd		*cmd;
-	t_token		*tokens;
+	extern t_mshl_data	*g_mshl_data;
+	t_cmd				*cmd;
+	t_token				*tokens;
 
 	tokens = NULL;
-
-
-	// 以上な文字列の検知とエラー吐き出し
 	if (ft_validate_str(*command) == FALSE)
 	{
 		ft_error_display(NULL, "syntax error near unexpected token.", 2);
-		return NULL;
+		return (NULL);
 	}
-
-	// 文字列をトークンに分離する
 	tokens = ft_lexer(*command);
-
-	// 異常なトークンの検知とエラー吐き出し
 	if (ft_validate_token(tokens) == FALSE)
 	{
 		ft_error_display(NULL, "syntax error near unexpected token.", 2);
-		return NULL;
+		return (NULL);
 	}
-
-	// トークンをパースする
 	cmd = ft_cmd_lstnew();
 	ft_parser(tokens, cmd);
-
-	// テストプリント
-	//ft_token_print(cmd->args);
-
-	// 実行
 	ft_exec_commands(cmd);
-
-	// 返却
-	return cmd;
+	return (cmd);
 }
 
-static void	update_shlvl()
+static void	update_shlvl(void)
 {
 	extern t_mshl_data	*g_mshl_data;
-	t_env	*shlvl_env;
-	char	*shlvl_str;
-	char	shlvl_num;
+	t_env				*shlvl_env;
+	char				*shlvl_str;
+	char				shlvl_num;
 
 	shlvl_num = 0;
 	shlvl_str = NULL;
@@ -92,28 +76,11 @@ static void	update_shlvl()
 	ft_env_update("SHLVL", shlvl_str);
 }
 
-int	main(int argc, char *argv[], char **environ)
+static void	loop(t_mshl_data *g_mshl_data)
 {
-	extern t_mshl_data	*g_mshl_data;
 	char	*command;
-	t_env	*envs;
 	t_cmd	*cmd;
 
-
-	(void)argc;
-	envs = ft_env_init(environ);
-	g_mshl_data = mshl_data_init(envs, argv);
-	command = NULL;
-	update_shlvl();
-	//ft_env_destroy("OLDPWD");
-
-	if (argc > 2 && ft_strncmp("-c", argv[1], 3) == 0)
-	{
-		add_history(argv[2]);
-		cmd = run_commandline(&argv[2]);
-		ft_wait_process(cmd);
-		return g_mshl_data->exit_status;
-	}
 	while (1)
 	{
 		g_mshl_data->interrupted = FALSE;
@@ -136,5 +103,28 @@ int	main(int argc, char *argv[], char **environ)
 			ft_wait_process(cmd);
 		}
 	}
+}
+
+int	main(int argc, char *argv[], char **environ)
+{
+	extern t_mshl_data	*g_mshl_data;
+	char				*command;
+	t_env				*envs;
+	t_cmd				*cmd;
+
+	(void)argc;
+	envs = ft_env_init(environ);
+	g_mshl_data = mshl_data_init(envs, argv);
+	command = NULL;
+	cmd = NULL;
+	update_shlvl();
+	if (argc > 2 && ft_strncmp("-c", argv[1], 3) == 0)
+	{
+		add_history(argv[2]);
+		cmd = run_commandline(&argv[2]);
+		ft_wait_process(cmd);
+		return (g_mshl_data->exit_status);
+	}
+	loop(g_mshl_data);
 	return (g_mshl_data->exit_status);
 }
