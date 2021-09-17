@@ -6,96 +6,77 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 22:43:46 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/17 09:41:11 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/errno.h>
-#include <stdlib.h>
-#include <limits.h>
-#include <sys/stat.h>
-#include <sys/errno.h>
-#include <string.h>
+#	ifndef MINISHELL_H
+# define MINISHELL_H
+
+# include "libft/libft.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/errno.h>
+# include <stdlib.h>
+# include <limits.h>
+# include <sys/stat.h>
+# include <sys/errno.h>
+# include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-#include <fcntl.h>
+# include <fcntl.h>
 
-
-#define DOUBLE_QUOT 34
-#define SINGLE_QUOT 39
-#define NEUTRAL_MODE 100
-#define SINGLE_MODE 101
-#define DOUBLE_MODE 102
-#define BUFF_SIZE 4096
-
+# define DOUBLE_QUOT	34
+# define SINGLE_QUOT 39
+# define NEUTRAL_MODE 100
+# define SINGLE_MODE 101
+# define DOUBLE_MODE 102
+# define BUFF_SIZE 4096
 # define STATUS_CMD_NOT_FOUND 127
 # define STATUS_CMD_NOT_EXECUTABLE 126
-
 # define IN 1
 # define OUT 0
 # define MIN(x,y) (x < y ? x : y)
 # define MAX(x,y) (x > y ? x : y)
-# define NO_QUOT 0
-# define IS_QUOT 1
-# define DEFECTIVE_QUOT 2
 
+typedef struct stat				t_stat;
+typedef struct s_token			t_token;
+typedef struct s_redirect		t_redirect;
+typedef struct s_cmd			t_cmd;
 
-typedef enum				e_cmd_type
+typedef enum e_cmd_type
 {
 	ABSOLUTE,
 	RELATIVE,
 	COMMAND
-}							t_cmd_type;
+}			t_cmd_type;
 
-typedef struct stat	t_stat;
-
-typedef enum		e_bool
+typedef enum e_bool
 {
 	FALSE,
 	TRUE
-}								t_bool;
+}			t_bool;
 
-typedef enum		e_node_kind
-{
-	ND_PIPE,
-	ND_COMMAND
-}					t_node_kind;
-
-typedef struct		e_node
-{
-	t_node_kind kind;
-	struct t_Node	*lefthand_side;
-	struct t_Node	*righthand_side;
-	struct s_cmd	*args;
-}					t_node;
-
-typedef enum	e_tokentype{
+typedef enum e_tokentype{
 	CHAR_GENERAL = -1,
 	CHAR_PIPE = '|',
 	CHAR_QUOTE = '\'',
 	CHAR_DQUOTE = '\"',
-	//CHAR_SEMICOLON = ';',
 	CHAR_WHITESPACE = ' ',
 	CHAR_ESCAPE = '\\',
 	CHAR_GREATER = '>',
 	CHAR_LESSER = '<',
 	CHAR_TAB = '\t',
-	CHAR_NULL = 0, // 深掘りすぎ。不要
-	//D_SEMICOLON = -5, // 深掘りすぎ。不要
-	CHAR_EMPTY = -5, //空文字
-	DOUBLE_GREATER = -4, // >> ってこと。
-	DOUBLE_LESSER = -3, // << ってこと。
-	IO_NUMBER = -2, //謎
-}				t_token_type;
+	CHAR_NULL = 0,
+	CHAR_EMPTY = -5,
+	DOUBLE_GREATER = -4,
+	DOUBLE_LESSER = -3,
+	IO_NUMBER = -2,
+}			t_token_type;
 
-typedef struct s_token	t_token;
-
-struct			s_token
+struct s_token
 {
 	t_token			*next;
 	t_token			*prev;
@@ -104,55 +85,53 @@ struct			s_token
 	size_t			space_len;
 };
 
-typedef struct s_redirect t_redirect;
-
-struct 				s_redirect
+struct			s_redirect
 {
-	int		backup_fd;
-	int		left_fd;
-	int		right_fd;
-	int		type;
-	int		is_quot;
+	int			backup_fd;
+	int			left_fd;
+	int			right_fd;
+	int			type;
+	int			is_quot;
 	char		*open_filepath;
 	t_redirect	*next;
 	t_redirect	*prev;
 };
 
-typedef struct s_cmd t_cmd;
 struct			s_cmd
 {
-	t_token	*args;
-	int		argc;
-	struct	s_cmd *next;
-	struct 	s_redirect *redirect;
-	int		final_greater_fd;
-	int		final_lesser_fd;
-	pid_t	pid;
+	t_token				*args;
+	int					argc;
+	struct s_cmd		*next;
+	struct s_redirect	*redirect;
+	int					final_greater_fd;
+	int					final_lesser_fd;
+	pid_t				pid;
 };
 
-typedef enum		e_token_state{
+typedef enum e_token_state
+{
 	STATE_IN_DQUOTE,
 	STATE_IN_QUOTE,
 	STATE_IN_GENERAL,
-}								t_token_state;
+}			t_token_state;
 
-typedef struct	s_env
+typedef struct s_env
 {
 	char			*key;
 	char			*value;
 	t_bool			is_env;
 	struct s_env	*next;
-}				t_env;
+}			t_env;
 
-typedef enum			e_pipe_state
+typedef enum e_pipe_state
 {
 	NO_PIPE,
 	READ_ONLY,
 	WRITE_ONLY,
 	READ_WRITE
-}						t_pipe_state;
+}			t_pipe_state;
 
-typedef struct	s_mshl_data
+typedef struct s_mshl_data
 {
 	int				argc;
 	char			**argv;
@@ -162,7 +141,7 @@ typedef struct	s_mshl_data
 	int				pipe[2];
 	t_bool			interrupted;
 	char			*command;
-}				t_mshl_data;
+}			t_mshl_data;
 
 /* exec functions */
 t_token	*ft_lexer(char *str);
@@ -170,15 +149,14 @@ void	ft_exec_commands(t_cmd *cmd);
 void	ft_wait_process(t_cmd *cmd);
 void	ft_exec_child_process(int new_pipe[], int old_pipe[], t_cmd *cmd);
 void	ft_exec_parent_process(int new_pipe[], int old_pipe[], t_cmd *cmd,
-	pid_t pid);
+			pid_t pid);
 int		ft_exec_builtin(t_cmd *cmd);
 t_bool	ft_is_builtin_command(char *str);
-
 
 /* Common functions */
 void	ft_error(char *command, char *message, int exit_status);
 void	ft_free_char(char **target);
-void    ft_safe_free_split(char ***target);
+void	ft_safe_free_split(char ***target);
 void	ft_error_display(char *command, char *message, int exit_status);
 char	*ft_join_path(const char *prev, const char *next);
 
@@ -200,53 +178,50 @@ t_env	*ft_env_create(char *str);
 void	ft_env_add(t_env *new_env, t_env **envs);
 t_env	*ft_env_dup(t_env *env);
 void	ft_env_destroy(char *key);
-void	ft_env_destroy_all();
+void	ft_env_destroy_all(t_env *env);
 t_env	*ft_env_get(const char *key, t_env *envs);
 void	ft_env_update(const char *key, const char *value);
 char	**ft_env_str_array(t_env *envs);
 t_env	**ft_env_array(t_env *envs);
 t_bool	ft_env_is_valid_key(char *key);
-t_env	**ft_env_sort();
+t_env	**ft_env_sort(void);
 size_t	ft_env_len(t_env *envs);
-
-
-
 
 /* Expansion functions */
 void	ft_expand_cmd(t_cmd *cmd);
 void	ft_expand_str(char **str);
 
 /* Env functions */
-int		ft_env();
+int		ft_env(void);
 
 /* Unset functions */
 int		ft_unset(t_cmd *cmd);
 
 /* Export functions */
-int		ft_export_print_envs();
+int		ft_export_print_envs(void);
 int		ft_export_set_envs(t_cmd *cmd);
 int		ft_export(t_cmd *cmd);
 
 /* exit function */
 int		ft_exit(t_cmd *cmd);
 t_bool	ft_is_strdigit(char *str);
-int ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 t_bool	ft_error_exit(char *massage);
-void ft_error_num(t_cmd *cmd);
+void	ft_error_num(t_cmd *cmd);
 
 /* cd function */
-int	ft_cd(t_cmd *cmd);
+int		ft_cd(t_cmd *cmd);
 t_bool	ft_is_tilde(t_cmd *cmd);
-int	ft_isnot_path(t_mshl_data *g_mshl_data, char *pwd);
+int		ft_isnot_path(t_mshl_data *g_mshl_data, char *pwd);
 t_bool	ft_error_cd(char *file);
 void	ft_check_dup_str(char **split_path);
 void	ft_skip_dot(char **split_path, size_t i, size_t *dot_count, int flag);
 char	**ft_skip_and_count_dot(char **split_path, size_t *dot_count,
-														size_t *dot_dot_count);
+			size_t *dot_dot_count);
 char	*ft_convert_path(char **split_path);
 
 /* pwd function */
-int 	ft_pwd();
+int		ft_pwd(void);
 
 /* echo function */
 int		ft_echo(t_cmd *cmd);
@@ -254,10 +229,9 @@ int		ft_echo(t_cmd *cmd);
 /* parser function */
 t_cmd	*ft_parser(t_token *token, t_cmd *cmd);
 t_cmd	*ft_cmd_lstnew(void);
-t_token *create_token(void);
-t_redirect	*ft_create_redirect(void);
-t_token *last_token(t_token *token);
-void add_token(t_token *copy);
+t_token	*create_token(void);
+t_token	*last_token(t_token *token);
+void	add_token(t_token *copy);
 
 /* error function */
 t_bool	ft_validate_str(char *str);
@@ -281,15 +255,18 @@ void	ft_sigint_handler(int sig);
 void	ft_sigint_setter(void (*func)(int));
 
 /* redirect functions */
+t_redirect			*ft_create_redirect(void);
 t_bool	ft_setup_redirect(t_cmd	*cmd);
-void ft_test_print_redirect(t_cmd *cmd);
-t_redirect	*ft_create_redirect(void);
-void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token, int default_fd, t_bool status);
+void	ft_test_print_redirect(t_cmd *cmd);
+void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token,
+			int default_fd, t_bool status);
 t_bool	ft_dup_heredoc(t_redirect *redir, t_cmd *cmd);
 t_bool	ft_getfd_redirect(t_cmd *cmd);
 t_bool	ft_check_redirect(t_cmd *cmd);
 t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent);
 t_bool	ft_backup_fd(t_cmd *cmd);
 t_bool	ft_delete_tmpfile(t_cmd *cmd, int final_greater_fd);
-void ft_redirect_token_destory(t_cmd *cmd, t_token *redirect_token);
-t_bool check_is_tokenfirst(t_token *redirect_token);
+void	ft_redirect_token_destory(t_cmd *cmd, t_token *redirect_token);
+t_bool	check_is_tokenfirst(t_token *redirect_token);
+
+#	endif
