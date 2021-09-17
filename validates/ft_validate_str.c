@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_validate_str.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 23:23:46 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/13 23:39:36 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/17 10:08:54 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 t_bool	ft_validate_str(char *str)
 {
-	size_t	i;
+	size_t			i;
 	t_token_state	state;
 
 	state = STATE_IN_GENERAL;
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] == '\"')
 		{
