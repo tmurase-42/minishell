@@ -6,11 +6,11 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:58:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/10 22:48:11 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/17 22:59:00 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static t_token	*create_new_token(char *str, int i, int *word_len,
 	char *quote_status, t_token_type token_type, size_t *space_len)
