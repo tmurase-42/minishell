@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 22:09:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 15:25:55 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/17 10:07:50 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static t_bool	ft_check_pipe_error(t_token *tokens)
 	}
 	while (tmp->next != NULL)
 	{
-		if (ft_strchr(tmp->data, '|') != NULL && ft_strchr(tmp->next->data, '|') != NULL)
+		if (ft_strchr(tmp->data, '|') != NULL
+			&& ft_strchr(tmp->next->data, '|') != NULL)
 		{
 			return (FALSE);
 		}
@@ -65,7 +66,8 @@ static t_bool	ft_check_unexpect_error(t_token *tokens)
 {
 	while (tokens->next != NULL)
 		tokens = tokens->next;
-	if (tokens->type != CHAR_GENERAL && tokens->type != DOUBLE_QUOT && tokens->type != SINGLE_QUOT && tokens->type != CHAR_EMPTY)
+	if (tokens->type != CHAR_GENERAL && tokens->type != DOUBLE_QUOT
+		&& tokens->type != SINGLE_QUOT && tokens->type != CHAR_EMPTY)
 	{
 		return (FALSE);
 	}
