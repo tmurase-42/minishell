@@ -32,6 +32,12 @@ CFLAGS		= -g -Wall -Wextra -Werror
 CPPFLAGS	= -I $(shell brew --prefix readline)/include
 LDFLAGS 	= -lreadline -L $(shell brew --prefix readline)/lib
 RM			= rm -f
+NAME_LEAKS	:= minishell_leaks
+SRCS_LEAKS	:= leaks.c
+
+ifdef LEAKS
+NAME		:= $(NAME_LEAKS)
+endif
 
 all: $(NAME)
 
@@ -47,7 +53,11 @@ clean:
 fclean: clean
 	$(MAKE) -C ./libft fclean
 	$(RM) $(NAME) minishell
+	$(RM) $(NAME) minishell_leaks
 
 re: fclean all
+
+leaks	:
+	$(MAKE) CFLAGS="$(CFLAGS) -D LEAKS=1" SRCS="$(SRCS) $(SRCS_LEAKS)" LEAKS=TRUE
 
 .PHONY: all fclean clean re
