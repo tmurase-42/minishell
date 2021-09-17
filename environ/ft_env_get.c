@@ -6,13 +6,13 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 18:08:38 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/05 18:42:39 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 02:30:39 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		get_key_len(const char *str)
+int	get_key_len(const char *str)
 {
 	int	i;
 
@@ -21,9 +21,8 @@ int		get_key_len(const char *str)
 	{
 		i++;
 	}
-	return i;
+	return (i);
 }
-
 
 t_env	*ft_env_get(const char *key, t_env *envs)
 {
