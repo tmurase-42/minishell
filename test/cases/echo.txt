@@ -41,6 +41,8 @@ echo \"$\"
 echo "$ $ $ $ $ $ "
 echo "\$\$USER\\$USER""$USER"
 echo $
+echo $""
+echo $"NO_SUCH_ENV"
 echo \$USER
 echo \\$USER
 echo \\\$USER

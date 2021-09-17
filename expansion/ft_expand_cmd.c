@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand.c                                        :+:      :+:    :+:   */
+/*   ft_expand_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 13:13:32 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/10 21:31:37 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/17 16:53:53 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,11 @@ static char	*create_env_expanded_str(t_token *t)
 			i++;
 			i += expand_str(t, i, &ret, first_str_in_quotes_flag);
 			first_str_in_quotes_flag = FALSE;
+		}
+		else if (t->data[i] == '$' && t->data[i + 1] == '\0'
+			&& t->next && t->next->type == CHAR_EMPTY)
+		{
+			i++;
 		}
 		else
 		{
