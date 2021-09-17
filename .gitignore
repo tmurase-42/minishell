@@ -3,6 +3,7 @@
 *.o
 *.a
 minishell
+minishell_leaks
 file1
 file2
 file3
