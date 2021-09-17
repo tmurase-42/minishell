@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand_str.c                                    :+:      :+:    :+:   */
+/*   ft_expand_cmd_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/10 21:31:58 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 02:24:27 by tdofuku          ###   ########.fr       */
+/*   Created: 2021/09/18 02:14:42 by tdofuku           #+#    #+#             */
+/*   Updated: 2021/09/18 02:23:01 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	expand_str(char *str, int i, char **ret)
+static int	set_empty_type(int k, t_token *t, char *key, t_bool flag)
+{
+	if (t->data[k] == '\0' && flag)
+		t->type = CHAR_EMPTY;
+	return (ft_strlen(key));
+}
+
+static int	expand_str(t_token *t, int i, char **ret, t_bool flag)
 {
 	extern t_mshl_data	*g_mshl_data;
 	int					j;
@@ -20,12 +27,10 @@ static int	expand_str(char *str, int i, char **ret)
 	char				*tmp;
 	t_env				*env;
 
-	if (!str[i])
-		return (0);
 	j = 0;
-	while (ft_isalnum(str[i + j]) || str[i + j] == '_')
+	while (ft_isalnum(t->data[i + j]) || t->data[i + j] == '_')
 		j++;
-	key = ft_substr(str, i, j);
+	key = ft_substr(t->data, i, j);
 	env = ft_env_get(key, g_mshl_data->envs);
 	if (env)
 	{
@@ -38,6 +43,8 @@ static int	expand_str(char *str, int i, char **ret)
 			free(tmp);
 		}
 	}
+	else if (t->type == CHAR_DQUOTE)
+		j = set_empty_type((i + j), t, key, flag);
 	return (j);
 }
 
@@ -76,40 +83,31 @@ static int	expand_exit_status(char **ret)
 	return (dig);
 }
 
-static char	*create_env_expanded_str(char *str)
+void	ft_expand_cmd_utils(t_token *t, char **str)
 {
-	extern t_mshl_data	*g_mshl_data;
-	int					i;
-	char				*ret;
+	int		i;
+	t_bool	first_str_in_quotes_flag;
 
 	i = 0;
-	ret = ft_calloc(sizeof(char *), 1);
-	while (str[i])
+	first_str_in_quotes_flag = TRUE;
+	while (t->data[i])
 	{
-		if (str[i] == '$' && str[i + 1] == '?')
+		if (t->data[i] == '$' && t->data[i + 1] == '?')
 		{
 			i++;
-			i += expand_exit_status(&ret);
+			i += (expand_exit_status(str));
 		}
-		else if (str[i] == '$' && str[i + 1] != '\0'
-			&& str[i + 1] != ' ' && ft_isdigit(str[i + 1]) == FALSE)
+		else if (t->data[i] == '$' && t->data[i + 1] != '\0'
+			&& t->data[i + 1] != ' ' && ft_isdigit(t->data[i + 1]) == FALSE)
 		{
 			i++;
-			i += expand_str(str, i, &ret);
+			i += expand_str(t, i, str, first_str_in_quotes_flag);
+			first_str_in_quotes_flag = FALSE;
 		}
+		else if (t->data[i] == '$' && t->data[i + 1] == '\0'
+			&& t->next && t->next->type == CHAR_EMPTY)
+			i++;
 		else
-			i += copy_char(str, i, &ret);
+			i += copy_char(t->data, i, str);
 	}
-	return (ret);
-}
-
-void	ft_expand_str(char **str)
-{
-	char	*tmp;
-
-	if (*str == NULL || **str == '\0')
-		return ;
-	tmp = *str;
-	*str = create_env_expanded_str(*str);
-	free(*str);
 }

@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 00:31:09 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 02:15:55 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ t_env	**ft_env_sort(void);
 size_t	ft_env_len(t_env *envs);
 
 /* Expansion functions */
+void	ft_expand_cmd_utils(t_token *t, char **str);
 void	ft_expand_cmd(t_cmd *cmd);
 void	ft_expand_str(char **str);
 

@@ -13,7 +13,7 @@ FILES	= main.c \
 		export/ft_export_set_envs.c export/ft_export.c export/ft_export_print_envs.c \
 		unset/ft_unset.c \
 		cd/ft_cd.c  cd/ft_cd_utils.c cd/ft_cd_utils_2.c \
-		expansion/ft_expand_cmd.c expansion/ft_expand_str.c \
+		expansion/ft_expand_cmd_utils.c expansion/ft_expand_cmd.c expansion/ft_expand_str.c \
 		pwd/ft_pwd.c \
 		parser/parser.c parser/parser_utils.c\
 		echo/ft_echo.c \
