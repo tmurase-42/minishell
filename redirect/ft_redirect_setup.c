@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirect_setup.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/15 15:25:03 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 03:01:56 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static t_bool	check_redirect(t_cmd *cmd)
 
 void	ft_test_print_redirect(t_cmd *cmd)
 {
-	t_redirect	*redirect;
+	t_redir	*redirect;
 
 	redirect = cmd->redirect;
 	while (redirect)

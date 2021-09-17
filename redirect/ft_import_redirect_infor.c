@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_import_redirect_infor.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/15 15:22:20 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 03:31:36 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ static void	destory_redirect_token(t_cmd *cmd,
 void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token,
 			int default_fd, t_bool status)
 {
-	t_redirect	*tmp;
-	t_bool		is_first;
+	t_redir	*tmp;
+	t_bool	is_first;
 
 	if (status == TRUE)
 	{

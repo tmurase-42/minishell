@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:17:42 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/11 01:29:23 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 02:44:39 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,19 @@ void	ft_free_char(char **target)
 	*target = NULL;
 }
 
-void    ft_safe_free_split(char ***target)
+void	ft_safe_free_split(char ***target)
 {
-    size_t index;
+	size_t	index;
 
-    index = 0;
-    if (!*target)
-        return ;
-    while ((*target)[index])
-    {
-        free((*target)[index]);
-        (*target)[index] = NULL;
-        index++;
-    }
-    free(*target);
-    *target = NULL;
+	index = 0;
+	if (!*target)
+		return ;
+	while ((*target)[index])
+	{
+		free((*target)[index]);
+		(*target)[index] = NULL;
+		index++;
+	}
+	free(*target);
+	*target = NULL;
 }

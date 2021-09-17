@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 15:53:43 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/10 23:08:44 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/17 22:25:46 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ t_token	*ft_token_create(char *data, t_token_type type)
 {
 	t_token	*token;
 
-	if (!(token = ft_calloc(sizeof(t_token),1)))
+	token = ft_calloc(sizeof(t_token), 1);
+	if (token == NULL)
 		ft_error(NULL, "Memory cound not be allocated.", EXIT_FAILURE);
 	token->data = data;
 	token->type = type;

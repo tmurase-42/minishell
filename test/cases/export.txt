@@ -17,3 +17,7 @@ export | grep OLDPWD, unset OLDPWD, cd .., export OLDPWD=new_value
 export | grep PWD, unset PWD, cd .., export PWD
 export | grep OLDPWD, unset OLDPWD, cd .., export OLDPWD
 export =
+export a="aa    bb", export b="a"$a'c', echo $b
+export a="aa    bb", export b="a" $a 'c', echo $b
+export a='$HOME', export b="a"$a'c', echo $b
+export a='$HOME', export b="$a", echo $b

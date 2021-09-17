@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_builtin_command.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 19:36:17 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/12 20:28:41 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 03:27:43 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 t_bool	ft_is_builtin_command(char *str)
 {
-	const char *commands[] = {"exit", "cd", "env", "unset", "export", "echo", "pwd", "<", "<<", ">", ">>", NULL};
-	int		i;
+	const char	*commands[] = {"exit", "cd", "env", "unset",
+		"export", "echo", "pwd", "<", "<<", ">", ">>", NULL};
+	int			i;
 
 	i = 0;
 	if (str == NULL)

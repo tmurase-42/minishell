@@ -6,13 +6,13 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 18:08:41 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 18:57:56 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 02:30:55 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_env		*ft_env_init(char **environ)
+t_env	*ft_env_init(char **environ)
 {
 	size_t	i;
 	t_env	*envs;

@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/07 15:53:52 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 02:25:56 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_env	*get_last_env(t_env *envs)
 	return (target);
 }
 
-void			ft_env_add(t_env *new_env, t_env **envs)
+void	ft_env_add(t_env *new_env, t_env **envs)
 {
 	if (!new_env || !envs)
 		return ;

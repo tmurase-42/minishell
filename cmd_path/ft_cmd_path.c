@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 20:51:39 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/10 23:03:32 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 02:47:50 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static void	check_cmd_path(const char *cmd, const char *path)
 {
 	if (path == NULL)
 	{
-		ft_error_display((char *)cmd, "command not found", STATUS_CMD_NOT_FOUND);
+		ft_error_display((char *)cmd,
+			"command not found", STATUS_CMD_NOT_FOUND);
 		exit(STATUS_CMD_NOT_FOUND);
 	}
 }

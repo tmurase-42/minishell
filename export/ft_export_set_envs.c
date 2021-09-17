@@ -6,13 +6,13 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:31:25 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 10:31:55 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 01:41:30 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char *create_assignment_expression(t_token *token)
+static char	*create_assignment_expression(t_token *token)
 {
 	char	*str;
 	char	*tmp;
@@ -38,15 +38,14 @@ static char	*get_value(t_token *token)
 	char	*ret;
 
 	str = create_assignment_expression(token);
-	//printf("ret: %s\n", str);
 	if (ft_strchr(str, '='))
 	{
 		ret = ft_strchr(str, '=') + 1;
 		if (ret && *ret)
-			return ret;
+			return (ret);
 	}
 	free(str);
-	return NULL;
+	return (NULL);
 }
 
 static char	*get_key(t_token *token)
@@ -57,11 +56,10 @@ static char	*get_key(t_token *token)
 
 	ret = NULL;
 	str = create_assignment_expression(token);
-	// printf("str: %s\n", str);
 	i = 0;
 	if (str && ft_strchr(str, '='))
 	{
-		while( str[i] != '\0' && str[i] != '=')
+		while (str[i] != '\0' && str[i] != '=')
 			i++;
 		ret = ft_calloc(sizeof(char), i + 1);
 		ft_strlcpy(ret, str, i + 1);
@@ -69,12 +67,12 @@ static char	*get_key(t_token *token)
 	if (ret)
 	{
 		if (ft_env_is_valid_key(ret))
-			return ret;
+			return (ret);
 		else
 			ft_error_display("minishell", "bad assignment", EXIT_FAILURE);
 	}
 	free(str);
-	return NULL;
+	return (NULL);
 }
 
 static void	get_key_value(t_token **token, char **key, char **value)
@@ -85,12 +83,12 @@ static void	get_key_value(t_token **token, char **key, char **value)
 		*token = (*token)->next;
 }
 
-int		ft_export_set_envs(t_cmd *cmd)
+int	ft_export_set_envs(t_cmd *cmd)
 {
 	extern t_mshl_data	*g_mshl_data;
-	char	*key;
-	char	*value;
-	t_token	*token;
+	char				*key;
+	char				*value;
+	t_token				*token;
 
 	value = NULL;
 	key = NULL;
@@ -99,8 +97,6 @@ int		ft_export_set_envs(t_cmd *cmd)
 	while (token)
 	{
 		get_key_value(&token, &key, &value);
-		//printf("key: %s$\n", key);
-		//printf("value: %s$\n", value);
 		if (key)
 			ft_env_update(key, value);
 		free(key);

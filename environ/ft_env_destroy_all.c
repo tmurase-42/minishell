@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 18:08:33 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 11:41:18 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 02:29:31 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	ft_env_destroy_all(t_env *env)
 {
-	t_env				*tmp;
+	t_env	*tmp;
 
-	while(env)
+	while (env)
 	{
 		tmp = env;
 		ft_free_char(&(env->value));

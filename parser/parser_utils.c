@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 22:44:47 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 03:02:04 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ t_token	*create_token(void)
 	return (token);
 }
 
-t_redirect	*ft_create_redirect(void)
+t_redir	*ft_create_redirect(void)
 {
-	t_redirect	*redirect;
+	t_redir	*redirect;
 
-	redirect = ft_calloc(1, sizeof(t_redirect));
+	redirect = ft_calloc(1, sizeof(t_redir));
 	redirect->backup_fd = -2;
 	redirect->left_fd = -2;
 	redirect->right_fd = -2;

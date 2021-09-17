@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 20:13:07 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/15 12:30:52 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 03:02:09 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_bool	check_write(t_redirect *redir, char *str)
+static t_bool	check_write(t_redir *redir, char *str)
 {
 	if (str == NULL)
 		return (FALSE);
@@ -26,7 +26,7 @@ static t_bool	check_write(t_redirect *redir, char *str)
 	return (TRUE);
 }
 
-t_bool	ft_dup_heredoc(t_redirect *redir, t_cmd *cmd)
+t_bool	ft_dup_heredoc(t_redir *redir, t_cmd *cmd)
 {
 	extern t_mshl_data	*g_mshl_data;
 	char				*str;

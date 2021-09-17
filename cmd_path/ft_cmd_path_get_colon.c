@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 16:55:36 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/10 23:08:16 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 02:49:09 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,20 @@
 
 static char	*strdup_colon_unit(char *unit, const char *default_value)
 {
-	char *res;
+	char	*res;
 
 	if (!unit)
 		return (NULL);
 	if (ft_strlen(unit) == 0)
 	{
-		if (!(res = ft_strdup(default_value)))
+		res = ft_strdup(default_value);
+		if (res == NULL)
 			ft_error(NULL, NULL, EXIT_FAILURE);
 	}
 	else
 	{
-		if (!(res = ft_strdup(unit)))
+		res = ft_strdup(unit);
+		if (res == NULL)
 			ft_error(NULL, NULL, EXIT_FAILURE);
 	}
 	return (res);
@@ -45,7 +47,8 @@ static char	**allocate_colon_unit_parent(const char *str)
 			colon_count++;
 		index++;
 	}
-	if (!(res = malloc(sizeof(char *) * (colon_count + 2))))
+	res = malloc(sizeof(char *) * (colon_count + 2));
+	if (res == NULL)
 		ft_error(NULL, "Memory cound not be allocated.", EXIT_FAILURE);
 	res[colon_count + 1] = NULL;
 	return (res);
@@ -61,7 +64,8 @@ char	**ft_cmd_path_get_colon(const char *str, const char *default_value)
 
 	index = 0;
 	res = allocate_colon_unit_parent(str);
-	if (!(copied_str = ft_strdup(str)))
+	copied_str = ft_strdup(str);
+	if (copied_str == NULL)
 		ft_error(NULL, NULL, EXIT_FAILURE);
 	unit_start = copied_str;
 	unit_end = ft_strchr(unit_start, ':');

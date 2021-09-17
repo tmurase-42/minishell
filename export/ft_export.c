@@ -6,15 +6,13 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 19:50:48 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 10:33:12 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 01:35:51 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#define EQUAL 1
-#define PLUS_EQUAL 2
 
-int ft_export(t_cmd *cmd)
+int	ft_export(t_cmd *cmd)
 {
 	if (cmd->argc == 1)
 	{

@@ -6,135 +6,50 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/17 21:59:09 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 03:26:20 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_bool	fork_process(t_cmd *cmd, int old_pipe[])
+static void	process_tokens(t_cmd *cmd)
 {
-	extern t_mshl_data	*g_mshl_data;
-	pid_t	pid;
-	int		new_pipe[2];
-	int	result;
+	char		*token_str;
+	t_token		*tokens;
 
-	// 新しいパイプを生成
-	if (pipe(new_pipe) < 0) {
-		ft_pipe_destroy(old_pipe); // 失敗した場合は、上で開いたパイプを閉じてから終了
-		ft_error(NULL, "cannot create a pipe.", EXIT_FAILURE);
-	}
-	if (ft_setup_redirect(cmd) == TRUE)
+	tokens = NULL;
+	token_str = NULL;
+	ft_expand_cmd(cmd);
+	if (ft_strncmp(cmd->args->data, "export", ft_strlen(cmd->args->data)) != 0)
 	{
-		g_mshl_data->interrupted = FALSE;
-		result = ft_getfd_redirect(cmd);
-		result = ft_check_redirect(cmd);
-		if (result == FALSE)
-		{
-			ft_error_display(cmd->redirect->open_filepath, "system call error", 1);
-			return (FALSE);
-		}
-		if (g_mshl_data->interrupted == TRUE)
-		{
-				g_mshl_data->interrupted = FALSE;
-				return (FALSE);
-		}
+		token_str = ft_token_str(cmd->args, 0, cmd->argc);
+		tokens = ft_lexer(token_str);
+		ft_token_free(cmd->args);
+		cmd->args = tokens;
 	}
-	// プロセスの生成
-	pid = fork();
-	if (pid < 0)
-	{
-		ft_pipe_destroy(old_pipe); // 失敗した場合は、上で開いたパイプを閉じてから終了
-		ft_pipe_destroy(new_pipe); // 失敗した場合は、上で開いたパイプを閉じてから終了
-	}
-	//ft_token_print(cmd->args);
-	if (pid == 0) // 子プロセスの処理
-		ft_exec_child_process(new_pipe, old_pipe, cmd);
-	else // 親プロセスの処理
-		ft_exec_parent_process(new_pipe, old_pipe, cmd, pid);
-	return (TRUE);
-}
-
-static t_bool	exec_command(t_cmd *cmd, int old_pipe[])
-{
-	extern t_mshl_data	*g_mshl_data;
-	int		result;
-
-	result = TRUE;
-	// コマンドの中身がなかった場合の例外処理
-	//ft_token_print(cmd->args);
-	if (cmd->argc == 0 || !cmd->args || cmd->args->data == NULL)
-	{
-		g_mshl_data->exit_status = EXIT_FAILURE;
-		return (FALSE);
-	}
-	// パイプがない → 場合
-	if (g_mshl_data->pipe_state == NO_PIPE && ft_is_builtin_command(cmd->args->data))
-	{
-		if (ft_setup_redirect(cmd) == TRUE)
-		{
-			result = ft_getfd_redirect(cmd);
-			result = ft_check_redirect(cmd);
-			result = ft_dup_redirect(cmd, 1);
-			if (result == FALSE)
-			{
-				ft_error_display("minishell", "system call error", 1);
-				return (FALSE);
-			}
-		}
-		g_mshl_data->exit_status = ft_exec_builtin(cmd);
-		ft_backup_fd(cmd);
-		return (TRUE);
-	}
-	if (fork_process(cmd, old_pipe) == FALSE)
-		return (FALSE);
-	return (TRUE);
+	if (ft_validate_token(cmd->args) == FALSE)
+		ft_error_display(NULL, "syntax error near unexpected token.", 2);
 }
 
 void	ft_exec_commands(t_cmd *cmd)
 {
 	extern t_mshl_data	*g_mshl_data;
-	char		*token_str;
-	t_token		*tokens;
-	int			old_pipe[2];
+	int					old_pipe[2];
 
-	tokens = NULL;
-	token_str = NULL;
-
-	// 古いパイプを生成
-	if (g_mshl_data->pipe_state != WRITE_ONLY && g_mshl_data->pipe_state != READ_WRITE)
+	if (g_mshl_data->pipe_state != WRITE_ONLY
+		&& g_mshl_data->pipe_state != READ_WRITE)
 	{
 		if (pipe(old_pipe) < 0)
 			ft_error(NULL, "cannot create a pipe.", EXIT_FAILURE);
 		g_mshl_data->pipe_state = WRITE_ONLY;
 	}
-	// コマンドが一つだったらNO_PIPEステータスにする
 	if (cmd->next == NULL)
 		g_mshl_data->pipe_state = NO_PIPE;
-	// 実行
 	while (cmd)
 	{
-		// トークンに環境変数展開をかける
-		//ft_token_print(cmd->args);
-		ft_expand_cmd(cmd);
-		// トークンを一度文字列に戻す
-		//ft_token_print(cmd->args);
-		token_str = ft_token_str(cmd->args, 0, cmd->argc);
-		//printf("token_str: %s\n", token_str);
-		// 再度トークンに分離する（それをcmd構造体に入れる）
-		tokens = ft_lexer(token_str);
-		//ft_token_print(tokens);
-		// 再生成したトークンを代入する
-		ft_token_free(cmd->args);
-		cmd->args = tokens;
-		// 異常なトークンの検知とエラー吐き出し
-		if (ft_validate_token(cmd->args) == FALSE){
-			ft_error_display(NULL, "syntax error near unexpected token.", 2);
-		}
-		// コマンドを実行する
-		if (exec_command(cmd, old_pipe) == FALSE)
-			break;
-		// 次のコマンドへ
+		process_tokens(cmd);
+		if (ft_exec_command(cmd, old_pipe) == FALSE)
+			break ;
 		cmd = cmd->next;
 	}
 }
