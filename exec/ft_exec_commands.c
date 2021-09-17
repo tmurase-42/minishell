@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 21:48:18 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/17 21:59:09 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,10 @@ void	ft_exec_commands(t_cmd *cmd)
 		// 再生成したトークンを代入する
 		ft_token_free(cmd->args);
 		cmd->args = tokens;
+		// 異常なトークンの検知とエラー吐き出し
+		if (ft_validate_token(cmd->args) == FALSE){
+			ft_error_display(NULL, "syntax error near unexpected token.", 2);
+		}
 		// コマンドを実行する
 		if (exec_command(cmd, old_pipe) == FALSE)
 			break;
