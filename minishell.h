@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/17 09:41:11 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 00:31:09 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,18 @@ struct s_token
 	size_t			space_len;
 };
 
-struct			s_redirect
+typedef struct s_lexer
+{
+	int				i;
+	int				word_len;
+	char			quote_status;
+	char			*str;
+	size_t			space_len;
+	t_token_type	token_type;
+}				t_lexer;
+
+
+struct		s_redirect
 {
 	int			backup_fd;
 	int			left_fd;
@@ -144,7 +155,6 @@ typedef struct s_mshl_data
 }			t_mshl_data;
 
 /* exec functions */
-t_token	*ft_lexer(char *str);
 void	ft_exec_commands(t_cmd *cmd);
 void	ft_wait_process(t_cmd *cmd);
 void	ft_exec_child_process(int new_pipe[], int old_pipe[], t_cmd *cmd);
@@ -152,6 +162,14 @@ void	ft_exec_parent_process(int new_pipe[], int old_pipe[], t_cmd *cmd,
 			pid_t pid);
 int		ft_exec_builtin(t_cmd *cmd);
 t_bool	ft_is_builtin_command(char *str);
+
+/* lexer functions */
+void	set_token_redirects(t_lexer *lx);
+void	set_token_quotes(t_lexer *lx);
+void	set_token_digits(t_lexer *lx);
+void	set_token_spaces(t_lexer *lx);
+void	set_token_general(t_lexer *lx);
+t_token	*ft_lexer(char *str);
 
 /* Common functions */
 void	ft_error(char *command, char *message, int exit_status);
