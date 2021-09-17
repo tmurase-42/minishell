@@ -2,7 +2,8 @@ UNAME	:= $(shell uname)
 NAME	= minishell
 FILES	= main.c \
 		lexer/ft_lexer.c lexer/ft_lexer_utils.c\
-		exec/ft_exec_commands.c exec/ft_wait_process.c exec/ft_exec_child_process.c exec/ft_exec_builtin.c exec/ft_is_builtin_command.c exec/ft_exec_parent_process.c \
+		exec/ft_exec_commands.c exec/ft_wait_process.c exec/ft_exec_child_process.c exec/ft_exec_builtin.c \
+		exec/ft_is_builtin_command.c exec/ft_exec_parent_process.c exec/ft_exec_command.c \
 		environ/ft_env_add.c environ/ft_env_destroy.c environ/ft_env_get.c environ/ft_env_create.c \
 		environ/ft_env_init.c environ/ft_env_update.c environ/ft_env_array.c environ/ft_env_is_valid_key.c \
 		environ/ft_env_dup.c environ/ft_env_sort.c environ/ft_env_destroy_all.c environ/ft_env_str_array.c \

@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 03:01:43 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 03:31:36 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token,
 			int default_fd, t_bool status)
 {
 	t_redir	*tmp;
-	t_bool		is_first;
+	t_bool	is_first;
 
 	if (status == TRUE)
 	{
