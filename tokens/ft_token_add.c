@@ -6,15 +6,15 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/10 20:53:54 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/17 22:18:46 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void			ft_token_add(t_token *new_token, t_token **tokens)
+void	ft_token_add(t_token *new_token, t_token **tokens)
 {
-	t_token *last_token;
+	t_token	*last_token;
 
 	last_token = NULL;
 	if (!new_token || !tokens)

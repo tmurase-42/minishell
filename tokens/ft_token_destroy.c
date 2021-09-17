@@ -6,16 +6,16 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/10 20:56:26 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/17 22:24:39 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void			ft_token_destroy(t_token *token, t_token **tokens)
+void	ft_token_destroy(t_token *token, t_token **tokens)
 {
-	t_token *first_token;
-	t_token *last_token;
+	t_token	*first_token;
+	t_token	*last_token;
 
 	first_token = NULL;
 	last_token = NULL;
@@ -32,5 +32,4 @@ void			ft_token_destroy(t_token *token, t_token **tokens)
 		token->next->prev = NULL;
 	else if (last_token == token && token->prev)
 		token->prev->next = NULL;
-	// ft_token_free(token);
 }
