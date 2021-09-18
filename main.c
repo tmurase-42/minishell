@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 16:12:14 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 16:23:42 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	update_shlvl(void)
 	if (!shlvl_str)
 		return ;
 	ft_env_update("SHLVL", shlvl_str);
+	free(shlvl_str);
 }
 
 static void	exec_loop(t_mshl_data *g_mshl_data)
@@ -85,6 +86,7 @@ static void	exec_loop(t_mshl_data *g_mshl_data)
 			cmd = run_commandline(&command);
 			ft_wait_process(cmd);
 		}
+		free(command);
 	}
 }
 
