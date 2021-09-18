@@ -6,30 +6,13 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 03:45:24 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 16:12:14 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 t_mshl_data	*g_mshl_data;
-
-static t_mshl_data	*mshl_data_init(t_env *envs, char *argv[])
-{
-	t_mshl_data	*mshl_data;
-
-	mshl_data = malloc(sizeof(t_mshl_data));
-	if (!mshl_data)
-		return (NULL);
-	mshl_data->argc = 0;
-	mshl_data->argv = argv;
-	mshl_data->envs = envs;
-	mshl_data->exit_status = 0;
-	mshl_data->pipe_state = WRITE_ONLY;
-	mshl_data->interrupted = FALSE;
-	mshl_data->command = NULL;
-	return (mshl_data);
-}
 
 static t_cmd	*run_commandline(char **command)
 {
@@ -76,7 +59,7 @@ static void	update_shlvl(void)
 	ft_env_update("SHLVL", shlvl_str);
 }
 
-static void	loop(t_mshl_data *g_mshl_data)
+static void	exec_loop(t_mshl_data *g_mshl_data)
 {
 	char	*command;
 	t_cmd	*cmd;
@@ -105,26 +88,28 @@ static void	loop(t_mshl_data *g_mshl_data)
 	}
 }
 
+static void	exec_once(t_mshl_data *g_mshl_data)
+{
+	t_cmd	*cmd;
+
+	cmd = NULL;
+	add_history(g_mshl_data->argv[2]);
+	cmd = run_commandline(&(g_mshl_data->argv[2]));
+	ft_wait_process(cmd);
+}
+
 int	main(int argc, char *argv[], char **environ)
 {
 	extern t_mshl_data	*g_mshl_data;
-	char				*command;
 	t_env				*envs;
-	t_cmd				*cmd;
 
 	(void)argc;
 	envs = ft_env_init(environ);
-	g_mshl_data = mshl_data_init(envs, argv);
-	command = NULL;
-	cmd = NULL;
+	g_mshl_data = ft_mshl_data_init(envs, argv);
 	update_shlvl();
 	if (argc > 2 && ft_strncmp("-c", argv[1], 3) == 0)
-	{
-		add_history(argv[2]);
-		cmd = run_commandline(&argv[2]);
-		ft_wait_process(cmd);
-		return (g_mshl_data->exit_status);
-	}
-	loop(g_mshl_data);
+		exec_once(g_mshl_data);
+	else
+		exec_loop(g_mshl_data);
 	return (g_mshl_data->exit_status);
 }
