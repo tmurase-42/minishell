@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:26:29 by tmurase           #+#    #+#             */
-/*   Updated: 2021/03/31 19:14:02 by mitchiwak        ###   ########.fr       */
+/*   Updated: 2021/09/18 15:30:04 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*conver_to_char(char *str, int n_digit, long n)
 		m_flag++;
 	}
 	str[n_digit] = '\0';
-	while (n_digit-- >= 0)
+	while (n_digit-- > 0)
 	{
 		str[n_digit] = (n % 10 + 48);
 		n /= 10;
