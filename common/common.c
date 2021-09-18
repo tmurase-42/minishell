@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   common.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:17:42 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 18:31:10 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 22:20:45 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_error(char *command, char *message, int exit_status)
 	{
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd(command, STDERR_FILENO);
+		free(command);
 	}
 	if (errno != 0)
 	{
@@ -29,6 +30,7 @@ void	ft_error(char *command, char *message, int exit_status)
 	{
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd(message, STDERR_FILENO);
+		free(message);
 	}
 	else
 	{

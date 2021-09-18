@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_child_process.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 19:27:55 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 03:21:32 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 22:20:53 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,13 @@ static void	exec_commons(t_cmd *cmd)
 	errno = 0;
 	if (execve(path, args, envs) == -1)
 	{
+		ft_safe_free_split(&args);
+		ft_safe_free_split(&envs);
 		if (errno == ENOENT)
 			ft_error(path, NULL, STATUS_CMD_NOT_FOUND);
 		else
 			ft_error(path, NULL, STATUS_CMD_NOT_EXECUTABLE);
 	}
-	ft_safe_free_split(&envs);
 }
 
 void	ft_exec_child_process(int new_pipe[], int old_pipe[], t_cmd *cmd)

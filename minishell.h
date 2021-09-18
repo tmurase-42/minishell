@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 18:26:12 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 22:01:24 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ typedef struct s_lexer
 	int				i;
 	int				word_len;
 	char			quote_status;
-	char			*str;
+	const char		*str;
 	size_t			space_len;
 	t_token_type	token_type;
 }				t_lexer;
@@ -171,7 +171,7 @@ void		set_token_quotes(t_lexer *lx);
 void		set_token_digits(t_lexer *lx);
 void		set_token_spaces(t_lexer *lx);
 void		set_token_general(t_lexer *lx);
-t_token		*ft_lexer(char *str);
+t_token		*ft_lexer(const char *str);
 
 /* Common functions */
 void		ft_error(char *command, char *message, int exit_status);

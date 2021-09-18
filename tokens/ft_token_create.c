@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_create.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 15:53:43 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/17 22:25:46 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 21:57:39 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_token	*ft_token_create(char *data, t_token_type type)
 	token = ft_calloc(sizeof(t_token), 1);
 	if (token == NULL)
 		ft_error(NULL, "Memory cound not be allocated.", EXIT_FAILURE);
-	token->data = data;
+	token->data = ft_strdup(data);
 	token->type = type;
 	token->space_len = 0;
 	token->next = NULL;
