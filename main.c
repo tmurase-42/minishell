@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 17:20:52 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 17:38:09 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_cmd	*run_commandline(char **command)
 	cmd = ft_cmd_lstnew();
 	ft_parser(tokens, cmd);
 	ft_exec_commands(cmd);
-	ft_token_destroy_all(&tokens);
+	//ft_token_destroy_all(&tokens);
 	return (cmd);
 }
 

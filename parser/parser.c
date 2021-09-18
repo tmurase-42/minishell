@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/14 23:01:52 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 18:15:12 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static t_token	*copy_token(t_token *token)
 	t_token	*copy;
 	t_token	*tmp;
 
-	copy = create_token();
 	tmp = create_token();
 	copy = tmp;
 	while (token)
