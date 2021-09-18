@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 17:10:58 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 18:26:12 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ typedef struct s_mshl_data
 
 /* mshl_data */
 t_mshl_data	*ft_mshl_data_init(t_env *envs, char *argv[]);
+void		ft_mshl_data_destroy(void);
 
 /* exec functions */
 void		ft_exec_commands(t_cmd *cmd);

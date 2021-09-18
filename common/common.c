@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:17:42 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 02:44:39 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 18:31:10 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_error(char *command, char *message, int exit_status)
 		ft_putstr_fd("Undefined error occured.", STDERR_FILENO);
 	}
 	ft_putendl_fd("", STDERR_FILENO);
+	ft_mshl_data_destroy();
 	exit(exit_status);
 }
 

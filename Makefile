@@ -1,7 +1,7 @@
 UNAME	:= $(shell uname)
 NAME	= minishell
 FILES	= main.c \
-		mshl_data/ft_mshl_data_init.c \
+		mshl_data/ft_mshl_data_init.c mshl_data/ft_mshl_data_destroy.c \
 		lexer/ft_lexer.c lexer/ft_lexer_utils.c\
 		exec/ft_exec_commands.c exec/ft_wait_process.c exec/ft_exec_child_process.c exec/ft_exec_builtin.c \
 		exec/ft_is_builtin_command.c exec/ft_exec_parent_process.c exec/ft_exec_command.c \
