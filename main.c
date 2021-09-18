@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 16:43:36 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 17:10:45 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static void	exec_loop(t_mshl_data *g_mshl_data)
 			add_history(command);
 			cmd = run_commandline(&command);
 			ft_wait_process(cmd);
-			ft_cmd_destory(cmd);
+			ft_cmd_destroy(cmd);
 		}
 		free(command);
 	}

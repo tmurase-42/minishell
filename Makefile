@@ -27,8 +27,8 @@ FILES	= main.c \
 		pipe/ft_pipe_update.c pipe/ft_pipe_duplicate.c pipe/ft_pipe_update_state.c pipe/ft_pipe_destroy.c \
 		sigint/ft_sigint_handler.c sigint/ft_sigint_setter.c \
 		redirect/ft_redirect_setup.c redirect/ft_dup_redirect.c redirect/ft_heredoc.c redirect/ft_getfd_redirect.c redirect/ft_import_redirect_infor.c \
-		redirect/ft_check_redirect.c
-		cmds/ft_cmd_destory.c
+		redirect/ft_check_redirect.c \
+		cmds/ft_cmd_destroy.c
 
 SRCS		= $(addprefix $(SDIR), $(FILES))
 OBJS		= $(SRCS:.c=.o)
