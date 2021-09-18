@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 16:11:33 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 16:44:39 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,5 +292,9 @@ t_bool		ft_backup_fd(t_cmd *cmd);
 t_bool		ft_delete_tmpfile(t_cmd *cmd, int final_greater_fd);
 void		ft_redirect_token_destory(t_cmd *cmd, t_token *redirect_token);
 t_bool		check_is_tokenfirst(t_token *redirect_token);
+
+/* cmd functions */
+void	ft_cmd_destory(t_cmd *cmd);
+
 
 #	endif
