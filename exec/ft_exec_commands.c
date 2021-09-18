@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 21:23:23 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 03:26:20 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 21:11:35 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	process_tokens(t_cmd *cmd)
 		tokens = ft_lexer(token_str);
 		ft_token_free(cmd->args);
 		cmd->args = tokens;
+		//free(token_str);
 	}
 	if (ft_validate_token(cmd->args) == FALSE)
 		ft_error_display(NULL, "syntax error near unexpected token.", 2);

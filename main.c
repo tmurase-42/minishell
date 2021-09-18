@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 20:06:56 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 21:33:40 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,7 @@ static t_cmd	*run_commandline(char **command)
 	cmd = ft_cmd_lstnew();
 	ft_parser(tokens, cmd);
 	ft_exec_commands(cmd);
-//	t_token *tmp;
-//	while (tokens)
-//	{
-//		tmp = tokens->next;
-//		free(tokens->data);
-//		free(tokens);
-//		tokens = tmp;
-//	}
-	ft_token_destroy_all(&tokens);
+	ft_token_free(tokens);
 	return (cmd);
 }
 
@@ -109,7 +101,7 @@ static void	exec_once(t_mshl_data *g_mshl_data)
 	add_history(g_mshl_data->argv[2]);
 	cmd = run_commandline(&(g_mshl_data->argv[2]));
 	ft_wait_process(cmd);
-	ft_cmd_destroy(cmd);
+	//ft_cmd_destroy(cmd);
 }
 
 int	main(int argc, char *argv[], char **environ)
