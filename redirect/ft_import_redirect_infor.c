@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 03:31:36 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 20:48:25 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ static void	destory_redirect_token(t_cmd *cmd,
 		if (redirect_token->prev != NULL)
 			if (redirect_token->prev->type == IO_NUMBER)
 				ft_token_destroy(redirect_token->prev, &cmd->args);
-		ft_token_destroy(redirect_token, &cmd->args);
 		ft_token_destroy(redirect_token->next, &cmd->args);
+		ft_token_destroy(redirect_token, &cmd->args);
 	}
 }
 
