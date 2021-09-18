@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 18:43:27 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 18:56:52 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,15 @@ static t_cmd	*run_commandline(char **command)
 	cmd = ft_cmd_lstnew();
 	ft_parser(tokens, cmd);
 	ft_exec_commands(cmd);
-	//ft_token_destroy_all(&tokens);
+//	t_token *tmp;
+//	while (tokens)
+//	{
+//		tmp = tokens->next;
+//		free(tokens->data);
+//		free(tokens);
+//		tokens = tmp;
+//	}
+	ft_token_destroy_all(&tokens);
 	return (cmd);
 }
 
