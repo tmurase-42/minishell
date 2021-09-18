@@ -22,7 +22,7 @@ FILES	= main.c \
 		validates/ft_validate_token.c validates/ft_validate_token_2.c validates/ft_validate_str.c \
 		tokens/ft_token_add.c tokens/ft_token_create.c  tokens/ft_token_print.c tokens/ft_token_length.c \
 		tokens/ft_token_array.c tokens/ft_token_free.c tokens/ft_token_str.c tokens/ft_token_destroy.c \
-		tokens/ft_token_get_first.c tokens/ft_token_get_last.c \
+		tokens/ft_token_get_first.c tokens/ft_token_get_last.c tokens/ft_token_destroy_all.c \
 		cmd_path/ft_cmd_path.c cmd_path/ft_cmd_path_search_binary.c cmd_path/ft_cmd_path_get_colon.c \
 		pipe/ft_pipe_update.c pipe/ft_pipe_duplicate.c pipe/ft_pipe_update_state.c pipe/ft_pipe_destroy.c \
 		sigint/ft_sigint_handler.c sigint/ft_sigint_setter.c \
