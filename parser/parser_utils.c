@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 18:26:53 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 23:37:12 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_cmd	*ft_cmd_lstnew(void)
 		return (NULL);
 	value->args = NULL;
 	value->next = NULL;
-	value->args = create_token();
+	value->args = NULL; //create_token();
 	value->argc = 0;
 	value->pid = 0;
 	value->final_greater_fd = 0;
