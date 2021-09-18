@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 03:02:04 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/18 18:26:53 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	add_token(t_token *copy)
 	t_token	*last;
 
 	if (!copy)
-		ft_error(NULL, "Not extpected error", EXIT_FAILURE);
+		ft_error_display(NULL, "Not extpected error", EXIT_FAILURE);
 	next = create_token();
 	last = last_token(copy);
 	last->next = next;
