@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 18:53:22 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 18:56:52 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ static void	exec_loop(t_mshl_data *g_mshl_data)
 		g_mshl_data->command = NULL;
 		if (command == NULL)
 		{
+			ft_mshl_data_destroy();
 			ft_putstr_fd("exit\n", STDERR_FILENO);
 			exit(EXIT_FAILURE);
 		}
