@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:42:59 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 17:24:46 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/18 18:55:11 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	redirect_destroy_all(t_redir *redir)
 void	ft_cmd_destroy(t_cmd *cmd)
 {
 	t_cmd *tmp;
+	//t_token *tmptoken;
 	while(cmd)
 	{
 
