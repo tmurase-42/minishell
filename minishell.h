@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/19 19:49:50 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/19 22:24:09 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ struct		s_redir
 	int			left_fd;
 	int			right_fd;
 	int			type;
+	int			l_type;
 	int			is_quot;
 	char		*open_filepath;
 	t_redir		*next;

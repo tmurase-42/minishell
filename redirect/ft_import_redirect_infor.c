@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_import_redirect_infor.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/19 16:25:55 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/19 22:25:04 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	ft_import_redirect_information(t_cmd *cmd, t_token *redirect_token,
 		cmd->redirect->prev = tmp;
 	}
 	cmd->redirect->type = redirect_token->type;
+	cmd->redirect->l_type = default_fd;
 	if (redirect_token->next != NULL)
 		cmd->redirect->is_quot = redirect_token->next->type;
 	cmd->redirect->left_fd = import_left_fd(redirect_token, default_fd);
