@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 20:13:07 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 03:02:09 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/19 18:04:31 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_bool	ft_dup_heredoc(t_redir *redir, t_cmd *cmd)
 {
 	extern t_mshl_data	*g_mshl_data;
 	char				*str;
+	//char				*tmp;
 
 	while (1)
 	{
@@ -45,6 +46,8 @@ t_bool	ft_dup_heredoc(t_redir *redir, t_cmd *cmd)
 			ft_expand_str(&str);
 		if (check_write(redir, str) == FALSE)
 			break ;
+		free(str);
 	}
+	free(str);
 	return (TRUE);
 }
