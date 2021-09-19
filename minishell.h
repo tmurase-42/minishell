@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 22:01:24 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/19 19:49:50 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void		ft_exec_child_process(int new_pipe[], int old_pipe[], t_cmd *cmd);
 void		ft_exec_parent_process(int new_pipe[], int old_pipe[], t_cmd *cmd,
 				pid_t pid);
 int			ft_exec_builtin(t_cmd *cmd);
-t_bool		ft_is_builtin_command(char *str);
+t_bool		ft_is_builtin_command(t_token *token);
 
 /* lexer functions */
 void		set_token_redirects(t_lexer *lx);
