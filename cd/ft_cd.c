@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 16:52:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/19 16:27:30 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/19 20:13:27 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int	ft_cd(t_cmd *cmd)
 	second_argv = ft_strdup(cmd->args->next->data);
 	if (chdir(second_argv) != 0)
 	{
+		free(second_argv);
 		ft_error_display("cd", NULL, 1);
 		return (g_mshl_data->exit_status);
 	}
