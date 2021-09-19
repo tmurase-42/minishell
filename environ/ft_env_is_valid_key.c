@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 18:08:41 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/08 10:28:49 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/19 18:17:01 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ t_bool	ft_env_is_valid_key(char *key)
 	size_t	i;
 
 	i = 0;
+	if (key == NULL)
+		return (FALSE);
 	if (key[i] != '_' && !ft_isalpha(key[i]))
 		return (FALSE);
 	i++;

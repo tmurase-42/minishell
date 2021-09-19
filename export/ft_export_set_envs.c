@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:31:25 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 01:41:30 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/19 18:20:06 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ static char	*create_assignment_expression(t_token *token)
 		token = token->next;
 		tmp = str;
 		str = ft_strjoin(str, token->data);
-		if (i > 0)
-			free(tmp);
+		free(tmp);
 		i++;
 	}
 	return (str);
@@ -41,8 +40,12 @@ static char	*get_value(t_token *token)
 	if (ft_strchr(str, '='))
 	{
 		ret = ft_strchr(str, '=') + 1;
-		if (ret && *ret)
+		ret = ft_strdup(ret);
+		if (ret)
+		{
+			free(str);
 			return (ret);
+		}
 	}
 	free(str);
 	return (NULL);
@@ -63,13 +66,16 @@ static char	*get_key(t_token *token)
 			i++;
 		ret = ft_calloc(sizeof(char), i + 1);
 		ft_strlcpy(ret, str, i + 1);
-	}
-	if (ret)
-	{
 		if (ft_env_is_valid_key(ret))
+		{
+			free(str);
 			return (ret);
+		}
 		else
+		{
+			free(ret);
 			ft_error_display("minishell", "bad assignment", EXIT_FAILURE);
+		}
 	}
 	free(str);
 	return (NULL);
@@ -100,6 +106,7 @@ int	ft_export_set_envs(t_cmd *cmd)
 		if (key)
 			ft_env_update(key, value);
 		free(key);
+		free(value);
 		token = token->next;
 	}
 	return (g_mshl_data->exit_status);
