@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 03:24:41 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/19 19:50:51 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/19 21:03:17 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ static t_bool	process_redirect_for_builtin(t_cmd *cmd)
 	{
 		result = ft_getfd_redirect(cmd);
 		result = ft_check_redirect(cmd);
+		if (result == FALSE)
+		{
+			ft_error_display("minishell", "system call error", 1);
+			return (FALSE);
+		}
 		result = ft_dup_redirect(cmd, 1);
 		if (result == FALSE)
 		{
