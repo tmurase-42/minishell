@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 03:24:41 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/19 21:03:17 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/20 00:34:41 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,18 @@ static t_bool	process_redirect_for_builtin(t_cmd *cmd)
 	return (TRUE);
 }
 
+t_bool	check_only_redirect(t_cmd *cmd)
+{
+	t_token *token;
+
+	token = cmd->args;
+	if (token->type == CHAR_GENERAL || token->type == CHAR_QUOTE || token->type == CHAR_DQUOTE)
+		return (FALSE);
+	if (cmd->argc > 2)
+		return (FALSE);
+	return (TRUE);
+}
+
 static t_bool	fork_process(t_cmd *cmd, int old_pipe[])
 {
 	pid_t				pid;
@@ -73,6 +85,8 @@ static t_bool	fork_process(t_cmd *cmd, int old_pipe[])
 	if (ft_setup_redirect(cmd) == TRUE)
 		if (process_redirect(cmd) == FALSE)
 			return (FALSE);
+	if (check_only_redirect(cmd) == TRUE)
+		return (TRUE);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -85,6 +99,7 @@ static t_bool	fork_process(t_cmd *cmd, int old_pipe[])
 		ft_exec_parent_process(new_pipe, old_pipe, cmd, pid);
 	return (TRUE);
 }
+
 
 t_bool	ft_exec_command(t_cmd *cmd, int old_pipe[])
 {
@@ -101,6 +116,7 @@ t_bool	ft_exec_command(t_cmd *cmd, int old_pipe[])
 	{
 		return (process_redirect_for_builtin(cmd));
 	}
+	//ft_token_print(cmd->args);
 	if (fork_process(cmd, old_pipe) == FALSE)
 		return (FALSE);
 	return (TRUE);

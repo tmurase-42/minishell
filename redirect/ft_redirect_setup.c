@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirect_setup.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 03:01:56 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/20 01:35:09 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ static t_bool	check_redirect(t_cmd *cmd)
 	{
 		if (token->type == CHAR_GREATER || token->type == DOUBLE_GREATER)
 		{
-			status = TRUE;
 			ft_import_redirect_information(cmd, token, 1, status);
+			status = TRUE;
 		}
 		if (token->type == CHAR_LESSER || token->type == DOUBLE_LESSER)
 		{
-			status = TRUE;
 			ft_import_redirect_information(cmd, token, 0, status);
+			status = TRUE;
 		}
 		token = token->next;
 	}
@@ -46,6 +46,7 @@ void	ft_test_print_redirect(t_cmd *cmd)
 		printf("redirect->left_id: %d\n", redirect->left_fd);
 		printf("redirect->right_id: %d\n", redirect->right_fd);
 		printf("redirect->type: %d\n", redirect->type);
+		printf("redirect->l_type: %d\n", redirect->l_type);
 		printf("open_filepath:%s\n", redirect->open_filepath);
 		printf("cmd->final_grater_fd:%d\n", cmd->final_greater_fd);
 		printf("cmd->final_lesser_fd:%d\n", cmd->final_lesser_fd);
