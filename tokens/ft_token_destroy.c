@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 19:50:23 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/19 16:15:04 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_token_destroy(t_token *token, t_token **tokens)
 	else if (token->prev == NULL && token->next)
 	{
 		token->next->prev = NULL;
-		tokens = &token->next;
+		*tokens = token->next;
 		free(token->data);
 		free(token);
 	}
