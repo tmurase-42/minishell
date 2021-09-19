@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 19:27:55 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 22:20:53 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/19 19:53:40 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_exec_child_process(int new_pipe[], int old_pipe[], t_cmd *cmd)
 	ft_pipe_duplicate(g_mshl_data->pipe_state, old_pipe, new_pipe);
 	if (ft_dup_redirect(cmd, 0) == FALSE)
 		ft_error(NULL, "minishell", 1);
-	if (ft_is_builtin_command(cmd->args->data) == TRUE)
+	if (ft_is_builtin_command(cmd->args) == TRUE)
 	{
 		status = ft_exec_builtin(cmd);
 		if (cmd->final_greater_fd != 0)

@@ -26,3 +26,4 @@ echo "$NO_ENV" > out1.txt, cat < out1.txt
 echo "" > out1.txt, cat < out1.txt
 echo "" > out1.txt, cat < ""
 echo "" > out1.txt, cat < "out1.txt"
+> file1 cat hello

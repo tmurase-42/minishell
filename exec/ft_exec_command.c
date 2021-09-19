@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 03:24:41 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/19 16:54:23 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/19 19:50:51 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_bool	ft_exec_command(t_cmd *cmd, int old_pipe[])
 		return (FALSE);
 	}
 	if (g_mshl_data->pipe_state == NO_PIPE
-		&& ft_is_builtin_command(cmd->args->data))
+		&& ft_is_builtin_command(cmd->args))
 	{
 		return (process_redirect_for_builtin(cmd));
 	}
