@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 03:24:41 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/19 12:39:04 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/19 16:54:23 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ t_bool	ft_exec_command(t_cmd *cmd, int old_pipe[])
 {
 	extern t_mshl_data	*g_mshl_data;
 
-	if (cmd->argc == 0 || !cmd->args || cmd->args->data == NULL)
+	if (cmd->argc == 0 || !cmd->args || cmd->args->data == NULL
+		|| (cmd->args->data[0] == '\0' && cmd->args->type == CHAR_GENERAL))
 	{
 		g_mshl_data->exit_status = EXIT_FAILURE;
 		return (FALSE);
