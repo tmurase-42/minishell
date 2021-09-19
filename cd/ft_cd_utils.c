@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 16:52:56 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/03 15:04:24 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/19 15:06:29 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,28 @@ char	**ft_skip_and_count_dot(char **split_path, size_t *dot_count,
 char	*ft_convert_path(char **split_path)
 {
 	char	*tmp;
+	char	*str;
 	int		i;
 
 	i = 0;
-	tmp = ft_strdup("/");
+	tmp = ft_strdup("");
+	str = ft_strdup("/");
 	while (split_path[i])
 	{
-		tmp = ft_strjoin(tmp, split_path[i]);
-		free(split_path[i]);
+		free(tmp);
+		tmp = ft_strdup(str);
+		free(str);
+		str = ft_strjoin(tmp, split_path[i]);
 		if (split_path[i + 1] != NULL)
-			tmp = ft_strjoin(tmp, "/");
+		{
+			free(tmp);
+			tmp = ft_strdup(str);
+			free(str);
+			str = ft_strjoin(tmp, "/");
+		}
 		i++;
 	}
-	return (tmp);
+	ft_safe_free_split(&split_path);
+	free(tmp);
+	return (str);
 }
