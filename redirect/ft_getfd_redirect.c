@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getfd_redirect.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 14:47:16 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 03:04:37 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/19 17:42:01 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	create_tmpfile(t_cmd *cmd, t_redir *redir, int result, int num)
 	else
 		result = unlink(tmpfilename);
 	free(tmpfilename);
+	free(numstr);
 	return (result);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_str.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 21:31:58 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 02:24:27 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/19 18:25:46 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static int	expand_str(char *str, int i, char **ret)
 			free(tmp);
 		}
 	}
+	free(key);
 	return (j);
 }
 
@@ -51,8 +52,9 @@ static int	copy_char(const char *str, int i, char **ret)
 		*ret = c;
 	else
 	{
-		tmp = *ret;
-		*ret = ft_strjoin(*ret, c);
+		tmp = ft_strdup(*ret);
+		free(*ret);
+		*ret = ft_strjoin(tmp, c);
 		free(tmp);
 		free(c);
 	}
@@ -109,7 +111,19 @@ void	ft_expand_str(char **str)
 
 	if (*str == NULL || **str == '\0')
 		return ;
-	tmp = *str;
-	*str = create_env_expanded_str(*str);
+	tmp = ft_strdup(*str);
 	free(*str);
+	*str = create_env_expanded_str(tmp);
+	free(tmp);
 }
+
+//void    ft_expand_str(char **str)
+//{
+//    char    *tmp;
+//
+//    if (*str == NULL || **str == '\0')
+//        return ;
+//    tmp = *str;
+//    *str = create_env_expanded_str(*str);
+//    free(*str);
+//}
