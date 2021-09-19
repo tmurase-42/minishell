@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 02:14:42 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 02:23:01 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/19 16:42:17 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static int	expand_str(t_token *t, int i, char **ret, t_bool flag)
 	}
 	else if (t->type == CHAR_DQUOTE)
 		j = set_empty_type((i + j), t, key, flag);
+	free(key);
 	return (j);
 }
 
