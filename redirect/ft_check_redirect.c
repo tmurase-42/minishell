@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_redirect.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 14:47:16 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 03:02:07 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/19 12:38:15 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_bool	ft_check_redirect(t_cmd *cmd)
 		if (redir->type == CHAR_GENERAL || redir->type == DOUBLE_GREATER)
 			if (check_error_open_close(redir, cmd->final_greater_fd) == FALSE)
 				return (FALSE);
-		if (redir->type == DOUBLE_LESSER)
+		if (redir->type == DOUBLE_LESSER || redir->type == CHAR_LESSER)
 			if (check_error_open_close(redir, cmd->final_lesser_fd) == FALSE)
 				return (FALSE);
 		redir = redir->next;

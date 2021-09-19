@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/19 12:28:41 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/19 12:30:28 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static void	exec_once(t_mshl_data *g_mshl_data)
 	add_history(g_mshl_data->argv[2]);
 	cmd = run_commandline(&(g_mshl_data->argv[2]));
 	ft_wait_process(cmd);
-	//ft_cmd_destroy(cmd);
+	ft_cmd_destroy(cmd);
 }
 
 int	main(int argc, char *argv[], char **environ)
