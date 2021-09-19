@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 22:09:25 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/17 10:07:50 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/19 12:21:32 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ static t_bool	ft_check_redirect_error(t_token *tokens)
 	tmp = tokens;
 	while (tmp->next != NULL)
 	{
-		if (tmp->type != CHAR_GENERAL && tmp->next->type == CHAR_PIPE)
+		if ((tmp->type != CHAR_GENERAL && tmp->next->type == CHAR_PIPE)
+			&& (tmp->type != CHAR_QUOTE && tmp->next->type == CHAR_PIPE)
+			&& (tmp->type != CHAR_DQUOTE && tmp->next->type == CHAR_PIPE))
 		{
 			return (FALSE);
 		}
