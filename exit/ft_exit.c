@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 17:54:57 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 18:42:16 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/19 15:17:39 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	ft_exit(t_cmd *cmd)
 		status = ft_atoi(cmd->args->next->data);
 	}
 	ft_putstr_fd("exit\n", 2);
-	ft_mshl_data_destroy();
 	if (cmd->argc < 2)
 		exit(EXIT_SUCCESS);
 	else

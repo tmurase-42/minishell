@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 19:16:26 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/18 20:48:25 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/19 16:25:55 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,12 @@ static int	import_left_fd(t_token *redirect_token, int default_fd)
 
 t_bool	check_is_tokenfirst(t_token *redirect_token)
 {
-	t_token	*first_token;
-
-	first_token = ft_token_get_first(redirect_token);
-	if (first_token == redirect_token)
+	if (redirect_token == NULL)
+		return (FALSE);
+	if (redirect_token->prev == NULL)
 		return (TRUE);
 	else
-	{
 		return (FALSE);
-	}
-	return (FALSE);
 }
 
 static void	destory_redirect_token(t_cmd *cmd,
@@ -41,10 +37,8 @@ static void	destory_redirect_token(t_cmd *cmd,
 {
 	if (is_first == TRUE && cmd->argc > 2)
 	{
-		cmd->args = cmd->args->next;
-		cmd->args->prev = NULL;
-		cmd->args = cmd->args->next;
-		cmd->args->prev = NULL;
+		ft_token_destroy(cmd->args->next, &cmd->args);
+		ft_token_destroy(cmd->args, &cmd->args);
 	}
 	else if (is_first == FALSE)
 	{
