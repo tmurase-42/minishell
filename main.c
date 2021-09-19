@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/18 22:34:35 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/19 12:08:20 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static t_cmd	*run_commandline(char **command)
 		return (NULL);
 	}
 	tokens = ft_lexer(*command);
+	ft_token_print(tokens);
 	if (ft_validate_token(tokens) == FALSE)
 	{
 		ft_error_display(NULL, "syntax error near unexpected token.", 2);
