@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/20 13:05:43 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/20 13:57:10 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,6 @@ void		ft_token_destroy(t_token *token, t_token **tokens);
 void		ft_token_free(t_token *tokens);
 t_token		*ft_token_get_first(t_token *tokens);
 t_token		*ft_token_get_last(t_token *tokens);
-void		ft_token_destroy_all(t_token **tokens);
 
 /* Environ functions */
 t_env		*ft_env_init(char **environ);

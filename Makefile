@@ -9,7 +9,7 @@ FILES	= main.c \
 		environ/ft_env_init.c environ/ft_env_update.c environ/ft_env_array.c environ/ft_env_is_valid_key.c \
 		environ/ft_env_dup.c environ/ft_env_sort.c environ/ft_env_destroy_all.c environ/ft_env_str_array.c \
 		environ/ft_env_len.c \
-		exit/ft_exit.c  exit/ft_exit_utils.c \
+		exit/ft_exit.c \
 		common/common.c common/ft_join_path.c common/min_max.c \
 		env/ft_env.c \
 		export/ft_export_set_envs.c export/ft_export.c export/ft_export_print_envs.c \
@@ -22,7 +22,7 @@ FILES	= main.c \
 		validates/ft_validate_token.c validates/ft_validate_token_2.c validates/ft_validate_str.c \
 		tokens/ft_token_add.c tokens/ft_token_create.c  tokens/ft_token_print.c tokens/ft_token_length.c \
 		tokens/ft_token_array.c tokens/ft_token_free.c tokens/ft_token_str.c tokens/ft_token_destroy.c \
-		tokens/ft_token_get_first.c tokens/ft_token_get_last.c tokens/ft_token_destroy_all.c \
+		tokens/ft_token_get_first.c tokens/ft_token_get_last.c \
 		cmd_path/ft_cmd_path.c cmd_path/ft_cmd_path_search_binary.c cmd_path/ft_cmd_path_get_colon.c \
 		pipe/ft_pipe_update.c pipe/ft_pipe_duplicate.c pipe/ft_pipe_update_state.c pipe/ft_pipe_destroy.c \
 		sigint/ft_sigint_handler.c sigint/ft_sigint_setter.c \

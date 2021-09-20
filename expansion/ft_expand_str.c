@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_str.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 21:31:58 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/20 10:44:00 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/20 13:46:01 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	expand_str(char *str, int i, char **ret)
+static int	expand_str(char *str, int i, char **ret, t_mshl_data *g_mshl_data)
 {
-	extern t_mshl_data	*g_mshl_data;
 	int					j;
 	char				*key;
 	char				*tmp;
@@ -97,7 +96,7 @@ static char	*create_env_expanded_str(char *str)
 			&& str[i + 1] != ' ' && ft_isdigit(str[i + 1]) == FALSE)
 		{
 			i++;
-			i += expand_str(str, i, &ret);
+			i += expand_str(str, i, &ret, g_mshl_data);
 		}
 		else
 			i += copy_char(str, i, &ret);

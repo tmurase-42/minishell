@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 10:31:25 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/19 18:20:06 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/20 13:54:38 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,15 @@ static char	*get_key(t_token *token)
 			i++;
 		ret = ft_calloc(sizeof(char), i + 1);
 		ft_strlcpy(ret, str, i + 1);
-		if (ft_env_is_valid_key(ret))
-		{
-			free(str);
-			return (ret);
-		}
-		else
+		if (ft_env_is_valid_key(ret) == FALSE)
 		{
 			free(ret);
+			ret = NULL;
 			ft_error_display("minishell", "bad assignment", EXIT_FAILURE);
 		}
 	}
 	free(str);
-	return (NULL);
+	return (ret);
 }
 
 static void	get_key_value(t_token **token, char **key, char **value)

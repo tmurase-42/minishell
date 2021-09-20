@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 02:14:42 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/19 16:42:17 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/20 13:48:53 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,13 @@ static int	expand_str(t_token *t, int i, char **ret, t_bool flag)
 		j++;
 	key = ft_substr(t->data, i, j);
 	env = ft_env_get(key, g_mshl_data->envs);
-	if (env)
+	if (env && *ret == NULL)
+		*ret = ft_strdup(env->value);
+	else if (env)
 	{
-		if (*ret == NULL)
-			*ret = ft_strdup(env->value);
-		else
-		{
-			tmp = *ret;
-			*ret = ft_strjoin(*ret, env->value);
-			free(tmp);
-		}
+		tmp = *ret;
+		*ret = ft_strjoin(*ret, env->value);
+		free(tmp);
 	}
 	else if (t->type == CHAR_DQUOTE)
 		j = set_empty_type((i + j), t, key, flag);
