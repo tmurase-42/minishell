@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 17:54:57 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/20 13:04:51 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/20 13:14:55 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	ft_exit(t_cmd *cmd)
 	if (message)
 		ft_putendl_fd(message, STDERR_FILENO);
 	else
-		ft_putendl_fd("exit", STDOUT_FILENO);
+		ft_putendl_fd("exit", STDERR_FILENO);
 
 	if (exit_flag == TRUE)
 		exit(g_mshl_data->exit_status);
