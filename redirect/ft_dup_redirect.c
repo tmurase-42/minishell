@@ -6,11 +6,26 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:05:32 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/20 10:57:50 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/20 11:42:34 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_redir	*select_redir(t_redir *redir, t_redir *tmp)
+{
+	while (tmp)
+	{
+		if (redir->left_fd == tmp->left_fd && redir->l_type == tmp->l_type)
+		{
+			redir = redir->next;
+			tmp = tmp->next;
+			continue ;
+		}
+		tmp = tmp->next;
+	}
+	return (redir);
+}
 
 t_bool	select_dup(t_redir *redir, int is_parent)
 {
@@ -19,26 +34,14 @@ t_bool	select_dup(t_redir *redir, int is_parent)
 	tmp = redir->next;
 	while (redir)
 	{
-		while (tmp)
-		{
-			if (redir->left_fd == tmp->left_fd && redir->l_type == tmp->l_type)
-			{
-				redir = redir->next;
-				tmp = tmp->next;
-				continue ;
-			}
-			tmp = tmp->next;
-		}
+		redir = select_redir(redir, tmp);
+		tmp = NULL;
 		if (is_parent == TRUE)
 		{
 			redir->backup_fd = dup(redir->left_fd);
 			if (redir->backup_fd < 0)
 				return (FALSE);
 		}
-	//	printf("bakcup_fd:[%d]\n", redir->backup_fd);
-	//	printf("left_fd:[%d]\n", redir->left_fd);
-	//	printf("right_fd:[%d]\n", redir->right_fd);
-	//	printf("left_fd:[%d]\n", redir->left_fd);
 		if (dup2(redir->right_fd, redir->left_fd) < 0)
 			return (FALSE);
 		close(redir->right_fd);
@@ -50,6 +53,10 @@ t_bool	select_dup(t_redir *redir, int is_parent)
 	}
 	return (TRUE);
 }
+	//	printf("bakcup_fd:[%d]\n", redir->backup_fd);
+	//	printf("left_fd:[%d]\n", redir->left_fd);
+	//	printf("right_fd:[%d]\n", redir->right_fd);
+	//	printf("left_fd:[%d]\n", redir->left_fd);
 
 t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent)
 {
@@ -60,7 +67,6 @@ t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent)
 	lesser_redir = cmd->redirect;
 	if (cmd->final_greater_fd < 0 && cmd->final_lesser_fd < 0)
 		return (TRUE);
-	//ft_test_print_redirect(cmd);
 	if (select_dup(greater_redir, is_parent) == FALSE)
 		return (FALSE);
 	return (TRUE);
@@ -68,7 +74,7 @@ t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent)
 
 t_bool	select_backup(t_redir *redir)
 {
-	while(redir)
+	while (redir)
 	{
 		if (redir->backup_fd > -1)
 		{
