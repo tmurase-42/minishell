@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:05:32 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/20 11:42:34 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/20 13:58:03 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,6 @@ t_bool	select_dup(t_redir *redir, int is_parent)
 	}
 	return (TRUE);
 }
-	//	printf("bakcup_fd:[%d]\n", redir->backup_fd);
-	//	printf("left_fd:[%d]\n", redir->left_fd);
-	//	printf("right_fd:[%d]\n", redir->right_fd);
-	//	printf("left_fd:[%d]\n", redir->left_fd);
 
 t_bool	ft_dup_redirect(t_cmd *cmd, int	is_parent)
 {
