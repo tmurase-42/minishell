@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/19 19:51:26 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/20 13:39:28 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static t_cmd	*run_commandline(char **command)
 	if (ft_validate_token(tokens) == FALSE)
 	{
 		ft_error_display(NULL, "syntax error near unexpected token.", 2);
+		ft_token_free(tokens);
 		return (NULL);
 	}
 	cmd = ft_cmd_lstnew();
