@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/20 13:57:10 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/20 14:07:51 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ void		ft_error(char *command, char *message, int exit_status);
 void		ft_free_char(char **target);
 void		ft_safe_free_split(char ***target);
 void		ft_error_display(char *command, char *message, int exit_status);
+void		ft_exit_ctrld(void);
 char		*ft_join_path(const char *prev, const char *next);
 t_bool		ft_min(int x, int y);
 t_bool		ft_max(int x, int y);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 03:24:41 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/20 00:34:41 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/20 14:09:01 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,11 @@ static t_bool	process_redirect_for_builtin(t_cmd *cmd)
 
 t_bool	check_only_redirect(t_cmd *cmd)
 {
-	t_token *token;
+	t_token	*token;
 
 	token = cmd->args;
-	if (token->type == CHAR_GENERAL || token->type == CHAR_QUOTE || token->type == CHAR_DQUOTE)
+	if (token->type == CHAR_GENERAL
+		|| token->type == CHAR_QUOTE || token->type == CHAR_DQUOTE)
 		return (FALSE);
 	if (cmd->argc > 2)
 		return (FALSE);
@@ -100,7 +101,6 @@ static t_bool	fork_process(t_cmd *cmd, int old_pipe[])
 	return (TRUE);
 }
 
-
 t_bool	ft_exec_command(t_cmd *cmd, int old_pipe[])
 {
 	extern t_mshl_data	*g_mshl_data;
@@ -116,7 +116,6 @@ t_bool	ft_exec_command(t_cmd *cmd, int old_pipe[])
 	{
 		return (process_redirect_for_builtin(cmd));
 	}
-	//ft_token_print(cmd->args);
 	if (fork_process(cmd, old_pipe) == FALSE)
 		return (FALSE);
 	return (TRUE);

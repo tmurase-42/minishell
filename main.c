@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/20 13:39:28 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/20 14:07:02 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,7 @@ static void	exec_loop(t_mshl_data *g_mshl_data)
 			command = ft_strdup(g_mshl_data->command);
 		g_mshl_data->command = NULL;
 		if (command == NULL)
-		{
-			ft_putstr_fd("exit\n", STDERR_FILENO);
-			exit(EXIT_FAILURE);
-		}
+			ft_exit_ctrld();
 		else if (ft_strlen(command) > 0)
 		{
 			add_history(command);

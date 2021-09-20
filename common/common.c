@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:17:42 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/19 15:17:35 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/20 14:07:29 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ void	ft_error_display(char *command, char *message, int exit_status)
 	}
 	ft_putendl_fd("", STDERR_FILENO);
 	g_mshl_data->exit_status = exit_status;
+}
+
+void	ft_exit_ctrld(void)
+{
+	ft_putstr_fd("exit\n", STDERR_FILENO);
+	exit(EXIT_FAILURE);
 }
 
 void	ft_free_char(char **target)
