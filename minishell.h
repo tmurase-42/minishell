@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/11 06:52:14 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/20 10:41:06 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/20 13:05:43 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,10 +229,6 @@ int			ft_export(t_cmd *cmd);
 
 /* exit function */
 int			ft_exit(t_cmd *cmd);
-t_bool		ft_is_strdigit(char *str);
-int			ft_strcmp(const char *s1, const char *s2);
-t_bool		ft_error_exit(char *massage);
-void		ft_error_num(t_cmd *cmd);
 
 /* cd function */
 int			ft_cd(t_cmd *cmd);
