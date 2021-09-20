@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 21:31:58 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/19 18:25:46 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/20 10:44:00 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,14 +116,3 @@ void	ft_expand_str(char **str)
 	*str = create_env_expanded_str(tmp);
 	free(tmp);
 }
-
-//void    ft_expand_str(char **str)
-//{
-//    char    *tmp;
-//
-//    if (*str == NULL || **str == '\0')
-//        return ;
-//    tmp = *str;
-//    *str = create_env_expanded_str(*str);
-//    free(*str);
-//}
