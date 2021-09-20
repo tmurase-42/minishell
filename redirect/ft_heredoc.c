@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 20:13:07 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/20 13:21:00 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/20 13:23:04 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_bool	check_write(t_redir *redir, char *str)
 {
 	if (str == NULL)
 		return (FALSE);
-	if (ft_strcmp(str, redir->open_filepath, ft_max(ft_strlen(str),
+	if (ft_strncmp(str, redir->open_filepath, ft_max(ft_strlen(str),
 				ft_strlen(redir->open_filepath))) == 0)
 		return (FALSE);
 	else
