@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 16:34:08 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/19 23:10:25 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/20 10:34:46 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_cmd	*ft_cmd_lstnew(void)
 		return (NULL);
 	value->args = NULL;
 	value->next = NULL;
-	value->args = NULL; //create_token();
+	value->args = NULL;
 	value->argc = 0;
 	value->pid = 0;
 	value->final_greater_fd = -2;

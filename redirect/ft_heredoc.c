@@ -6,7 +6,7 @@
 /*   By: tmurase <tmurase@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 20:13:07 by tmurase           #+#    #+#             */
-/*   Updated: 2021/09/19 18:04:31 by tmurase          ###   ########.fr       */
+/*   Updated: 2021/09/20 10:33:19 by tmurase          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_bool	ft_dup_heredoc(t_redir *redir, t_cmd *cmd)
 {
 	extern t_mshl_data	*g_mshl_data;
 	char				*str;
-	//char				*tmp;
 
 	while (1)
 	{
