@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/20 14:07:02 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/24 13:36:32 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static void	exec_loop(t_mshl_data *g_mshl_data)
 	while (1)
 	{
 		g_mshl_data->interrupted = FALSE;
-		g_mshl_data->exit_status = EXIT_SUCCESS;
 		ft_sigint_setter(ft_sigint_handler);
 		if (g_mshl_data->command == NULL)
 			command = readline("\e[36mminishell>\e[0m");
