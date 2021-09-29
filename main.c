@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 23:48:06 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/24 13:36:32 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/29 14:25:02 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static t_cmd	*run_commandline(char **command)
 		return (NULL);
 	}
 	tokens = ft_lexer(*command);
+	if (tokens == NULL)
+		return (NULL);
 	if (ft_validate_token(tokens) == FALSE)
 	{
 		ft_error_display(NULL, "syntax error near unexpected token.", 2);

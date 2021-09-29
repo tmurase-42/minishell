@@ -6,7 +6,7 @@
 /*   By: tdofuku <tdofuku@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 19:01:31 by tdofuku           #+#    #+#             */
-/*   Updated: 2021/09/28 11:49:52 by tdofuku          ###   ########.fr       */
+/*   Updated: 2021/09/29 14:26:16 by tdofuku          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,9 @@ char	*ft_token_str(t_token *tokens, int start, int len)
 	while (current_token && (++i) < len)
 	{
 		if (current_token->type == CHAR_EMPTY)
-		{
 			token_char_empty(current_token, &str);
-		}
 		else if (current_token->data != NULL)
-		{
 			token_char_general(current_token, &str);
-		}
 		current_token = current_token->next;
 	}
 	return (str);
